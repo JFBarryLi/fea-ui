@@ -14,8 +14,9 @@ class NavBar extends React.Component {
 
 class Options extends React.Component {
 	render() {
+		let className = 'options';
 		return (
-			<div >
+			<div className={className}>
 				Options
 			</div>
 		);
@@ -26,15 +27,23 @@ class Plotter extends React.Component {
 	render() {
 		let className = 'plotter';
 		return (
-		<div className={className}>
-			<div className='options'>
-				<Options
+			<canvas className={className}>
+			</canvas>
+		);
+	}
+}
 
-				/>
-			</div>
-			<div className={className}>
-				Plotter
-			</div>
+class PlotterContainer extends React.Component {
+	render() {
+		let className = 'plotter-container';
+		return (
+		<div className={className}>
+			<Options
+
+			/>
+			<Plotter
+			
+			/>
 		</div>
 		);
 	}
@@ -45,7 +54,11 @@ class ForT extends React.Component {
 		let className = 'frame-or-truss';
 		return (
 			<div className={className}>
-				frame or truss
+				<input type="checkbox" name="ftswitch" className="ftswitch-checkbox" id="ftswitch" />
+				<label className="ftswitch-label" htmlFor="ftswitch">
+						<span className="ftswitch-inner"></span>
+						<span className="ftswitch-switch"></span>
+				</label>
 			</div>
 		);
 	}
@@ -53,9 +66,10 @@ class ForT extends React.Component {
 
 class Properties extends React.Component {
 	render() {
-		let className = 'properties';
+		let className = 'input properties left-col';
 		return (
 			<div className={className}>
+				<div className='input__title'>Properties</div>
 				Properties
 			</div>
 		);
@@ -64,9 +78,10 @@ class Properties extends React.Component {
 
 class Nodes extends React.Component {
 	render() {
-		let className = 'nodes';
+		let className = 'input nodes right-col';
 		return (
 			<div className={className}>
+				<div className='input__title'>Nodes</div>
 				Nodes
 			</div>
 		);
@@ -75,9 +90,10 @@ class Nodes extends React.Component {
 
 class Connectivity extends React.Component {
 	render() {
-		let className = 'connectivity';
+		let className = 'input connectivity left-col';
 		return (
 			<div className={className}>
+				<div className='input__title'>Connectivity</div>
 				Connectivity
 			</div>
 		);
@@ -86,9 +102,10 @@ class Connectivity extends React.Component {
 
 class Support extends React.Component {
 	render() {
-		let className = 'support';
+		let className = 'input support right-col';
 		return (
 			<div className={className}>
+				<div className='input__title'>Support</div>
 				Support
 			</div>
 		);
@@ -97,9 +114,10 @@ class Support extends React.Component {
 
 class Force extends React.Component {
 	render() {
-		let className = 'force';
+		let className = 'input force mid-col';
 		return (
 			<div className={className}>
+				<div className='input__title'>Force</div>
 				Force
 			</div>
 		);
@@ -111,7 +129,9 @@ class Analyze extends React.Component {
 		let className = 'analyze';
 		return (
 			<div className={className}>
-				Analyze
+				<span className='analyze__button'>
+					Analyze
+				</span>
 			</div>
 		);
 	}
@@ -123,18 +143,20 @@ class Layout extends React.Component {
 		return (
 			<div className='container'>
 				<NavBar />
-				<Plotter />
-				<ForT />
-				<div className='two-col'>
-					<Properties />
-					<Nodes />
+				<div className='content-container'>
+					<PlotterContainer />
+					<ForT />
+					<div className='two-col'>
+						<Properties />
+						<Nodes />
+					</div>
+					<div className='two-col'>
+						<Connectivity />
+						<Support />
+					</div>
+					<Force />
+					<Analyze />
 				</div>
-				<div className='two-col'>
-					<Connectivity />
-					<Support />
-				</div>
-				<Force />
-				<Analyze />
 			</div>
 		);
 	}
