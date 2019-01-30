@@ -125,5 +125,9 @@
 .analyze__button:hover {
 	background-color: #f25e5e;
 	color: white;
-	text-decoration: none;}	
+	text-decoration: none;	
+}
+
+.form-group {
+	padding: 1em;
 }

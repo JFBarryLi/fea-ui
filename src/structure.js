@@ -50,13 +50,45 @@ class ForT extends React.Component {
 	}
 }
 
+class PropertiesForm extends React.Component {
+	render() {
+		let className = 'properties__form';
+		return (
+			<div className={className}>
+				<form>
+					<div className="form-group">
+						<label htmlFor="moment_of_inertia"><strong><i>I:</i></strong></label>
+						<input type="text" className="form-control" id="moment_of_inertia" placeholder="1" />
+						<small className="form-text text-muted">Moment of Inertia [mm<sup>4</sup>]</small>
+					</div>
+					<div className="form-group">
+						<label htmlFor="cross_sectional_area"><strong><i>A:</i></strong></label>
+						<input type="text" className="form-control" id="cross_sectional_area" placeholder="1" />
+						<small className="form-text text-muted">Cross Sectional Area [mm<sup>2</sup>]</small>
+					</div>
+					<div className="form-group">
+						<label htmlFor="modulus_elasticity"><strong><i>E:</i></strong></label>
+						<input type="text" className="form-control" id="modulus_elasticity" placeholder="1" />
+						<small className="form-text text-muted">Modulus of Elasticity [MPa]</small>
+					</div>
+					<div className="form-group">
+						<label htmlFor="y_max"><strong><i>y<sub>max</sub>:</i></strong></label>
+						<input type="text" className="form-control" id="y_max" placeholder="1" />
+						<small className="form-text text-muted">Distance from neutral axis to surface in the y-direction [mm]</small>
+					</div>
+				</form>
+			</div>
+		);
+	}
+}
+
 class Properties extends React.Component {
 	render() {
 		let className = 'input properties left-col';
 		return (
 			<div className={className}>
 				<div className='input__title'>Properties</div>
-				Properties
+				<PropertiesForm />
 			</div>
 		);
 	}
