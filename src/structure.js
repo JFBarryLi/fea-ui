@@ -2,11 +2,56 @@ var ReactTable = window.ReactTable.default;
 var Collapse = window.Reactstrap.Collapse
 
 class Options extends React.Component {
+	constructor(props) {
+		super(props);
+		
+		this.handleClick = this.handleClick.bind(this);
+	}
+	
+	handleClick(name) {
+		switch(name) {
+			case 'buttNew':
+				plotter.clearScene();
+				break;
+			case 'buttUndo':
+				console.log(2);
+				break;
+			case 'buttImport':
+				console.log(3);
+				break;
+			case 'buttExport':
+				console.log(4);
+				break;
+			case 'buttResults':
+				console.log(5);
+				break;
+		}
+	}
+	
 	render() {
 		let className = 'options';
 		return (
 			<div className={className}>
-				Options
+				<div className='img-with-text'>
+					<img src='img/buttNew.svg' alt='New' onClick={() => this.handleClick('buttNew')}></img>
+					<p>New</p>
+				</div>
+				<div className='img-with-text'>
+					<img src='img/buttUndo.svg' alt='Undo' onClick={() => this.handleClick('buttUndo')}></img>
+					<p>Undo</p>
+				</div>
+				<div className='img-with-text'>
+					<img src='img/buttImport.svg' alt='Import' onClick={() => this.handleClick('buttImport')}></img>
+					<p>Import</p>
+				</div>
+				<div className='img-with-text'>
+					<img src='img/buttExport.svg' alt='Export' onClick={() => this.handleClick('buttExport')}></img>
+					<p>Export</p>
+				</div>
+				<div className='img-with-text'>
+					<img src='img/buttResults.svg' alt='Results' onClick={() => this.handleClick('buttResults')}></img>
+					<p>Results</p>
+				</div>
 			</div>
 		);
 	}
@@ -118,15 +163,20 @@ class NodeTable extends React.Component {
 			y: 1
 		}];
 
+		const onChangeCell = () => alert();
+		
 		const columns = [{
+			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input value={props.value} onChange={onChangeCell} />
 		}, {
+			minWidth: 50,
 			Header: 'x',
 			accessor: 'x',
 			Cell: props => <span className='number'>{props.value}</span>
 		}, {
+			minWidth: 50,
 			Header: 'y',
 			accessor: 'y',
 			Cell: props => <span className='number'>{props.value}</span>
@@ -163,14 +213,17 @@ class ConnectivityTable extends React.Component {
 		}];
 
 		const columns = [{
+			minWidth: 50,
 			Header: 'Element',
 			accessor: 'Element',
 			Cell: props => <span className='number'>{props.value}</span>
 		}, {
+			minWidth: 50,
 			Header: 'Node i',
 			accessor: 'nodei',
 			Cell: props => <span className='number'>{props.value}</span>
 		}, {
+			minWidth: 50,
 			Header: 'Node j',
 			accessor: 'nodej',
 			Cell: props => <span className='number'>{props.value}</span>
@@ -205,10 +258,12 @@ class SupportTable extends React.Component {
 		}];
 
 		const columns = [{
+			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
 			Cell: props => <span className='number'>{props.value}</span>
 		}, {
+			minWidth: 50,
 			Header: 'Constraint',
 			accessor: 'constraint',
 			Cell: props => <span className='number'>{props.value}</span>
@@ -244,14 +299,17 @@ class ForceTable extends React.Component {
 		}];
 
 		const columns = [{
+			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
 			Cell: props => <span className='number'>{props.value}</span>
 		}, {
+			minWidth: 50,
 			Header: 'Force/Moment',
 			accessor: 'fm',
 			Cell: props => <span className='number'>{props.value}</span>
 		}, {
+			minWidth: 50,
 			Header: 'Direction',
 			accessor: 'direction',
 			Cell: props => <span className='number'>{props.value}</span>

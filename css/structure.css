@@ -3,7 +3,25 @@
 }
 
 .options {
-	padding: 0.5em;
+	padding: 1em;
+	text-align: center;
+}
+
+.img-with-text img {
+	width: 2em;
+}
+
+.img-with-text {
+	vertical-align: top;
+	display: inline-block;
+	text-align: center;
+	width: 3.5em;
+	margin-left: 1em;
+	margin-right: 1em;
+}
+
+.options img:hover {
+	cursor: pointer;
 }
 
 .plotter {

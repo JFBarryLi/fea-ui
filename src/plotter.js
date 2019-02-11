@@ -76,6 +76,22 @@ function plotter() {
 		helper.material.transparent = true;
 		helper.name = 'helper'
 		scene.add( helper );
+		
+	}
+	
+	this.showAxes = function() {
+		// Axes Helper
+		var axesHelper = new THREE.AxesHelper( 2000 );
+		axesHelper.name = 'axesHelper';
+		scene.add( axesHelper );
+		render();
+	}
+	
+	this.hideAxes = function() {
+		// Axes Helper
+		var axesHelper = scene.getObjectByName('axesHelper');
+		scene.remove( axesHelper );
+		render();
 	}
 	
 	// Add a node to plot
