@@ -1,3 +1,6 @@
+var ReactTable = window.ReactTable.default;
+var Collapse = window.Reactstrap.Collapse
+
 class Options extends React.Component {
 	render() {
 		let className = 'options';
@@ -50,6 +53,19 @@ class ForT extends React.Component {
 	}
 }
 
+class Collapsible extends React.Component {
+	constructor(props) {
+		super(props);
+		this.toggle = this.toggle.bind(this);
+		this.state = { collapse: false};
+	}
+	
+	toggle() {
+		this.setState({ collapse: !this.state.collapse });
+	}
+}
+	
+
 class PropertiesForm extends React.Component {
 	render() {
 		let className = 'properties__form';
@@ -82,61 +98,196 @@ class PropertiesForm extends React.Component {
 	}
 }
 
-class Properties extends React.Component {
+class Properties extends Collapsible {
 	render() {
 		let className = 'input properties left-col';
 		return (
 			<div className={className}>
-				<div className='input__title'>Properties</div>
-				<PropertiesForm />
+				<a className='input__title' onClick={this.toggle}>Properties</a>
+				<Collapse isOpen={this.state.collapse}>
+					<PropertiesForm />
+				</Collapse>
 			</div>
 		);
 	}
 }
 
-class Nodes extends React.Component {
+class BaseTable extends React.Component {	
+	render() {
+		return (
+			<ReactTable
+				className='-striped -highlight'
+				defaultPageSize={10}
+				data={this.props.data}
+				columns={this.props.columns}
+			/>
+		);
+	}
+}
+
+class NodeTable extends React.Component {
+	render() {
+		const data = [{
+			node: 1,
+			x: 1,
+			y: 1
+		}];
+
+		const columns = [{
+			Header: 'Node',
+			accessor: 'node',
+			Cell: props => <span className='number'>{props.value}</span>
+		}, {
+			Header: 'x',
+			accessor: 'x',
+			Cell: props => <span className='number'>{props.value}</span>
+		}, {
+			Header: 'y',
+			accessor: 'y',
+			Cell: props => <span className='number'>{props.value}</span>
+		}];
+
+		return (
+			<BaseTable data={data} columns={columns}/>
+		);
+	}
+}
+
+class Nodes extends Collapsible {
 	render() {
 		let className = 'input nodes right-col';
+		
 		return (
 			<div className={className}>
-				<div className='input__title'>Nodes</div>
-				Nodes
+				<a className='input__title' onClick={this.toggle}>Nodes</a>
+				<Collapse isOpen={this.state.collapse}>
+					<small className='form-text text-muted table-text'>Nodal Coordinates</small>
+					<NodeTable />
+				</Collapse>
 			</div>
 		);
 	}
 }
 
-class Connectivity extends React.Component {
+class ConnectivityTable extends React.Component {
+	render() {
+		const data = [{
+			Element: 1,
+			nodei: 1,
+			nodej: 1
+		}];
+
+		const columns = [{
+			Header: 'Element',
+			accessor: 'Element',
+			Cell: props => <span className='number'>{props.value}</span>
+		}, {
+			Header: 'Node i',
+			accessor: 'nodei',
+			Cell: props => <span className='number'>{props.value}</span>
+		}, {
+			Header: 'Node j',
+			accessor: 'nodej',
+			Cell: props => <span className='number'>{props.value}</span>
+		}];
+
+		return (
+			<BaseTable data={data} columns={columns}/>
+		);
+	}
+}
+
+class Connectivity extends Collapsible {
 	render() {
 		let className = 'input connectivity left-col';
 		return (
 			<div className={className}>
-				<div className='input__title'>Connectivity</div>
-				Connectivity
+				<a className='input__title' onClick={this.toggle}>Connectivity</a>
+				<Collapse isOpen={this.state.collapse}>
+					<small className='form-text text-muted table-text'>Connectivity table</small>
+					<ConnectivityTable />
+				</Collapse>
 			</div>
 		);
 	}
 }
 
-class Support extends React.Component {
+class SupportTable extends React.Component {
+	render() {
+		const data = [{
+			node: 1,
+			constraint: 1
+		}];
+
+		const columns = [{
+			Header: 'Node',
+			accessor: 'node',
+			Cell: props => <span className='number'>{props.value}</span>
+		}, {
+			Header: 'Constraint',
+			accessor: 'constraint',
+			Cell: props => <span className='number'>{props.value}</span>
+		}];
+
+		return (
+			<BaseTable data={data} columns={columns}/>
+		);
+	}
+}
+
+class Support extends Collapsible {
 	render() {
 		let className = 'input support right-col';
 		return (
 			<div className={className}>
-				<div className='input__title'>Support</div>
-				Support
+				<a className='input__title' onClick={this.toggle}>Support</a>
+				<Collapse isOpen={this.state.collapse}>
+					<small className='form-text text-muted table-text'>Constraint: x=1, y=2, theta=3</small>
+					<SupportTable />
+				</Collapse>
 			</div>
 		);
 	}
 }
 
-class Force extends React.Component {
+class ForceTable extends React.Component {
+	render() {
+		const data = [{
+			node: 1,
+			fm: 1,
+			direction: 1
+		}];
+
+		const columns = [{
+			Header: 'Node',
+			accessor: 'node',
+			Cell: props => <span className='number'>{props.value}</span>
+		}, {
+			Header: 'Force/Moment',
+			accessor: 'fm',
+			Cell: props => <span className='number'>{props.value}</span>
+		}, {
+			Header: 'Direction',
+			accessor: 'direction',
+			Cell: props => <span className='number'>{props.value}</span>
+		}];
+
+		return (
+			<BaseTable data={data} columns={columns}/>
+		);
+	}
+}
+
+class Force extends Collapsible {
 	render() {
 		let className = 'input force mid-col';
 		return (
 			<div className={className}>
-				<div className='input__title'>Force</div>
-				Force
+				<a className='input__title' onClick={this.toggle}>Force</a>
+				<Collapse isOpen={this.state.collapse}>
+					<small className='form-text text-muted table-text'>Direction: x=1, y=2, theta=3</small>
+					<ForceTable />
+				</Collapse>
 			</div>
 		);
 	}
@@ -160,7 +311,6 @@ class Layout extends React.Component {
 		let className = 'Layout';
 		return (
 			<div className='container'>
-				<NavBar />
 				<div className='content-container'>
 					<PlotterContainer />
 					<ForT />
