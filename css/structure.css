@@ -1,11 +1,9 @@
 .plotter-container {
-	margin: 3em;
-  border: 3px solid black;
+	margin-bottom: 3em;
 }
 
 .options {
-	padding: 0.2em;
-	border-bottom: 3px solid black;
+	padding: 0.5em;
 }
 
 .plotter {
@@ -121,7 +119,7 @@
 
 @media (max-width: 35em) {
 	.plotter-container {
-		margin: 1em;
+		margin-bottom: 1em;
 	}
 	
 	.two-col{
