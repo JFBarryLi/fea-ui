@@ -11,9 +11,16 @@ class Options extends React.Component {
 	handleClick(name) {
 		switch(name) {
 			case 'buttNew':
+				store.preprocessed = store.vectorize();
 				plotter.clearScene();
 				break;
 			case 'buttUndo':
+				if (Object.keys(store.preprocessed) !== 0) {
+					plotter.loadNodes(store.preprocessed.nodes);
+					plotter.loadTubes(store.preprocessed.tubes);
+				} else {
+					alert('Nothing to undo')
+				}
 				break;
 			case 'buttImport':
 				break;
@@ -65,11 +72,28 @@ class PlotterContainer extends React.Component {
 }
 
 class ForT extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleInputChange = this.handleInputChange.bind(this);
+		store.type = 'truss';
+	}
+	
+	handleInputChange(e) {
+		const target = e.target;
+		const value = target.checked;
+		
+		if (value == 0) {
+			store.type = 'truss';
+		} else {
+			store.type = 'frame';
+		}
+	}
+	
 	render() {
 		let className = 'frame-or-truss';
 		return (
 			<div className={className}>
-				<input type="checkbox" name="ftswitch" className="ftswitch-checkbox" id="ftswitch" />
+				<input type="checkbox" name="ftswitch" onChange={this.handleInputChange} className="ftswitch-checkbox" id="ftswitch" />
 				<label className="ftswitch-label" htmlFor="ftswitch">
 						<span className="ftswitch-inner"></span>
 						<span className="ftswitch-switch"></span>
@@ -96,13 +120,7 @@ class PropertiesForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleInputChange = this.handleInputChange.bind(this);
-		this.state = {
-			I: '1',
-			A: '1',
-			E: '1',
-			yMax: '1'
-		};
-		store.properties = this.state;
+		this.state = store.properties
 	}
 	
 	handleInputChange(e) {
@@ -110,11 +128,12 @@ class PropertiesForm extends React.Component {
 		const value = target.value;
 		const name = target.name;
 		
-		store.properties = this.state;
+		store.properties[name] = value;
 		
 		this.setState({
 			[name]: value
 		});
+		
 	}
 	
 	render() {
@@ -235,18 +254,7 @@ class NodeTable extends React.Component {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
 		this.rowCallback = this.rowCallback.bind(this);
-		this.state = {
-			data : [{
-				node: 1,
-				x: 1,
-				y: 1
-			},{
-				node: 2,
-				x: 2,
-				y:2
-			}]
-		};
-		store.nodes = this.state;
+		this.state = store.nodes
 		this.rowCallbackIndex = null;
 	}
 	
@@ -255,9 +263,6 @@ class NodeTable extends React.Component {
 		const target = e.target;
 		const value = target.value;
 		const name = target.name;
-		
-		// Updating store data
-		store.nodes = this.state;
 		
 		// Updating state.data
 		let newData = this.state.data.slice();
@@ -280,6 +285,9 @@ class NodeTable extends React.Component {
 		this.setState({
 			data: newData
 		});
+		
+		// Updating store data
+		store.nodes.data = newData;
 	}
 	
 	rowCallback(dataFromChild) {
@@ -332,32 +340,74 @@ class Nodes extends Collapsible {
 }
 
 class ConnectivityTable extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleChangeCell = this.handleChangeCell.bind(this);
+		this.rowCallback = this.rowCallback.bind(this);
+		this.state = store.connectivity;
+		this.rowCallbackIndex = null;
+	}
+	
+	handleChangeCell(e) {
+		// Target is the table cell input
+		const target = e.target;
+		const value = target.value;
+		const name = target.name;
+		
+		// Updating state.data
+		let newData = this.state.data.slice();
+		// Create new row
+		if (this.state.data.length-1 == this.rowCallbackIndex.index) {
+			newData.push({Element: '', nodei: '', nodej: ''});
+		}
+		
+		switch(name) {
+			case 'element':
+				newData[this.rowCallbackIndex.index].Element = parseInt(target.value);
+				break;
+			case 'nodei':
+				newData[this.rowCallbackIndex.index].nodei = parseFloat(target.value);
+				break;
+			case 'nodej':
+				newData[this.rowCallbackIndex.index].nodej = parseFloat(target.value);
+				break;
+		}
+		this.setState({
+			data: newData
+		});
+		
+		// Updating store data
+		store.connectivity.data = newData;
+	}
+	
+	rowCallback(dataFromChild) {
+		this.rowCallbackIndex = dataFromChild;
+	}
+	
 	render() {
-		const data = [{
-			Element: 1,
-			nodei: 1,
-			nodej: 1
-		}];
-
-		const columns = [{
+		let columns = [{
 			minWidth: 50,
 			Header: 'Element',
 			accessor: 'Element',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input type='number' name='element' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
 			Header: 'Node i',
 			accessor: 'nodei',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input type='number' name='nodei' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
 			Header: 'Node j',
 			accessor: 'nodej',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input type='number' name='nodej' value={props.value} onChange={this.handleChangeCell} />
 		}];
 
 		return (
-			<BaseTable data={data} columns={columns}/>
+			<BaseTable 
+				rowCallbackFromParent={this.rowCallback}
+				data={this.state.data} 
+				columns={columns}
+			/>
 		);
 	}
 }
@@ -378,26 +428,66 @@ class Connectivity extends Collapsible {
 }
 
 class SupportTable extends React.Component {
-	render() {
-		const data = [{
-			node: 1,
-			constraint: 1
-		}];
+	constructor(props) {
+		super(props);
+		this.handleChangeCell = this.handleChangeCell.bind(this);
+		this.rowCallback = this.rowCallback.bind(this);
+		this.state = store.support
+		this.rowCallbackIndex = null;
+	}
 
+	handleChangeCell(e) {
+		// Target is the table cell input
+		const target = e.target;
+		const value = target.value;
+		const name = target.name;
+		
+		// Updating state.data
+		let newData = this.state.data.slice();
+		// Create new row
+		if (this.state.data.length-1 == this.rowCallbackIndex.index) {
+			newData.push({node: '', constraint: ''});
+		}
+		
+		switch(name) {
+			case 'node':
+				newData[this.rowCallbackIndex.index].node = parseInt(target.value);
+				break;
+			case 'constraint':
+				newData[this.rowCallbackIndex.index].constraint = parseFloat(target.value);
+				break;
+		}
+		this.setState({
+			data: newData
+		});
+		
+		// Updating store data
+		store.support.data = newData;
+	}
+	
+	rowCallback(dataFromChild) {
+		this.rowCallbackIndex = dataFromChild;
+	}
+	
+	render() {
 		const columns = [{
 			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
 			Header: 'Constraint',
 			accessor: 'constraint',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input type='number' name='constraint' value={props.value} onChange={this.handleChangeCell} />
 		}];
 
 		return (
-			<BaseTable data={data} columns={columns}/>
+			<BaseTable
+				rowCallbackFromParent={this.rowCallback}
+				data={this.state.data} 
+				columns={columns}
+			/>
 		);
 	}
 }
@@ -418,32 +508,74 @@ class Support extends Collapsible {
 }
 
 class ForceTable extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleChangeCell = this.handleChangeCell.bind(this);
+		this.rowCallback = this.rowCallback.bind(this);
+		this.state = store.force
+		this.rowCallbackIndex = null;
+	}
+	
+	handleChangeCell(e) {
+		// Target is the table cell input
+		const target = e.target;
+		const value = target.value;
+		const name = target.name;
+		
+		// Updating state.data
+		let newData = this.state.data.slice();
+		// Create new row
+		if (this.state.data.length-1 == this.rowCallbackIndex.index) {
+			newData.push({node: '', fm: '', direction: ''});
+		}
+		
+		switch(name) {
+			case 'node':
+				newData[this.rowCallbackIndex.index].node = parseInt(target.value);
+				break;
+			case 'fm':
+				newData[this.rowCallbackIndex.index].fm = parseFloat(target.value);
+				break;
+			case 'direction':
+				newData[this.rowCallbackIndex.index].directon = parseFloat(target.value);
+				break;
+		}
+		this.setState({
+			data: newData
+		});
+		
+		// Updating store data
+		store.force.data = newData;
+	}
+	
+	rowCallback(dataFromChild) {
+		this.rowCallbackIndex = dataFromChild;
+	}
+	
 	render() {
-		const data = [{
-			node: 1,
-			fm: 1,
-			direction: 1
-		}];
-
 		const columns = [{
 			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
 			Header: 'Force/Moment',
 			accessor: 'fm',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input type='number' name='fm' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
 			Header: 'Direction',
 			accessor: 'direction',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input type='number' name='direction' value={props.value} onChange={this.handleChangeCell} />
 		}];
 
 		return (
-			<BaseTable data={data} columns={columns}/>
+			<BaseTable
+				rowCallbackFromParent={this.rowCallback}
+				data={this.state.data} 
+				columns={columns}
+			/>
 		);
 	}
 }
@@ -464,11 +596,20 @@ class Force extends Collapsible {
 }
 
 class Analyze extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleClick = this.handleClick.bind(this);
+	}
+	
+	handleClick() {
+		store.preprocessed = store.vectorize();
+	}
+	
 	render() {
 		let className = 'analyze';
 		return (
 			<div className={className}>
-				<span className='analyze__button'>
+				<span onClick={this.handleClick} className='analyze__button'>
 					Analyze
 				</span>
 			</div>

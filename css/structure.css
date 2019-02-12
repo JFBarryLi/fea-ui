@@ -182,6 +182,7 @@
 	-ms-transition: 0.5s;
 	-o-transition: 0.5s;
 	transition: 0.5s;	
+	user-select: none;
 }
 
 .analyze__button:hover {
