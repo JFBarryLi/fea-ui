@@ -14,16 +14,12 @@ class Options extends React.Component {
 				plotter.clearScene();
 				break;
 			case 'buttUndo':
-				console.log(2);
 				break;
 			case 'buttImport':
-				console.log(3);
 				break;
 			case 'buttExport':
-				console.log(4);
 				break;
 			case 'buttResults':
-				console.log(5);
 				break;
 		}
 	}
@@ -106,12 +102,15 @@ class PropertiesForm extends React.Component {
 			E: '1',
 			yMax: '1'
 		};
+		store.properties = this.state;
 	}
 	
 	handleInputChange(e) {
 		const target = e.target;
 		const value = target.value;
 		const name = target.name;
+		
+		store.properties = this.state;
 		
 		this.setState({
 			[name]: value
@@ -247,6 +246,7 @@ class NodeTable extends React.Component {
 				y:2
 			}]
 		};
+		store.nodes = this.state;
 		this.rowCallbackIndex = null;
 	}
 	
@@ -255,6 +255,9 @@ class NodeTable extends React.Component {
 		const target = e.target;
 		const value = target.value;
 		const name = target.name;
+		
+		// Updating store data
+		store.nodes = this.state;
 		
 		// Updating state.data
 		let newData = this.state.data.slice();
