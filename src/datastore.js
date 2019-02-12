@@ -76,9 +76,32 @@ function DataStore() {
 		
 	}
 	
-	this.packageData = function() {
-		
+	this.importData = function(json) {
+		object = JSON.parse(json);
+		this.properties = object.properties;
+		this.nodes = object.nodes;
+		this.connectivity = object.connectivity;
+		this.support = object.support;
+		this.force = object.force;
 	};
+	
+	this.exportData = function() {
+		strData = JSON.stringify( 
+		{
+			properties: this.properties,
+			nodes: this.nodes,
+			connectivity: this.connectivity,
+			support: this.support,
+			force: this.force
+		});
+
+		return strData;
+	}
+	
+	
+	this.resultData = {
+		stringData: null
+	}
 	
 	this.vectorize = function() {
 		var nodeVectors = [];

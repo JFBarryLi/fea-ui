@@ -15,18 +15,30 @@ class Options extends React.Component {
 				plotter.clearScene();
 				break;
 			case 'buttUndo':
-				if (Object.keys(store.preprocessed) !== 0) {
+				if (Object.keys(store.preprocessed).length !== 0) {
 					plotter.loadNodes(store.preprocessed.nodes);
 					plotter.loadTubes(store.preprocessed.tubes);
 				} else {
-					alert('Nothing to undo')
+					alert('Nothing to undo');
 				}
 				break;
 			case 'buttImport':
+				var json = prompt('JSON');
+				store.importData(json);
+				plotter.clearScene;
+				var sceneObjects = store.vectorize();
+				plotter.loadNodes(sceneObjects.nodes);
+				plotter.loadTubes(sceneObjects.tubes);
 				break;
 			case 'buttExport':
+				prompt('JSON', store.exportData());
 				break;
 			case 'buttResults':
+				if (Object.keys(store.resultData).length !== 0) {
+					prompt('Results:',store.resultData.stringData);
+				} else {
+					alert('No results available');
+				}
 				break;
 		}
 	}
