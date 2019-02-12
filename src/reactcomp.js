@@ -142,9 +142,7 @@ class PropertiesForm extends React.Component {
 		
 		store.properties[name] = value;
 		
-		this.setState({
-			[name]: value
-		});
+		this.forceUpdate();
 		
 	}
 	
@@ -158,7 +156,7 @@ class PropertiesForm extends React.Component {
 						<input 
 							type="number" 
 							name="I" 
-							value={this.state.I}
+							value={store.properties.I}
 							onChange={this.handleInputChange} 
 							className="form-control" 
 							id="moment_of_inertia" 
@@ -171,7 +169,7 @@ class PropertiesForm extends React.Component {
 						<input 
 							type="number" 
 							name="A" 
-							value={this.state.A}
+							value={store.properties.A}
 							onChange={this.handleInputChange}							
 							className="form-control" 
 							id="cross_sectional_area" 
@@ -184,7 +182,7 @@ class PropertiesForm extends React.Component {
 						<input 
 							type="number" 
 							name="E" 
-							value={this.state.E}
+							value={store.properties.E}
 							onChange={this.handleInputChange} 
 							className="form-control" 
 							id="modulus_elasticity" 
@@ -197,7 +195,7 @@ class PropertiesForm extends React.Component {
 						<input 
 							type="number" 
 							name="yMax" 
-							value={this.state.yMax}
+							value={store.properties.yMax}
 							onChange={this.handleInputChange}  
 							className="form-control" 
 							id="y_max" 
@@ -225,49 +223,16 @@ class Properties extends Collapsible {
 	}
 }
 
-class BaseTable extends React.Component {	
-	constructor(props) {
-		super(props);
-		this.handleCallback = this.handleCallback.bind(this);
-	}
-	
-	handleCallback(index) {
-		this.props.rowCallbackFromParent(index);
-	}
-	
-	render() {
-		return (
-			<ReactTable
-				className='-striped -highlight'
-				defaultPageSize={10}
-				data={this.props.data}
-				columns={this.props.columns}
-				
-				getTdProps={(rowInfo, index) => {
-					return {
-						onClick: (e, handleOriginal) => {
-							
-							this.handleCallback(index);
-							
-							if (handleOriginal) {
-								handleOriginal();
-							}
-						}
-					};
-				}}
-				
-			/>
-		);
-	}
-}
-
 class NodeTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
-		this.rowCallback = this.rowCallback.bind(this);
-		this.state = store.nodes
+		this.handleCallback = this.handleCallback.bind(this);
 		this.rowCallbackIndex = null;
+	}
+	
+	handleCallback(index) {
+		this.rowCallbackIndex = index;
 	}
 	
 	handleChangeCell(e) {
@@ -277,9 +242,9 @@ class NodeTable extends React.Component {
 		const name = target.name;
 		
 		// Updating state.data
-		let newData = this.state.data.slice();
+		let newData = store.nodes.data.slice();
 		// Create new row
-		if (this.state.data.length-1 == this.rowCallbackIndex.index) {
+		if (store.nodes.data.length-1 == this.rowCallbackIndex.index) {
 			newData.push({node: '', x: '', y: ''});
 		}
 		
@@ -294,16 +259,11 @@ class NodeTable extends React.Component {
 				newData[this.rowCallbackIndex.index].y = parseFloat(target.value);
 				break;
 		}
-		this.setState({
-			data: newData
-		});
-		
+
 		// Updating store data
 		store.nodes.data = newData;
-	}
-	
-	rowCallback(dataFromChild) {
-		this.rowCallbackIndex = dataFromChild;
+		this.forceUpdate();
+
 	}
 	
 	render() {
@@ -326,10 +286,25 @@ class NodeTable extends React.Component {
 		}];
 
 		return (
-			<BaseTable
-				rowCallbackFromParent={this.rowCallback}
-				data={this.state.data} 
+			<ReactTable
+				className='-striped -highlight'
+				defaultPageSize={10}
+				data={store.nodes.data}
 				columns={columns}
+				
+				getTdProps={(rowInfo, index) => {
+					return {
+						onClick: (e, handleOriginal) => {
+							
+							this.handleCallback(index);
+							
+							if (handleOriginal) {
+								handleOriginal();
+							}
+						}
+					};
+				}}
+				
 			/>
 		);
 	}
@@ -355,9 +330,12 @@ class ConnectivityTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
-		this.rowCallback = this.rowCallback.bind(this);
-		this.state = store.connectivity;
+		this.handleCallback = this.handleCallback.bind(this);
 		this.rowCallbackIndex = null;
+	}
+	
+	handleCallback(index) {
+		this.rowCallbackIndex = index;
 	}
 	
 	handleChangeCell(e) {
@@ -367,9 +345,9 @@ class ConnectivityTable extends React.Component {
 		const name = target.name;
 		
 		// Updating state.data
-		let newData = this.state.data.slice();
+		let newData = store.connectivity.data.slice();
 		// Create new row
-		if (this.state.data.length-1 == this.rowCallbackIndex.index) {
+		if (store.connectivity.data.length-1 == this.rowCallbackIndex.index) {
 			newData.push({Element: '', nodei: '', nodej: ''});
 		}
 		
@@ -384,12 +362,11 @@ class ConnectivityTable extends React.Component {
 				newData[this.rowCallbackIndex.index].nodej = parseFloat(target.value);
 				break;
 		}
-		this.setState({
-			data: newData
-		});
-		
+
 		// Updating store data
 		store.connectivity.data = newData;
+		this.forceUpdate();
+		
 	}
 	
 	rowCallback(dataFromChild) {
@@ -415,10 +392,25 @@ class ConnectivityTable extends React.Component {
 		}];
 
 		return (
-			<BaseTable 
-				rowCallbackFromParent={this.rowCallback}
-				data={this.state.data} 
+			<ReactTable
+				className='-striped -highlight'
+				defaultPageSize={10}
+				data={store.connectivity.data}
 				columns={columns}
+				
+				getTdProps={(rowInfo, index) => {
+					return {
+						onClick: (e, handleOriginal) => {
+							
+							this.handleCallback(index);
+							
+							if (handleOriginal) {
+								handleOriginal();
+							}
+						}
+					};
+				}}
+				
 			/>
 		);
 	}
@@ -443,9 +435,12 @@ class SupportTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
-		this.rowCallback = this.rowCallback.bind(this);
-		this.state = store.support
+		this.handleCallback = this.handleCallback.bind(this);
 		this.rowCallbackIndex = null;
+	}
+	
+	handleCallback(index) {
+		this.rowCallbackIndex = index;
 	}
 
 	handleChangeCell(e) {
@@ -455,9 +450,9 @@ class SupportTable extends React.Component {
 		const name = target.name;
 		
 		// Updating state.data
-		let newData = this.state.data.slice();
+		let newData = store.support.data.slice();
 		// Create new row
-		if (this.state.data.length-1 == this.rowCallbackIndex.index) {
+		if (store.support.data.length-1 == this.rowCallbackIndex.index) {
 			newData.push({node: '', constraint: ''});
 		}
 		
@@ -469,16 +464,11 @@ class SupportTable extends React.Component {
 				newData[this.rowCallbackIndex.index].constraint = parseFloat(target.value);
 				break;
 		}
-		this.setState({
-			data: newData
-		});
-		
+
 		// Updating store data
 		store.support.data = newData;
-	}
-	
-	rowCallback(dataFromChild) {
-		this.rowCallbackIndex = dataFromChild;
+		this.forceUpdate();
+
 	}
 	
 	render() {
@@ -495,10 +485,25 @@ class SupportTable extends React.Component {
 		}];
 
 		return (
-			<BaseTable
-				rowCallbackFromParent={this.rowCallback}
-				data={this.state.data} 
+			<ReactTable
+				className='-striped -highlight'
+				defaultPageSize={10}
+				data={store.support.data}
 				columns={columns}
+				
+				getTdProps={(rowInfo, index) => {
+					return {
+						onClick: (e, handleOriginal) => {
+							
+							this.handleCallback(index);
+							
+							if (handleOriginal) {
+								handleOriginal();
+							}
+						}
+					};
+				}}
+				
 			/>
 		);
 	}
@@ -523,9 +528,12 @@ class ForceTable extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
-		this.rowCallback = this.rowCallback.bind(this);
-		this.state = store.force
+		this.handleCallback = this.handleCallback.bind(this);
 		this.rowCallbackIndex = null;
+	}
+	
+	handleCallback(index) {
+		this.rowCallbackIndex = index;
 	}
 	
 	handleChangeCell(e) {
@@ -535,9 +543,9 @@ class ForceTable extends React.Component {
 		const name = target.name;
 		
 		// Updating state.data
-		let newData = this.state.data.slice();
+		let newData = store.force.data.slice();
 		// Create new row
-		if (this.state.data.length-1 == this.rowCallbackIndex.index) {
+		if (store.force.data.length-1 == this.rowCallbackIndex.index) {
 			newData.push({node: '', fm: '', direction: ''});
 		}
 		
@@ -552,16 +560,11 @@ class ForceTable extends React.Component {
 				newData[this.rowCallbackIndex.index].directon = parseFloat(target.value);
 				break;
 		}
-		this.setState({
-			data: newData
-		});
-		
+
 		// Updating store data
 		store.force.data = newData;
-	}
-	
-	rowCallback(dataFromChild) {
-		this.rowCallbackIndex = dataFromChild;
+		this.forceUpdate();
+
 	}
 	
 	render() {
@@ -583,10 +586,25 @@ class ForceTable extends React.Component {
 		}];
 
 		return (
-			<BaseTable
-				rowCallbackFromParent={this.rowCallback}
-				data={this.state.data} 
+			<ReactTable
+				className='-striped -highlight'
+				defaultPageSize={10}
+				data={store.force.data}
 				columns={columns}
+				
+				getTdProps={(rowInfo, index) => {
+					return {
+						onClick: (e, handleOriginal) => {
+							
+							this.handleCallback(index);
+							
+							if (handleOriginal) {
+								handleOriginal();
+							}
+						}
+					};
+				}}
+				
 			/>
 		);
 	}

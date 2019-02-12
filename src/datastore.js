@@ -27,6 +27,11 @@ function DataStore() {
 				node: 4,
 				x: 100,
 				y: 0
+			},
+			{
+				node: '',
+				x: '',
+				y: ''
 			}
 		]
 	};
@@ -49,7 +54,11 @@ function DataStore() {
 				Element: 4,
 				nodei: 4,
 				nodej: 1
-			},
+			},{
+				Element: '',
+				nodei: '',
+				nodej: ''
+			}
 		]
 	};
 	
@@ -57,6 +66,9 @@ function DataStore() {
 		data : [{
 			node: 1,
 			constraint: 1
+		},{
+			node: '',
+			constraint: ''
 		}]
 	};
 	
@@ -65,6 +77,10 @@ function DataStore() {
 			node: 1,
 			fm: 1,
 			direction: 1
+		},{
+			node: '',
+			fm: '',
+			direction: ''
 		}]
 	};
 	
