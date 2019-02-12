@@ -24,11 +24,13 @@ class Options extends React.Component {
 				break;
 			case 'buttImport':
 				var json = prompt('JSON');
-				store.importData(json);
-				plotter.clearScene;
-				var sceneObjects = store.vectorize();
-				plotter.loadNodes(sceneObjects.nodes);
-				plotter.loadTubes(sceneObjects.tubes);
+				if (json != null) {
+					store.importData(json);
+					plotter.clearScene;
+					var sceneObjects = store.vectorize();
+					plotter.loadNodes(sceneObjects.nodes);
+					plotter.loadTubes(sceneObjects.tubes);
+				}
 				break;
 			case 'buttExport':
 				prompt('JSON', store.exportData());
@@ -266,13 +268,14 @@ class NodeTable extends React.Component {
 
 	}
 	
+	
 	render() {
 		
 		let columns = [{
 			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
-			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' name='' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
 			Header: 'x',

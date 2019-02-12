@@ -86,11 +86,11 @@ function DataStore() {
 	
 	this.preprocessed = {
 		
-	}
+	};
 	
 	this.postprocessed = {
 		
-	}
+	};
 	
 	this.importData = function(json) {
 		object = JSON.parse(json);
@@ -112,11 +112,43 @@ function DataStore() {
 		});
 
 		return strData;
-	}
+	};
 	
 	
 	this.resultData = {
 		stringData: null
+	};
+	
+	this.requestPayload = {
+		
+	};
+	
+	this.sendRequestData = function() {
+		const Http = new XMLHttpRequest();
+		var baseurl = '127.0.0.1';
+		var posturl = baseurl + '/fea/structure/input/';
+		Http.open("POST", posturl);
+		var content = this.requestPayload;
+		Http.send(content);
+		var dStore = this;
+		
+		Http.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				outputId = Http.responseText;
+				const getHttp = new XMLHttpRequest();
+				var geturl = baseurl + '/fea/structure/output/'+outputId;
+				getHttp.open("GET", geturl);
+				getHttp.send(content);
+				
+				getHttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.states == 200) {
+						dStore.resultData.stringData = response;
+					}
+				}
+				
+			}
+		}
+		
 	}
 	
 	this.vectorize = function() {
