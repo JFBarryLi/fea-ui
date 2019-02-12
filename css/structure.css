@@ -201,3 +201,9 @@
 .table-text {
 	margin: 1em;
 }
+
+.rt-td input {
+	width: 100%;
+	background-color: inherit;
+	border: none;
+}

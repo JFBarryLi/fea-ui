@@ -97,6 +97,27 @@ class Collapsible extends React.Component {
 	
 
 class PropertiesForm extends React.Component {
+	constructor(props) {
+		super(props);
+		this.handleInputChange = this.handleInputChange.bind(this);
+		this.state = {
+			I: '1',
+			A: '1',
+			E: '1',
+			yMax: '1'
+		};
+	}
+	
+	handleInputChange(e) {
+		const target = e.target;
+		const value = target.value;
+		const name = target.name;
+		
+		this.setState({
+			[name]: value
+		});
+	}
+	
 	render() {
 		let className = 'properties__form';
 		return (
@@ -104,22 +125,54 @@ class PropertiesForm extends React.Component {
 				<form>
 					<div className="form-group">
 						<label htmlFor="moment_of_inertia"><strong><i>I:</i></strong></label>
-						<input type="text" className="form-control" id="moment_of_inertia" placeholder="1" />
+						<input 
+							type="number" 
+							name="I" 
+							value={this.state.I}
+							onChange={this.handleInputChange} 
+							className="form-control" 
+							id="moment_of_inertia" 
+							placeholder="1" 
+						/>
 						<small className="form-text text-muted">Moment of Inertia [mm<sup>4</sup>]</small>
 					</div>
 					<div className="form-group">
 						<label htmlFor="cross_sectional_area"><strong><i>A:</i></strong></label>
-						<input type="text" className="form-control" id="cross_sectional_area" placeholder="1" />
+						<input 
+							type="number" 
+							name="A" 
+							value={this.state.A}
+							onChange={this.handleInputChange}							
+							className="form-control" 
+							id="cross_sectional_area" 
+							placeholder="1" 
+						/>
 						<small className="form-text text-muted">Cross Sectional Area [mm<sup>2</sup>]</small>
 					</div>
 					<div className="form-group">
 						<label htmlFor="modulus_elasticity"><strong><i>E:</i></strong></label>
-						<input type="text" className="form-control" id="modulus_elasticity" placeholder="1" />
+						<input 
+							type="number" 
+							name="E" 
+							value={this.state.E}
+							onChange={this.handleInputChange} 
+							className="form-control" 
+							id="modulus_elasticity" 
+							placeholder="1" 
+						/>
 						<small className="form-text text-muted">Modulus of Elasticity [MPa]</small>
 					</div>
 					<div className="form-group">
 						<label htmlFor="y_max"><strong><i>y<sub>max</sub>:</i></strong></label>
-						<input type="text" className="form-control" id="y_max" placeholder="1" />
+						<input 
+							type="number" 
+							name="yMax" 
+							value={this.state.yMax}
+							onChange={this.handleInputChange}  
+							className="form-control" 
+							id="y_max" 
+							placeholder="1" 
+						/>
 						<small className="form-text text-muted">Distance from neutral axis to surface in the y-direction [mm]</small>
 					</div>
 				</form>
@@ -143,6 +196,15 @@ class Properties extends Collapsible {
 }
 
 class BaseTable extends React.Component {	
+	constructor(props) {
+		super(props);
+		this.handleCallback = this.handleCallback.bind(this);
+	}
+	
+	handleCallback(index) {
+		this.props.rowCallbackFromParent(index);
+	}
+	
 	render() {
 		return (
 			<ReactTable
@@ -150,40 +212,102 @@ class BaseTable extends React.Component {
 				defaultPageSize={10}
 				data={this.props.data}
 				columns={this.props.columns}
+				
+				getTdProps={(rowInfo, index) => {
+					return {
+						onClick: (e, handleOriginal) => {
+							
+							this.handleCallback(index);
+							
+							if (handleOriginal) {
+								handleOriginal();
+							}
+						}
+					};
+				}}
+				
 			/>
 		);
 	}
 }
 
 class NodeTable extends React.Component {
-	render() {
-		const data = [{
-			node: 1,
-			x: 1,
-			y: 1
-		}];
-
-		const onChangeCell = () => alert();
+	constructor(props) {
+		super(props);
+		this.handleChangeCell = this.handleChangeCell.bind(this);
+		this.rowCallback = this.rowCallback.bind(this);
+		this.state = {
+			data : [{
+				node: 1,
+				x: 1,
+				y: 1
+			},{
+				node: 2,
+				x: 2,
+				y:2
+			}]
+		};
+		this.rowCallbackIndex = null;
+	}
+	
+	handleChangeCell(e) {
+		// Target is the table cell input
+		const target = e.target;
+		const value = target.value;
+		const name = target.name;
 		
-		const columns = [{
+		// Updating state.data
+		let newData = this.state.data.slice();
+		// Create new row
+		if (this.state.data.length-1 == this.rowCallbackIndex.index) {
+			newData.push({node: '', x: '', y: ''});
+		}
+		
+		switch(name) {
+			case 'node':
+				newData[this.rowCallbackIndex.index].node = parseInt(target.value);
+				break;
+			case 'x':
+				newData[this.rowCallbackIndex.index].x = parseFloat(target.value);
+				break;
+			case 'y':
+				newData[this.rowCallbackIndex.index].y = parseFloat(target.value);
+				break;
+		}
+		this.setState({
+			data: newData
+		});
+	}
+	
+	rowCallback(dataFromChild) {
+		this.rowCallbackIndex = dataFromChild;
+	}
+	
+	render() {
+		
+		let columns = [{
 			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
-			Cell: props => <input value={props.value} onChange={onChangeCell} />
+			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
 			Header: 'x',
 			accessor: 'x',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input type='number' name='x' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
 			Header: 'y',
 			accessor: 'y',
-			Cell: props => <span className='number'>{props.value}</span>
+			Cell: props => <input type='number' name='y' value={props.value} onChange={this.handleChangeCell} />
 		}];
 
 		return (
-			<BaseTable data={data} columns={columns}/>
+			<BaseTable
+				rowCallbackFromParent={this.rowCallback}
+				data={this.state.data} 
+				columns={columns}
+			/>
 		);
 	}
 }

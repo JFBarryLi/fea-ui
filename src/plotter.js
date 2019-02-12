@@ -28,9 +28,41 @@ function plotter() {
 		container.insertBefore(renderer.domElement, options);
 
 		// Controls
-		var controls = new THREE.OrbitControls( camera, renderer.domElement );
+		controls = new THREE.OrbitControls( camera, renderer.domElement );
 		controls.damping = 0.2;
+		controls.enabled = true;
 		controls.addEventListener( 'change', render );
+		
+		// Keyboard input doesn't work when OrbitControls is enabled
+		document.addEventListener('click', function(e) {
+			var target = e.target;
+			var ele = 'input';
+				if (target.tagName.toLowerCase() === ele) {
+						controls.enabled = false;
+				} else {
+					controls.enabled = true;
+				}	
+		});
+		
+		document.body.addEventListener('touchstart', function(e) {
+			var target = e.target;
+			var ele = 'input';
+				if (target.tagName.toLowerCase() === ele) {
+						controls.enabled = false;
+				} else {
+					controls.enabled = true;
+				}	
+		});
+		
+		document.body.addEventListener('scroll', function(e) {
+			var target = e.target;
+			var ele = 'input';
+			if (target.tagName.toLowerCase() === ele) {
+					controls.enabled = false;
+			} else {
+				controls.enabled = true;
+			}	
+		});
 			
 	}
 	
