@@ -2,6 +2,12 @@ var ReactTable = window.ReactTable.default;
 var Collapse = window.Reactstrap.Collapse
 
 class Options extends React.Component {
+	/**	
+		*	Options Component
+		* New/Undo/Import/Export/Results
+		*
+	**/
+	
 	constructor(props) {
 		super(props);
 		
@@ -75,6 +81,11 @@ class Options extends React.Component {
 }
 
 class PlotterContainer extends React.Component {
+	/**	
+		*	Container for options and Three.js canvas
+		*
+	**/
+	
 	render() {
 		let className = 'plotter-container';
 		return (
@@ -86,6 +97,12 @@ class PlotterContainer extends React.Component {
 }
 
 class ForT extends React.Component {
+	/**	
+		*	Frame or Truss switch Component
+		* Determines the type of analysis
+		*
+	**/
+	
 	constructor(props) {
 		super(props);
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -118,6 +135,12 @@ class ForT extends React.Component {
 }
 
 class Collapsible extends React.Component {
+	/**	
+		*	Collapsible Component
+		* Allows any component extended from this to be collapsible
+		*
+	**/
+	
 	constructor(props) {
 		super(props);
 		this.toggle = this.toggle.bind(this);
@@ -131,6 +154,13 @@ class Collapsible extends React.Component {
 	
 
 class PropertiesForm extends React.Component {
+	/**	
+		*	Form for basic properties
+		* Moment of Inertia, Cross-sectional Area, Modulus of Elasticity,
+		* Max distance from neutral axis
+		*
+	**/
+	
 	constructor(props) {
 		super(props);
 		this.handleInputChange = this.handleInputChange.bind(this);
@@ -212,6 +242,10 @@ class PropertiesForm extends React.Component {
 }
 
 class Properties extends Collapsible {
+	/**	
+		*	Properties Container
+		*
+	**/
 	render() {
 		let className = 'input properties left-col';
 		return (
@@ -226,6 +260,10 @@ class Properties extends Collapsible {
 }
 
 class NodeTable extends React.Component {
+	/**	
+		*	react-table component for storing nodal coordinates
+		*
+	**/
 	constructor(props) {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
@@ -314,6 +352,11 @@ class NodeTable extends React.Component {
 }
 
 class Nodes extends Collapsible {
+	/**	
+		*	Container for nodal coordinates
+		*
+	**/
+	
 	render() {
 		let className = 'input nodes right-col';
 		
@@ -330,6 +373,11 @@ class Nodes extends Collapsible {
 }
 
 class ConnectivityTable extends React.Component {
+	/**	
+		*	react-table component for element connectivity information
+		*
+	**/
+	
 	constructor(props) {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
@@ -420,6 +468,11 @@ class ConnectivityTable extends React.Component {
 }
 
 class Connectivity extends Collapsible {
+	/**	
+		*	Connectivity container
+		*
+	**/
+	
 	render() {
 		let className = 'input connectivity left-col';
 		return (
@@ -435,6 +488,11 @@ class Connectivity extends Collapsible {
 }
 
 class SupportTable extends React.Component {
+	/**	
+		*	react-table component for storing support information
+		*
+	**/
+
 	constructor(props) {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
@@ -513,6 +571,11 @@ class SupportTable extends React.Component {
 }
 
 class Support extends Collapsible {
+	/**	
+		*	Support container
+		*
+	**/
+	
 	render() {
 		let className = 'input support right-col';
 		return (
@@ -528,6 +591,11 @@ class Support extends Collapsible {
 }
 
 class ForceTable extends React.Component {
+	/**	
+		*	react-table component for storing applied force and moment information
+		*
+	**/
+	
 	constructor(props) {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
@@ -614,6 +682,11 @@ class ForceTable extends React.Component {
 }
 
 class Force extends Collapsible {
+	/**	
+		*	Force container
+		*
+	**/
+	
 	render() {
 		let className = 'input force mid-col';
 		return (
@@ -629,6 +702,11 @@ class Force extends Collapsible {
 }
 
 class Analyze extends React.Component {
+	/**	
+		*	Analyze button
+		*
+	**/
+	
 	constructor(props) {
 		super(props);
 		this.handleClick = this.handleClick.bind(this);
@@ -650,7 +728,12 @@ class Analyze extends React.Component {
 	}
 }
 
-class Layout extends React.Component {	
+class Layout extends React.Component {
+	/**	
+		*	Layout component
+		*
+	**/
+	
 	render() {
 		let className = 'Layout';
 		return (
@@ -679,15 +762,12 @@ ReactDOM.render(
 	document.getElementById('root')
 );
 
+/**	
+	*	Initialize Three.js component
+	*
+**/
 var owidth = document.body.clientWidth;
 var plotter = new plotter();
-plotter.loadNodes( [ 
-	new THREE.Vector3( -100, 0, 0 ),
-	new THREE.Vector3( -100, 100, 0 ),
-	new THREE.Vector3( 100, 100, 0 ),
-	new THREE.Vector3( 100, 0, 0 ) ] );
-	
-plotter.addTubeObject( new THREE.Vector3( -100, 0, 0 ),new THREE.Vector3( -100, 100, 0 ) );
-plotter.addTubeObject( new THREE.Vector3( -100, 100, 0 ),new THREE.Vector3( 100, 100, 0 ) );
-plotter.addTubeObject( new THREE.Vector3( 100, 100, 0 ),new THREE.Vector3( 100, 0, 0 ) );
-plotter.addTubeObject( new THREE.Vector3( 100, 0, 0 ),new THREE.Vector3( -100, 0, 0 ) );
+var initPlot = store.vectorize();
+plotter.loadNodes(initPlot.nodes);
+plotter.loadTubes(initPlot.tubes);

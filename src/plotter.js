@@ -1,4 +1,10 @@
 function plotter() {
+	/**	
+		*	Three.js component
+		* Renders nodal coordinates and element connectivity
+		* into a 3D model
+		*
+	**/
 
 	// Initialize variables
 	var container;
@@ -9,6 +15,7 @@ function plotter() {
 	
 	init();
 	
+	// Initialize Three.js
 	function init() {
 		var container = document.getElementsByClassName("plotter-container")[0];
 		var options = document.getElementsByClassName("options")[0];
@@ -44,6 +51,7 @@ function plotter() {
 				}	
 		});
 		
+		// For mobile
 		document.body.addEventListener('touchstart', function(e) {
 			var target = e.target;
 			var ele = 'input';
@@ -54,6 +62,7 @@ function plotter() {
 				}	
 		});
 		
+		// Mainly to create transition on mobile
 		document.body.addEventListener('scroll', function(e) {
 			var target = e.target;
 			var ele = 'input';
@@ -159,8 +168,8 @@ function plotter() {
 		straightLine.prototype = Object.create( THREE.Curve.prototype );
 		straightLine.prototype.constructor = straightLine;
 
+		// Define the curve as a straight line between nodei and nodej
 		straightLine.prototype.getPoint = function ( t ) {
-		
 			var dx = nodej_position.x - nodei_position.x;
 			var dy = nodej_position.y - nodei_position.y;
 			var dz = nodej_position.z - nodei_position.z;
