@@ -8,7 +8,6 @@ Calculates stress and nodal displacements for a frame or truss structure using f
 * AWS
 * Error handling
 * Form validation
-* Undo/Redo not reflected on DataStore only on rendering
 * Render node name label
 * Measurement tool
 * Stress visualization (color coding)

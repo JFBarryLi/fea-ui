@@ -164,16 +164,6 @@ function DataStore() {
 		}]
 	};
 	
-	// Original structure
-	this.preprocessed = {
-		
-	};
-	
-	// Deformed structure
-	this.postprocessed = {
-		
-	};
-	
 	// Load a structure into the app
 	this.importData = function(json) {
 		object = JSON.parse(json);
@@ -418,14 +408,43 @@ function DataStore() {
 		return {nodes:nodeVectors, tubes:tubeVectors};
 	};
 	
+	var sThis = this;
 	this.history = {
 		index: 0,
 		undoIndex: 0,
-		vectors: [this.vectorize()]
-	}
+		nodes: [],
+		properties: [],
+		connectivity: [],
+		support: [],
+		force: [],
+		vectors: [],
+		init : function() {
+			this.nodes[0] = JSON.parse(JSON.stringify(sThis.nodes));
+			this.properties[0] = JSON.parse(JSON.stringify(sThis.properties));
+			this.connectivity[0] = JSON.parse(JSON.stringify(sThis.connectivity));
+			this.support[0] = JSON.parse(JSON.stringify(sThis.support));
+			this.force[0] = JSON.parse(JSON.stringify(sThis.force));
+			this.vectors[0] = sThis.vectorize();
+		},
+		storeState : function() {
+			this.nodes.push(JSON.parse(JSON.stringify(sThis.nodes)));
+			this.properties.push(JSON.parse(JSON.stringify(sThis.properties)));
+			this.connectivity.push(JSON.parse(JSON.stringify(sThis.connectivity)));
+			this.support.push(JSON.parse(JSON.stringify(sThis.support)));
+			this.force.push(JSON.parse(JSON.stringify(sThis.force)));
+		},
+		loadState : function() {
+			sThis.nodes = JSON.parse(JSON.stringify(this.nodes[this.index]));
+			sThis.properties = JSON.parse(JSON.stringify(this.properties[this.index]));
+			sThis.connectivity = JSON.parse(JSON.stringify(this.connectivity[this.index]));
+			sThis.support = JSON.parse(JSON.stringify(this.support[this.index]));
+			sThis.force = JSON.parse(JSON.stringify(this.force[this.index]));
+		}
+	};
 	
 	
 }
 
 // Instantiate a DataStore
 var store = new DataStore;
+store.history.init();

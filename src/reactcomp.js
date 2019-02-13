@@ -25,21 +25,27 @@ class Options extends React.Component {
 				store.history.vectors = [];
 				store.history.index = 0;
 				store.history.undoIndex = 0;
+				updateInputs();
 				break;
 				
 			case 'buttUpdate':
 				store.history.vectors.push(store.vectorize());
 				store.history.index = store.history.index + 1;
+				store.history.storeState();
 				updateScene();
+				updateInputs();
 				break;
 			case 'buttUndo':
 				if (store.history.index > 0) {
 					store.history.undoIndex = store.history.undoIndex + 1;
-					store.history.vectors.push(store.vectorize());
+					// store.history.vectors.push(store.vectorize());
+					// store.history.storeState();
 					plotter.clearScene();
 					store.history.index = store.history.index - 1;
 					plotter.loadNodes(store.history.vectors[store.history.index].nodes);
 					plotter.loadTubes(store.history.vectors[store.history.index].tubes);
+					store.history.loadState();
+					updateInputs();
 				} else {
 					alert('Nothing to undo');
 				}
@@ -51,6 +57,8 @@ class Options extends React.Component {
 					store.history.index = store.history.index + 1;
 					plotter.loadNodes(store.history.vectors[store.history.index].nodes);
 					plotter.loadTubes(store.history.vectors[store.history.index].tubes);
+					store.history.loadState();
+					updateInputs();
 				} else {
 					alert('Nothing to redo');
 				}
@@ -59,7 +67,11 @@ class Options extends React.Component {
 				var json = prompt('JSON');
 				if (json != null) {
 					store.importData(json);
+					store.history.vectors.push(store.vectorize());
+					store.history.index = store.history.index + 1;
+					store.history.storeState();
 					updateScene();
+					updateInputs();
 				}
 				break;
 			case 'buttExport':
@@ -382,13 +394,13 @@ class NodeTable extends React.Component {
 		
 		switch(name) {
 			case 'node':
-				newData[this.rowCallbackIndex.index].node = (isNaN(parseInt(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].node = (isNaN(parseInt(value)) ? "" : parseInt(value));
 				break;
 			case 'x':
-				newData[this.rowCallbackIndex.index].x = (isNaN(parseFloat(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].x = (isNaN(parseFloat(value)) ? "" : parseFloat(value));
 				break;
 			case 'y':
-				newData[this.rowCallbackIndex.index].y = (isNaN(parseFloat(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].y = (isNaN(parseFloat(value)) ? "" : parseFloat(value));
 				break;
 		}
 
@@ -518,13 +530,13 @@ class ConnectivityTable extends React.Component {
 		
 		switch(name) {
 			case 'element':
-				newData[this.rowCallbackIndex.index].Element = (isNaN(parseInt(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].Element = (isNaN(parseInt(value)) ? "" : parseInt(value));
 				break;
 			case 'nodei':
-				newData[this.rowCallbackIndex.index].nodei = (isNaN(parseFloat(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].nodei = (isNaN(parseFloat(value)) ? "" : parseFloat(value));
 				break;
 			case 'nodej':
-				newData[this.rowCallbackIndex.index].nodej = (isNaN(parseFloat(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].nodej = (isNaN(parseFloat(value)) ? "" : parseFloat(value));
 				break;
 		}
 
@@ -642,10 +654,10 @@ class SupportTable extends React.Component {
 		
 		switch(name) {
 			case 'node':
-				newData[this.rowCallbackIndex.index].node = (isNaN(parseInt(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].node = (isNaN(parseInt(value)) ? "" : parseInt(value));
 				break;
 			case 'constraint':
-				newData[this.rowCallbackIndex.index].constraint = (isNaN(parseFloat(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].constraint = (isNaN(parseFloat(value)) ? "" : parseFloat(value));
 				break;
 		}
 
@@ -768,13 +780,13 @@ class ForceTable extends React.Component {
 		
 		switch(name) {
 			case 'node':
-				newData[this.rowCallbackIndex.index].node = (isNaN(parseInt(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].node = (isNaN(parseInt(value)) ? "" : parseInt(value));
 				break;
 			case 'fm':
-				newData[this.rowCallbackIndex.index].fm = (isNaN(parseFloat(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].fm = (isNaN(parseFloat(value)) ? "" : parseFloat(value));
 				break;
 			case 'direction':
-				newData[this.rowCallbackIndex.index].direction = (isNaN(parseFloat(value)) ? "" : value);
+				newData[this.rowCallbackIndex.index].direction = (isNaN(parseFloat(value)) ? "" : parseFloat(value));
 				break;
 		}
 
@@ -894,6 +906,13 @@ ReactDOM.render(
 	<Layout />,
 	document.getElementById('root')
 );
+
+function updateInputs() {
+ReactDOM.render(
+	<Layout />,
+	document.getElementById('root')
+);	
+}
 
 function updateScene() {
 /**	
