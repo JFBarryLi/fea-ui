@@ -153,6 +153,10 @@ function plotter() {
 		for ( var i = 0; i < new_positions.length; i ++ ) {
 			this.addNodeObject( new_positions[ i ] );
 		}
+		if (new_positions.length == 0) {
+			this.clearScene();
+		}
+		
 		render();
 	};
 	
@@ -200,6 +204,11 @@ function plotter() {
 		for ( var i = 0; i < tube_elements.length; i ++ ) {
 			this.addTubeObject( tube_elements[ i ][ 0 ], tube_elements[ i ][ 1 ] );
 		}
+		
+		if (tube_elements.length == 0) {
+			this.clearScene();
+		}
+		
 		render();
 	};
 	

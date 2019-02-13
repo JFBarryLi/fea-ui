@@ -164,20 +164,63 @@ function DataStore() {
 			}
 		}
 		nodal_coordinates = JSON.stringify(nodal_coordinates);
+		nodal_coordinates = nodal_coordinates.replace(/\"([^(\")"]+)\":/g,"$1:");
 		
 		var connectivity_table = {};
-		var connectivity_table;
 		var elems = this.connectivity.data;
 		for (var ele in elems) {
 			if (elems[ele].Element !== "") {
 				connectivity_table[elems[ele].Element] = [elems[ele].nodei, elems[ele].nodej]
 			}
 		}
-		
 		connectivity_table = JSON.stringify(connectivity_table);
+		connectivity_table = connectivity_table.replace(/\"([^(\")"]+)\":/g,"$1:");
+		
+				
+		// Degree of Freedom
+		if (this.type == 'truss') {
+			var dof = 2;
+		} else if (this.type == 'frame') {
+			var dof = 3;
+		} 
+		
+		// Boundary Conditions
+		var boundary_conditions = [];
+		var supports = this.support.data;
+		for (var support in supports) {
+			if (supports[support].node !== "") {
+				var bc = dof * supports[support].node + supports[support].constraint - dof - 1;
+				boundary_conditions.push(bc);
+			}
+		}		
+		
+		boundary_conditions = '[' + boundary_conditions.toString() + ']';
+		
+		// Force/moment vector
+		var obj = this.nodes.data;
+		maxNode = Math.max.apply(Math, obj.map(function(o) { return o.node; }));
+		var flen = maxNode * dof;
+		var force_vector = new Array(flen).fill(0);
+		var forces = this.force.data;
+		for (var force in forces) {
+			if (forces[force].node !== "") {
+				var findex = dof * forces[force].node + forces[force].direction - dof - 1;
+				force_vector[findex] = forces[force].fm;
+			}
+		}
+
+		force_vector = '[' + force_vector.toString() + ']';
 		
 		
 		var frame_or_truss = this.type;
+		
+		payload.connectivity_table = connectivity_table;
+		payload.nodal_coordinates = nodal_coordinates;
+		payload.boundary_conditions = boundary_conditions;
+		payload.force_vector = force_vector;
+		payload.frame_or_truss = frame_or_truss;
+		
+		payload = JSON.stringify(payload);
 		
 		return payload;
 	};
@@ -211,6 +254,49 @@ function DataStore() {
 		
 	}
 	
+	// Clear fields in data store
+	this.clearFields = function() {
+		this.properties = {
+			I: '',
+			A: '',
+			E: '',
+			yMax: ''
+		};
+		this.nodes = {
+			data : [
+				{
+					node: '',
+					x: '',
+					y: ''
+				}
+			]
+		};
+		this.connectivity = {
+			data : [
+				{
+					Element: '',
+					nodei: '',
+					nodej: ''
+				}
+			]
+		};
+		this.support = {
+			data : [{
+				node: '',
+				constraint: ''
+			}]
+		};
+		this.force = {
+			data : [{
+				node: '',
+				fm: '',
+				direction: ''
+			}]
+		};
+		
+	}
+	
+	
 	// Convert nodal coordinates and connectivity to 3D vectors
 	this.vectorize = function() {
 		var nodeVectors = [];
@@ -219,7 +305,7 @@ function DataStore() {
 		// Create the node vectors
 		var nodes = this.nodes.data;
 		for (var key in nodes) {
-			if (nodes[key].node !== '') {
+			if (nodes[key].node !== '' && nodes[key].node !== null) {
 				nodeVectors.push(new THREE.Vector3(nodes[key].x, nodes[key].y, 0));
 			}
 		}
@@ -227,7 +313,7 @@ function DataStore() {
 		// Create the tube vectors
 		var tubes = this.connectivity.data;
 		for (var key in tubes) {
-			if (tubes[key].Element !== '') {
+			if (tubes[key].Element !== '' && tubes[key].Element !== null) {
 				for (var nKey in nodes) {
 					if (nodes[nKey].node == tubes[key].nodei) {
 						var i = nodes[nKey];
@@ -241,6 +327,13 @@ function DataStore() {
 		
 		return {nodes:nodeVectors, tubes:tubeVectors};
 	};
+	
+	this.history = {
+		index: 0,
+		undoIndex: 0,
+		vectors: [this.vectorize()]
+	}
+	
 	
 }
 

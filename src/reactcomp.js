@@ -17,25 +17,46 @@ class Options extends React.Component {
 	handleClick(name) {
 		switch(name) {
 			case 'buttNew':
-				store.preprocessed = store.vectorize();
 				plotter.clearScene();
+				store.clearFields();
+				store.history.vectors = [];
+				store.history.index = 0;
+				store.history.undoIndex = 0;
+				break;
+				
+			case 'buttUpdate':
+				store.history.vectors.push(store.vectorize());
+				store.history.index = store.history.index + 1;
+				updateScene();
 				break;
 			case 'buttUndo':
-				if (Object.keys(store.preprocessed).length !== 0) {
-					plotter.loadNodes(store.preprocessed.nodes);
-					plotter.loadTubes(store.preprocessed.tubes);
+				if (store.history.index > 0) {
+					store.history.undoIndex = store.history.undoIndex + 1;
+					store.history.vectors.push(store.vectorize());
+					plotter.clearScene();
+					store.history.index = store.history.index - 1;
+					plotter.loadNodes(store.history.vectors[store.history.index].nodes);
+					plotter.loadTubes(store.history.vectors[store.history.index].tubes);
 				} else {
 					alert('Nothing to undo');
+				}
+				break;
+			case 'buttRedo':
+				if (store.history.undoIndex > 0) {
+					store.history.undoIndex = store.history.undoIndex - 1;
+					plotter.clearScene();
+					store.history.index = store.history.index + 1;
+					plotter.loadNodes(store.history.vectors[store.history.index].nodes);
+					plotter.loadTubes(store.history.vectors[store.history.index].tubes);
+				} else {
+					alert('Nothing to redo');
 				}
 				break;
 			case 'buttImport':
 				var json = prompt('JSON');
 				if (json != null) {
 					store.importData(json);
-					plotter.clearScene;
-					var sceneObjects = store.vectorize();
-					plotter.loadNodes(sceneObjects.nodes);
-					plotter.loadTubes(sceneObjects.tubes);
+					updateScene();
 				}
 				break;
 			case 'buttExport':
@@ -60,8 +81,16 @@ class Options extends React.Component {
 					<p>New</p>
 				</div>
 				<div className='img-with-text'>
+					<img src='img/buttUpdate.svg' alt='Update' onClick={() => this.handleClick('buttUpdate')}></img>
+					<p>Update</p>
+				</div>
+				<div className='img-with-text'>
 					<img src='img/buttUndo.svg' alt='Undo' onClick={() => this.handleClick('buttUndo')}></img>
 					<p>Undo</p>
+				</div>
+				<div className='img-with-text'>
+					<img src='img/buttRedo.svg' alt='Redo' onClick={() => this.handleClick('buttRedo')}></img>
+					<p>Redo</p>
 				</div>
 				<div className='img-with-text'>
 					<img src='img/buttImport.svg' alt='Import' onClick={() => this.handleClick('buttImport')}></img>
@@ -269,6 +298,8 @@ class NodeTable extends React.Component {
 		this.handleChangeCell = this.handleChangeCell.bind(this);
 		this.handleCallback = this.handleCallback.bind(this);
 		this.rowCallbackIndex = null;
+		this.previousName = null;
+		this.previousIndex = null;
 	}
 	
 	handleCallback(index) {
@@ -302,6 +333,10 @@ class NodeTable extends React.Component {
 
 		// Updating store data
 		store.nodes.data = newData;
+		
+		this.previousName = name;
+		this.previousIndex = this.rowCallbackIndex.index
+		
 		this.forceUpdate();
 
 	}
@@ -313,7 +348,7 @@ class NodeTable extends React.Component {
 			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
-			Cell: props => <input type='number' name='' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
 			Header: 'x',
@@ -628,7 +663,7 @@ class ForceTable extends React.Component {
 				newData[this.rowCallbackIndex.index].fm = parseFloat(target.value);
 				break;
 			case 'direction':
-				newData[this.rowCallbackIndex.index].directon = parseFloat(target.value);
+				newData[this.rowCallbackIndex.index].direction = parseFloat(target.value);
 				break;
 		}
 
@@ -761,6 +796,18 @@ ReactDOM.render(
 	<Layout />,
 	document.getElementById('root')
 );
+
+function updateScene() {
+/**	
+	*	Update Three.js scene using data in the DataStore
+	*
+**/
+	
+	plotter.clearScene();
+	var sceneObjects = store.vectorize();
+	plotter.loadNodes(sceneObjects.nodes);
+	plotter.loadTubes(sceneObjects.tubes);
+}
 
 /**	
 	*	Initialize Three.js component
