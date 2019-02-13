@@ -382,13 +382,13 @@ class NodeTable extends React.Component {
 		
 		switch(name) {
 			case 'node':
-				newData[this.rowCallbackIndex.index].node = parseInt(target.value);
+				newData[this.rowCallbackIndex.index].node = (isNaN(parseInt(value)) ? "" : value);
 				break;
 			case 'x':
-				newData[this.rowCallbackIndex.index].x = parseFloat(target.value);
+				newData[this.rowCallbackIndex.index].x = (isNaN(parseFloat(value)) ? "" : value);
 				break;
 			case 'y':
-				newData[this.rowCallbackIndex.index].y = parseFloat(target.value);
+				newData[this.rowCallbackIndex.index].y = (isNaN(parseFloat(value)) ? "" : value);
 				break;
 		}
 
@@ -518,13 +518,13 @@ class ConnectivityTable extends React.Component {
 		
 		switch(name) {
 			case 'element':
-				newData[this.rowCallbackIndex.index].Element = parseInt(target.value);
+				newData[this.rowCallbackIndex.index].Element = (isNaN(parseInt(value)) ? "" : value);
 				break;
 			case 'nodei':
-				newData[this.rowCallbackIndex.index].nodei = parseFloat(target.value);
+				newData[this.rowCallbackIndex.index].nodei = (isNaN(parseFloat(value)) ? "" : value);
 				break;
 			case 'nodej':
-				newData[this.rowCallbackIndex.index].nodej = parseFloat(target.value);
+				newData[this.rowCallbackIndex.index].nodej = (isNaN(parseFloat(value)) ? "" : value);
 				break;
 		}
 
@@ -642,10 +642,10 @@ class SupportTable extends React.Component {
 		
 		switch(name) {
 			case 'node':
-				newData[this.rowCallbackIndex.index].node = parseInt(target.value);
+				newData[this.rowCallbackIndex.index].node = (isNaN(parseInt(value)) ? "" : value);
 				break;
 			case 'constraint':
-				newData[this.rowCallbackIndex.index].constraint = parseFloat(target.value);
+				newData[this.rowCallbackIndex.index].constraint = (isNaN(parseFloat(value)) ? "" : value);
 				break;
 		}
 
@@ -768,13 +768,13 @@ class ForceTable extends React.Component {
 		
 		switch(name) {
 			case 'node':
-				newData[this.rowCallbackIndex.index].node = parseInt(target.value);
+				newData[this.rowCallbackIndex.index].node = (isNaN(parseInt(value)) ? "" : value);
 				break;
 			case 'fm':
-				newData[this.rowCallbackIndex.index].fm = parseFloat(target.value);
+				newData[this.rowCallbackIndex.index].fm = (isNaN(parseFloat(value)) ? "" : value);
 				break;
 			case 'direction':
-				newData[this.rowCallbackIndex.index].direction = parseFloat(target.value);
+				newData[this.rowCallbackIndex.index].direction = (isNaN(parseFloat(value)) ? "" : value);
 				break;
 		}
 
