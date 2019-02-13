@@ -216,7 +216,8 @@ class PropertiesForm extends React.Component {
 	constructor(props) {
 		super(props);
 		this.handleInputChange = this.handleInputChange.bind(this);
-		this.state = store.properties
+		this.handleInputClick = this.handleInputClick.bind(this);
+		this.state = store.properties;
 	}
 	
 	handleInputChange(e) {
@@ -230,6 +231,10 @@ class PropertiesForm extends React.Component {
 		
 	}
 	
+	handleInputClick() {
+		this.forceUpdate();
+	}
+	
 	render() {
 		let className = 'properties__form';
 		return (
@@ -241,10 +246,10 @@ class PropertiesForm extends React.Component {
 							type="number" 
 							name="I" 
 							value={store.properties.I}
-							onChange={this.handleInputChange} 
+							onChange={this.handleInputChange}
+							onClick={this.handleInputClick}
 							className="form-control" 
 							id="moment_of_inertia" 
-							placeholder="1" 
 						/>
 						<small className="form-text text-muted">Moment of Inertia [mm<sup>4</sup>]</small>
 					</div>
@@ -254,10 +259,10 @@ class PropertiesForm extends React.Component {
 							type="number" 
 							name="A" 
 							value={store.properties.A}
-							onChange={this.handleInputChange}							
+							onChange={this.handleInputChange}
+							onClick={this.handleInputClick}
 							className="form-control" 
 							id="cross_sectional_area" 
-							placeholder="1" 
 						/>
 						<small className="form-text text-muted">Cross Sectional Area [mm<sup>2</sup>]</small>
 					</div>
@@ -268,9 +273,9 @@ class PropertiesForm extends React.Component {
 							name="E" 
 							value={store.properties.E}
 							onChange={this.handleInputChange} 
+							onClick={this.handleInputClick}
 							className="form-control" 
 							id="modulus_elasticity" 
-							placeholder="1" 
 						/>
 						<small className="form-text text-muted">Modulus of Elasticity [MPa]</small>
 					</div>
@@ -281,9 +286,9 @@ class PropertiesForm extends React.Component {
 							name="yMax" 
 							value={store.properties.yMax}
 							onChange={this.handleInputChange}  
+							onClick={this.handleInputClick}
 							className="form-control" 
 							id="y_max" 
-							placeholder="1" 
 						/>
 						<small className="form-text text-muted">Distance from neutral axis to surface in the y-direction [mm]</small>
 					</div>
@@ -320,6 +325,7 @@ class NodeTable extends React.Component {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
 		this.handleCallback = this.handleCallback.bind(this);
+		this.handleClickCell = this.handleClickCell.bind(this);
 		this.rowCallbackIndex = null;
 		this.previousName = null;
 		this.previousIndex = null;
@@ -327,18 +333,34 @@ class NodeTable extends React.Component {
 			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
-			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='node' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}, {
 			minWidth: 50,
 			Header: 'x [mm]',
 			accessor: 'x',
-			Cell: props => <input type='number' name='x' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='x' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}, {
 			minWidth: 50,
 			Header: 'y [mm]',
 			accessor: 'y',
-			Cell: props => <input type='number' name='y' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='y' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}];
+	}
+	
+	handleClickCell() {
+		this.forceUpdate();
 	}
 	
 	handleCallback(index) {
@@ -441,23 +463,40 @@ class ConnectivityTable extends React.Component {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
 		this.handleCallback = this.handleCallback.bind(this);
+		this.handleClickCell = this.handleClickCell.bind(this);
 		this.rowCallbackIndex = null;
 		this.columns = [{
 			minWidth: 50,
 			Header: 'Element',
 			accessor: 'Element',
-			Cell: props => <input type='number' name='element' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='element' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}, {
 			minWidth: 50,
 			Header: 'Node i',
 			accessor: 'nodei',
-			Cell: props => <input type='number' name='nodei' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='nodei' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}, {
 			minWidth: 50,
 			Header: 'Node j',
 			accessor: 'nodej',
-			Cell: props => <input type='number' name='nodej' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='nodej' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}];
+	}
+	
+	handleClickCell() {
+		this.forceUpdate()
 	}
 	
 	handleCallback(index) {
@@ -557,18 +596,31 @@ class SupportTable extends React.Component {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
 		this.handleCallback = this.handleCallback.bind(this);
+		this.handleClickCell = this.handleClickCell.bind(this);
 		this.rowCallbackIndex = null;
 		this.columns = [{
 			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
-			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='node' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}, {
 			minWidth: 50,
 			Header: 'Constraint',
 			accessor: 'constraint',
-			Cell: props => <input type='number' name='constraint' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='constraint' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}];
+	}
+	
+	handleClickCell() {
+		this.forceUpdate();
 	}
 	
 	handleCallback(index) {
@@ -661,23 +713,40 @@ class ForceTable extends React.Component {
 		super(props);
 		this.handleChangeCell = this.handleChangeCell.bind(this);
 		this.handleCallback = this.handleCallback.bind(this);
+		this.handleClickCell = this.handleClickCell.bind(this);
 		this.rowCallbackIndex = null;
 		this.columns = [{
 			minWidth: 50,
 			Header: 'Node',
 			accessor: 'node',
-			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='node' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}, {
 			minWidth: 100,
 			Header: 'Force/Moment [N]/[N*mm]',
 			accessor: 'fm',
-			Cell: props => <input type='number' name='fm' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='fm' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}, {
 			minWidth: 50,
 			Header: 'Direction',
 			accessor: 'direction',
-			Cell: props => <input type='number' name='direction' value={props.value} onChange={this.handleChangeCell} />
+			Cell: props => <input type='number' 
+														name='direction' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
 		}];
+	}
+	
+	handleClickCell() {
+		this.forceUpdate();
 	}
 	
 	handleCallback(index) {
