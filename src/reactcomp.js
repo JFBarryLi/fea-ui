@@ -12,6 +12,9 @@ class Options extends React.Component {
 		super(props);
 		
 		this.handleClick = this.handleClick.bind(this);
+		this.state = {
+			axes: 0
+		}
 	}
 	
 	handleClick(name) {
@@ -69,6 +72,22 @@ class Options extends React.Component {
 					alert('No results available');
 				}
 				break;
+			case 'buttAxes':
+				if (this.state.axes == 0) {
+					plotter.showAxes();
+					this.setState ({
+						axes: 1
+					});
+				} else {
+					plotter.hideAxes();
+					this.setState ({
+						axes: 0
+					});
+				}
+			
+				plotter.showAxes();
+				plotter.hideAxes();
+				break;
 		}
 	}
 	
@@ -103,6 +122,10 @@ class Options extends React.Component {
 				<div className='img-with-text'>
 					<img src='img/buttResults.svg' alt='Results' onClick={() => this.handleClick('buttResults')}></img>
 					<p>Results</p>
+				</div>
+				<div className='img-with-text'>
+					<img src='img/buttAxes.svg' alt='Axes' onClick={() => this.handleClick('buttAxes')}></img>
+					<p>Axes</p>
 				</div>
 			</div>
 		);
