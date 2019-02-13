@@ -12,7 +12,7 @@ function DataStore() {
 	this.properties = {
 		I: '30.664',
 		A: '19.625',
-		E: '200000',
+		E: '10000',
 		yMax: '2.5'
 	};
 	
@@ -38,22 +38,22 @@ function DataStore() {
 				node: 4,
 				x: 100,
 				y: 100
-			},,
+			},
 			{
 				node: 5,
 				x: 200,
 				y: 0
-			},,
+			},
 			{
 				node: 6,
 				x: 100,
 				y: 0
-			},,
+			},
 			{
 				node: 7,
 				x: 0,
 				y: 0
-			},,
+			},
 			{
 				node: 8,
 				x: -100,
@@ -86,35 +86,35 @@ function DataStore() {
 				Element: 4,
 				nodei: 4,
 				nodej: 5
-			},,{
+			},{
 				Element: 5,
 				nodei: 5,
 				nodej: 6
-			},,{
+			},{
 				Element: 6,
 				nodei: 6,
 				nodej: 7
-			},,{
+			},{
 				Element: 7,
 				nodei: 7,
 				nodej: 8
-			},,{
+			},{
 				Element: 8,
 				nodei: 8,
 				nodej: 1
-			},,{
+			},{
 				Element: 9,
 				nodei: 8,
 				nodej: 3
-			},,{
+			},{
 				Element: 10,
 				nodei: 2,
 				nodej: 7
-			},,{
+			},{
 				Element: 11,
 				nodei: 3,
 				nodej: 6
-			},,{
+			},{
 				Element: 12,
 				nodei: 7,
 				nodej: 4
@@ -147,11 +147,15 @@ function DataStore() {
 	this.force = {
 		data : [{
 			node: 2,
-			fm: -1,
+			fm: -50000,
 			direction: 2
 		},{
 			node: 4,
-			fm: -1,
+			fm: -50000,
+			direction: 2
+		},{
+			node: 7,
+			fm: 50000,
 			direction: 2
 		},{
 			node: '',
@@ -308,25 +312,30 @@ function DataStore() {
 	
 	// API call 
 	this.sendRequestData = function() {
-		const Http = new XMLHttpRequest();
-		var baseurl = '127.0.0.1';
+		var Http = new XMLHttpRequest();
+		var baseurl = 'http://127.0.0.1:8000';
 		var posturl = baseurl + '/fea/structure/input/';
 		Http.open("POST", posturl);
-		var content = this.requestPayload;
+		Http.setRequestHeader('Accept', 'application/json');
+		Http.setRequestHeader('Content-Type', 'application/json');
+		var content = this.requestPayload();
 		Http.send(content);
 		var dStore = this;
 		
 		Http.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
+			if (this.readyState == 4 && this.status == 201) {
 				outputId = Http.responseText;
-				const getHttp = new XMLHttpRequest();
+				var getHttp = new XMLHttpRequest();
 				var geturl = baseurl + '/fea/structure/output/'+outputId;
 				getHttp.open("GET", geturl);
+				getHttp.setRequestHeader('Accept', 'application/json');
+				getHttp.setRequestHeader('Content-Type', 'application/json');
 				getHttp.send();
 				
 				getHttp.onreadystatechange = function() {
-					if (this.readyState == 4 && this.states == 200) {
-						dStore.resultData.stringData = response;
+					if (this.readyState == 4 && this.status == 200) {
+						dStore.resultData.stringData = this.responseText;
+						dStore.renderResult();
 					}
 				}
 				

@@ -351,12 +351,12 @@ class NodeTable extends React.Component {
 			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
-			Header: 'x',
+			Header: 'x [mm]',
 			accessor: 'x',
 			Cell: props => <input type='number' name='x' value={props.value} onChange={this.handleChangeCell} />
 		}, {
 			minWidth: 50,
-			Header: 'y',
+			Header: 'y [mm]',
 			accessor: 'y',
 			Cell: props => <input type='number' name='y' value={props.value} onChange={this.handleChangeCell} />
 		}];
@@ -680,8 +680,8 @@ class ForceTable extends React.Component {
 			accessor: 'node',
 			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
 		}, {
-			minWidth: 50,
-			Header: 'Force/Moment',
+			minWidth: 100,
+			Header: 'Force/Moment [N]/[N*mm]',
 			accessor: 'fm',
 			Cell: props => <input type='number' name='fm' value={props.value} onChange={this.handleChangeCell} />
 		}, {
@@ -748,7 +748,9 @@ class Analyze extends React.Component {
 	}
 	
 	handleClick() {
-		store.preprocessed = store.vectorize();
+		store.history.vectors.push(store.vectorize());
+		store.history.index = store.history.index + 1;
+		store.sendRequestData();
 	}
 	
 	render() {
@@ -775,6 +777,7 @@ class Layout extends React.Component {
 			<div className='container'>
 				<div className='content-container'>
 					<PlotterContainer />
+					<Analyze />
 					<ForT />
 					<div className='two-col'>
 						<Properties />
@@ -785,7 +788,6 @@ class Layout extends React.Component {
 						<Support />
 					</div>
 					<Force />
-					<Analyze />
 				</div>
 			</div>
 		);
