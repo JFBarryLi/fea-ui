@@ -323,6 +323,22 @@ class NodeTable extends React.Component {
 		this.rowCallbackIndex = null;
 		this.previousName = null;
 		this.previousIndex = null;
+		this.columns = [{
+			minWidth: 50,
+			Header: 'Node',
+			accessor: 'node',
+			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
+		}, {
+			minWidth: 50,
+			Header: 'x [mm]',
+			accessor: 'x',
+			Cell: props => <input type='number' name='x' value={props.value} onChange={this.handleChangeCell} />
+		}, {
+			minWidth: 50,
+			Header: 'y [mm]',
+			accessor: 'y',
+			Cell: props => <input type='number' name='y' value={props.value} onChange={this.handleChangeCell} />
+		}];
 	}
 	
 	handleCallback(index) {
@@ -367,22 +383,7 @@ class NodeTable extends React.Component {
 	
 	render() {
 		
-		let columns = [{
-			minWidth: 50,
-			Header: 'Node',
-			accessor: 'node',
-			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
-		}, {
-			minWidth: 50,
-			Header: 'x [mm]',
-			accessor: 'x',
-			Cell: props => <input type='number' name='x' value={props.value} onChange={this.handleChangeCell} />
-		}, {
-			minWidth: 50,
-			Header: 'y [mm]',
-			accessor: 'y',
-			Cell: props => <input type='number' name='y' value={props.value} onChange={this.handleChangeCell} />
-		}];
+		let columns = this.columns;
 
 		return (
 			<ReactTable
@@ -441,6 +442,22 @@ class ConnectivityTable extends React.Component {
 		this.handleChangeCell = this.handleChangeCell.bind(this);
 		this.handleCallback = this.handleCallback.bind(this);
 		this.rowCallbackIndex = null;
+		this.columns = [{
+			minWidth: 50,
+			Header: 'Element',
+			accessor: 'Element',
+			Cell: props => <input type='number' name='element' value={props.value} onChange={this.handleChangeCell} />
+		}, {
+			minWidth: 50,
+			Header: 'Node i',
+			accessor: 'nodei',
+			Cell: props => <input type='number' name='nodei' value={props.value} onChange={this.handleChangeCell} />
+		}, {
+			minWidth: 50,
+			Header: 'Node j',
+			accessor: 'nodej',
+			Cell: props => <input type='number' name='nodej' value={props.value} onChange={this.handleChangeCell} />
+		}];
 	}
 	
 	handleCallback(index) {
@@ -483,22 +500,7 @@ class ConnectivityTable extends React.Component {
 	}
 	
 	render() {
-		let columns = [{
-			minWidth: 50,
-			Header: 'Element',
-			accessor: 'Element',
-			Cell: props => <input type='number' name='element' value={props.value} onChange={this.handleChangeCell} />
-		}, {
-			minWidth: 50,
-			Header: 'Node i',
-			accessor: 'nodei',
-			Cell: props => <input type='number' name='nodei' value={props.value} onChange={this.handleChangeCell} />
-		}, {
-			minWidth: 50,
-			Header: 'Node j',
-			accessor: 'nodej',
-			Cell: props => <input type='number' name='nodej' value={props.value} onChange={this.handleChangeCell} />
-		}];
+		let columns = this.columns;
 
 		return (
 			<ReactTable
@@ -556,6 +558,17 @@ class SupportTable extends React.Component {
 		this.handleChangeCell = this.handleChangeCell.bind(this);
 		this.handleCallback = this.handleCallback.bind(this);
 		this.rowCallbackIndex = null;
+		this.columns = [{
+			minWidth: 50,
+			Header: 'Node',
+			accessor: 'node',
+			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
+		}, {
+			minWidth: 50,
+			Header: 'Constraint',
+			accessor: 'constraint',
+			Cell: props => <input type='number' name='constraint' value={props.value} onChange={this.handleChangeCell} />
+		}];
 	}
 	
 	handleCallback(index) {
@@ -591,17 +604,7 @@ class SupportTable extends React.Component {
 	}
 	
 	render() {
-		const columns = [{
-			minWidth: 50,
-			Header: 'Node',
-			accessor: 'node',
-			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
-		}, {
-			minWidth: 50,
-			Header: 'Constraint',
-			accessor: 'constraint',
-			Cell: props => <input type='number' name='constraint' value={props.value} onChange={this.handleChangeCell} />
-		}];
+		let columns = this.columns;
 
 		return (
 			<ReactTable
@@ -659,6 +662,22 @@ class ForceTable extends React.Component {
 		this.handleChangeCell = this.handleChangeCell.bind(this);
 		this.handleCallback = this.handleCallback.bind(this);
 		this.rowCallbackIndex = null;
+		this.columns = [{
+			minWidth: 50,
+			Header: 'Node',
+			accessor: 'node',
+			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
+		}, {
+			minWidth: 100,
+			Header: 'Force/Moment [N]/[N*mm]',
+			accessor: 'fm',
+			Cell: props => <input type='number' name='fm' value={props.value} onChange={this.handleChangeCell} />
+		}, {
+			minWidth: 50,
+			Header: 'Direction',
+			accessor: 'direction',
+			Cell: props => <input type='number' name='direction' value={props.value} onChange={this.handleChangeCell} />
+		}];
 	}
 	
 	handleCallback(index) {
@@ -697,22 +716,7 @@ class ForceTable extends React.Component {
 	}
 	
 	render() {
-		const columns = [{
-			minWidth: 50,
-			Header: 'Node',
-			accessor: 'node',
-			Cell: props => <input type='number' name='node' value={props.value} onChange={this.handleChangeCell} />
-		}, {
-			minWidth: 100,
-			Header: 'Force/Moment [N]/[N*mm]',
-			accessor: 'fm',
-			Cell: props => <input type='number' name='fm' value={props.value} onChange={this.handleChangeCell} />
-		}, {
-			minWidth: 50,
-			Header: 'Direction',
-			accessor: 'direction',
-			Cell: props => <input type='number' name='direction' value={props.value} onChange={this.handleChangeCell} />
-		}];
+		let columns = this.columns;
 
 		return (
 			<ReactTable

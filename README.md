@@ -4,7 +4,6 @@ Front end for FEA WebApp
 Calculates stress and nodal displacements for a frame or truss structure using finite element analysis
 
 ## TODO
-* Fix react-table rendering issue
 * Documentation
 * AWS
 * Error handling
@@ -16,3 +15,4 @@ Calculates stress and nodal displacements for a frame or truss structure using f
 * Yield conditions
 * Collision physics
 * Validate fea results
+* Tooltip
