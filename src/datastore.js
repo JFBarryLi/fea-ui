@@ -199,6 +199,25 @@ function DataStore() {
 		stringData: null
 	};
 	
+	// Render results onto the Three.js canvas
+	this.renderResult = function() {
+		
+		// Parse into {nodei: [x,y], ...}
+		var jsonData = JSON.parse(this.resultData.stringData);
+		jsonData = jsonData.nodal_coordinates;
+		jsonData = jsonData.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
+		jsonData = JSON.parse(jsonData);
+		// newNode format: [{node: 1, x: 1, y:1},...]
+		var newNodes = [];
+		for (var key in jsonData) {
+			var obj = {node: key, x: jsonData[key][0], y: jsonData[key][1]}
+			newNodes.push(obj);
+		}
+		this.nodes.data = newNodes;
+		updateScene();
+		
+	};
+	
 	// Construct the payload to be sent
 	this.requestPayload = function() {
 		payload = {
@@ -303,7 +322,7 @@ function DataStore() {
 				const getHttp = new XMLHttpRequest();
 				var geturl = baseurl + '/fea/structure/output/'+outputId;
 				getHttp.open("GET", geturl);
-				getHttp.send(content);
+				getHttp.send();
 				
 				getHttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.states == 200) {
