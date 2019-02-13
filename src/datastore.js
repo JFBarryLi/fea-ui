@@ -10,10 +10,10 @@ function DataStore() {
 
 	// Basic structural properties
 	this.properties = {
-		I: '1',
-		A: '1',
-		E: '1',
-		yMax: '1'
+		I: '30.664',
+		A: '19.625',
+		E: '200000',
+		yMax: '2.5'
 	};
 	
 	// Nodal coordinates
@@ -21,7 +21,7 @@ function DataStore() {
 		data : [
 			{
 				node: 1,
-				x: -100,
+				x: -200,
 				y: 0
 			},
 			{
@@ -31,12 +31,32 @@ function DataStore() {
 			},
 			{
 				node: 3,
-				x: 100,
+				x: 0,
 				y: 100
 			},
 			{
 				node: 4,
 				x: 100,
+				y: 100
+			},,
+			{
+				node: 5,
+				x: 200,
+				y: 0
+			},,
+			{
+				node: 6,
+				x: 100,
+				y: 0
+			},,
+			{
+				node: 7,
+				x: 0,
+				y: 0
+			},,
+			{
+				node: 8,
+				x: -100,
 				y: 0
 			},
 			{
@@ -65,7 +85,39 @@ function DataStore() {
 			},{
 				Element: 4,
 				nodei: 4,
+				nodej: 5
+			},,{
+				Element: 5,
+				nodei: 5,
+				nodej: 6
+			},,{
+				Element: 6,
+				nodei: 6,
+				nodej: 7
+			},,{
+				Element: 7,
+				nodei: 7,
+				nodej: 8
+			},,{
+				Element: 8,
+				nodei: 8,
 				nodej: 1
+			},,{
+				Element: 9,
+				nodei: 8,
+				nodej: 3
+			},,{
+				Element: 10,
+				nodei: 2,
+				nodej: 7
+			},,{
+				Element: 11,
+				nodei: 3,
+				nodej: 6
+			},,{
+				Element: 12,
+				nodei: 7,
+				nodej: 4
 			},{
 				Element: '',
 				nodei: '',
@@ -80,6 +132,12 @@ function DataStore() {
 			node: 1,
 			constraint: 1
 		},{
+			node: 1,
+			constraint: 2
+		},{
+			node: 5,
+			constraint: 2
+		},{
 			node: '',
 			constraint: ''
 		}]
@@ -88,9 +146,13 @@ function DataStore() {
 	// Input force
 	this.force = {
 		data : [{
-			node: 1,
-			fm: 1,
-			direction: 1
+			node: 2,
+			fm: -1,
+			direction: 2
+		},{
+			node: 4,
+			fm: -1,
+			direction: 2
 		},{
 			node: '',
 			fm: '',
