@@ -150,7 +150,7 @@ function DataStore() {
 			fm: -50000,
 			direction: 2
 		},{
-			node: 4,
+			node: 3,
 			fm: -50000,
 			direction: 2
 		},{
@@ -258,7 +258,7 @@ function DataStore() {
 		} else if (this.type == 'frame') {
 			var dof = 3;
 		} 
-		
+	
 		// Boundary Conditions
 		var boundary_conditions = [];
 		var supports = this.support.data;
@@ -267,7 +267,8 @@ function DataStore() {
 				var bc = dof * supports[support].node + supports[support].constraint - dof - 1;
 				boundary_conditions.push(bc);
 			}
-		}		
+		}
+		
 		
 		boundary_conditions = '[' + boundary_conditions.toString() + ']';
 		
@@ -285,7 +286,7 @@ function DataStore() {
 		}
 
 		force_vector = '[' + force_vector.toString() + ']';
-		
+		console.log(force_vector);
 		
 		var frame_or_truss = this.type;
 		
@@ -326,6 +327,7 @@ function DataStore() {
 					if (this.readyState == 4 && this.status == 200) {
 						dStore.resultData.stringData = this.responseText;
 						dStore.renderResult();
+						updateScene();
 					}
 				}
 				

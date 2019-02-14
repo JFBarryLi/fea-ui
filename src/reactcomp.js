@@ -858,6 +858,7 @@ class Analyze extends React.Component {
 	handleClick() {
 		store.history.vectors.push(store.vectorize());
 		store.history.index = store.history.index + 1;
+		store.history.storeState();
 		store.sendRequestData();
 	}
 	
