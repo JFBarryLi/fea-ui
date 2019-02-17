@@ -10,59 +10,23 @@ function DataStore() {
 
 	// Basic structural properties
 	this.properties = {
-		I: '30.664',
-		A: '19.625',
-		E: '10000',
-		yMax: '2.5'
+		Iy: '',
+		Iz: '',
+		J: '',
+		A: '',
+		E: '',
+		G: '',
+		yMax: ''
 	};
 	
 	// Nodal coordinates
 	this.nodes = {
 		data : [
 			{
-				node: 1,
-				x: -200,
-				y: 0
-			},
-			{
-				node: 2,
-				x: -100,
-				y: 100
-			},
-			{
-				node: 3,
-				x: 0,
-				y: 100
-			},
-			{
-				node: 4,
-				x: 100,
-				y: 100
-			},
-			{
-				node: 5,
-				x: 200,
-				y: 0
-			},
-			{
-				node: 6,
-				x: 100,
-				y: 0
-			},
-			{
-				node: 7,
-				x: 0,
-				y: 0
-			},
-			{
-				node: 8,
-				x: -100,
-				y: 0
-			},
-			{
 				node: '',
 				x: '',
-				y: ''
+				y: '',
+				z: ''
 			}
 		]
 	};
@@ -71,54 +35,6 @@ function DataStore() {
 	this.connectivity = {
 		data : [
 			{
-				Element: 1,
-				nodei: 1,
-				nodej: 2
-			},{
-				Element: 2,
-				nodei: 2,
-				nodej: 3
-			},{
-				Element: 3,
-				nodei: 3,
-				nodej: 4
-			},{
-				Element: 4,
-				nodei: 4,
-				nodej: 5
-			},{
-				Element: 5,
-				nodei: 5,
-				nodej: 6
-			},{
-				Element: 6,
-				nodei: 6,
-				nodej: 7
-			},{
-				Element: 7,
-				nodei: 7,
-				nodej: 8
-			},{
-				Element: 8,
-				nodei: 8,
-				nodej: 1
-			},{
-				Element: 9,
-				nodei: 8,
-				nodej: 3
-			},{
-				Element: 10,
-				nodei: 2,
-				nodej: 7
-			},{
-				Element: 11,
-				nodei: 3,
-				nodej: 6
-			},{
-				Element: 12,
-				nodei: 7,
-				nodej: 4
-			},{
 				Element: '',
 				nodei: '',
 				nodej: ''
@@ -128,40 +44,23 @@ function DataStore() {
 	
 	// Support/boundary conditions
 	this.support = {
-		data : [{
-			node: 1,
-			constraint: 1
-		},{
-			node: 1,
-			constraint: 2
-		},{
-			node: 5,
-			constraint: 2
-		},{
-			node: '',
-			constraint: ''
-		}]
+		data : [
+			{
+				node: '',
+				constraint: ''
+			}
+		]
 	};
 	
-	// Input force
-	this.force = {
-		data : [{
-			node: 2,
-			fm: -50000,
-			direction: 2
-		},{
-			node: 3,
-			fm: -50000,
-			direction: 2
-		},{
-			node: 7,
-			fm: 50000,
-			direction: 2
-		},{
-			node: '',
-			fm: '',
-			direction: ''
-		}]
+	// External Input
+	this.externalInput = {
+		data : [
+			{
+				node: '',
+				fm: '',
+				direction: ''
+			}
+		]
 	};
 	
 	// Load a structure into the app
@@ -171,7 +70,7 @@ function DataStore() {
 		this.nodes = object.nodes;
 		this.connectivity = object.connectivity;
 		this.support = object.support;
-		this.force = object.force;
+		this.externalInput = object.externalInput;
 	};
 	
 	// Export the current structure
@@ -182,7 +81,7 @@ function DataStore() {
 			nodes: this.nodes,
 			connectivity: this.connectivity,
 			support: this.support,
-			force: this.force
+			externalInput: this.externalInput
 		});
 
 		return strData;
@@ -196,15 +95,15 @@ function DataStore() {
 	// Render results onto the Three.js canvas
 	this.renderResult = function() {
 		
-		// Parse into {nodei: [x,y], ...}
+		// Parse into {nodei: [x,y,z], ...}
 		var jsonData = JSON.parse(this.resultData.stringData);
 		jsonData = jsonData.nodal_coordinates;
 		jsonData = jsonData.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
 		jsonData = JSON.parse(jsonData);
-		// newNode format: [{node: 1, x: 1, y:1},...]
+		// newNode format: [{node: 1, x: 1, y:1, z:1},...]
 		var newNodes = [];
 		for (var key in jsonData) {
-			var obj = {node: key, x: jsonData[key][0], y: jsonData[key][1]}
+			var obj = {node: key, x: jsonData[key][0], y: jsonData[key][1], z: jsonData[key][2]}
 			newNodes.push(obj);
 		}
 		this.nodes.data = newNodes;
@@ -215,10 +114,13 @@ function DataStore() {
 	// Construct the payload to be sent
 	this.requestPayload = function() {
 		payload = {
-			"moment_of_inertia":"",
+			"moment_of_inertia_y":"",
+			"moment_of_inertia_z":"",
 			"cross_sectional_area":"",
 			"y_max":"",
-			"modulus_elasticity":"",
+			"young_modulus":"",
+			"shear_modulus":"",
+			"torsional_constant":"",
 			"connectivity_table":"",
 			"nodal_coordinates":"",
 			"boundary_conditions":"",
@@ -226,10 +128,13 @@ function DataStore() {
 			"frame_or_truss":"frame"
 		};
 		
-		payload.moment_of_inertia = store.properties.I;
+		payload.moment_of_inertia_y = store.properties.Iy;
+		payload.moment_of_inertia_y = store.properties.Iz;
 		payload.cross_sectional_area = store.properties.A;
 		payload.y_max = store.properties.yMax;
-		payload.modulus_elasticity = store.properties.E;
+		payload.young_modulus = store.properties.E;
+		payload.shear_modulus = store.properties.G;
+		payload.torsional_constant = store.properties.J;
 		
 		var nodal_coordinates = {};
 		var nodes = this.nodes.data;
@@ -254,9 +159,9 @@ function DataStore() {
 				
 		// Degree of Freedom
 		if (this.type == 'truss') {
-			var dof = 2;
-		} else if (this.type == 'frame') {
 			var dof = 3;
+		} else if (this.type == 'frame') {
+			var dof = 6;
 		} 
 	
 		// Boundary Conditions
@@ -277,16 +182,15 @@ function DataStore() {
 		maxNode = Math.max.apply(Math, obj.map(function(o) { return o.node; }));
 		var flen = maxNode * dof;
 		var force_vector = new Array(flen).fill(0);
-		var forces = this.force.data;
-		for (var force in forces) {
-			if (forces[force].node !== "") {
-				var findex = dof * forces[force].node + forces[force].direction - dof - 1;
-				force_vector[findex] = forces[force].fm;
+		var inputs = this.externalInput.data;
+		for (var input in inputs) {
+			if (inputs[input].node !== "") {
+				var findex = dof * inputs[input].node + inputs[input].direction - dof - 1;
+				input_vector[findex] = inputs[input].fm;
 			}
 		}
 
 		force_vector = '[' + force_vector.toString() + ']';
-		console.log(force_vector);
 		
 		var frame_or_truss = this.type;
 		
@@ -339,9 +243,12 @@ function DataStore() {
 	// Clear fields in data store
 	this.clearFields = function() {
 		this.properties = {
-			I: '',
+			Iy: '',
+			Iz: '',
+			J: '',
 			A: '',
 			E: '',
+			G: '',
 			yMax: ''
 		};
 		this.nodes = {
@@ -349,7 +256,8 @@ function DataStore() {
 				{
 					node: '',
 					x: '',
-					y: ''
+					y: '',
+					z: ''
 				}
 			]
 		};
@@ -368,7 +276,7 @@ function DataStore() {
 				constraint: ''
 			}]
 		};
-		this.force = {
+		this.externalInput = {
 			data : [{
 				node: '',
 				fm: '',
@@ -388,7 +296,7 @@ function DataStore() {
 		var nodes = this.nodes.data;
 		for (var key in nodes) {
 			if (nodes[key].node !== '' && nodes[key].node !== null) {
-				nodeVectors.push(new THREE.Vector3(nodes[key].x, nodes[key].y, 0));
+				nodeVectors.push(new THREE.Vector3(nodes[key].x, nodes[key].y, nodes[key].z));
 			}
 		}
 		
@@ -403,7 +311,7 @@ function DataStore() {
 						var j = nodes[nKey];
 					}
 				}
-				tubeVectors.push( [new THREE.Vector3(i.x,i.y,0),new THREE.Vector3(j.x,j.y,0)] )
+				tubeVectors.push( [new THREE.Vector3(i.x,i.y,i.z),new THREE.Vector3(j.x,j.y,j.z)] )
 			}
 		}
 		
@@ -418,14 +326,14 @@ function DataStore() {
 		properties: [],
 		connectivity: [],
 		support: [],
-		force: [],
+		externalInput: [],
 		vectors: [],
 		init : function() {
 			this.nodes[0] = JSON.parse(JSON.stringify(sThis.nodes));
 			this.properties[0] = JSON.parse(JSON.stringify(sThis.properties));
 			this.connectivity[0] = JSON.parse(JSON.stringify(sThis.connectivity));
 			this.support[0] = JSON.parse(JSON.stringify(sThis.support));
-			this.force[0] = JSON.parse(JSON.stringify(sThis.force));
+			this.externalInput[0] = JSON.parse(JSON.stringify(sThis.externalInput));
 			this.vectors[0] = sThis.vectorize();
 		},
 		storeState : function() {
@@ -433,14 +341,14 @@ function DataStore() {
 			this.properties.push(JSON.parse(JSON.stringify(sThis.properties)));
 			this.connectivity.push(JSON.parse(JSON.stringify(sThis.connectivity)));
 			this.support.push(JSON.parse(JSON.stringify(sThis.support)));
-			this.force.push(JSON.parse(JSON.stringify(sThis.force)));
+			this.externalInput.push(JSON.parse(JSON.stringify(sThis.externalInput)));
 		},
 		loadState : function() {
 			sThis.nodes = JSON.parse(JSON.stringify(this.nodes[this.index]));
 			sThis.properties = JSON.parse(JSON.stringify(this.properties[this.index]));
 			sThis.connectivity = JSON.parse(JSON.stringify(this.connectivity[this.index]));
 			sThis.support = JSON.parse(JSON.stringify(this.support[this.index]));
-			sThis.force = JSON.parse(JSON.stringify(this.force[this.index]));
+			sThis.externalInput = JSON.parse(JSON.stringify(this.externalInput[this.index]));
 		}
 	};
 	
