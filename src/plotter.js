@@ -91,8 +91,8 @@ function plotter() {
 		// Lighting
 		scene.add( new THREE.AmbientLight( 0xf0f0f0 ) );
 		var light = new THREE.SpotLight( 0xffffff, 1.5 );
-		light.position.set( 0, 1500, 200 );
-		light.castShadow = true;
+		light.position.set( 0, 1000, 700 );
+		light.castShadow = true;1
 		light.shadow = new THREE.LightShadow( new THREE.PerspectiveCamera( 70, 1, 200, 2000 ) );
 		light.shadow.bias = - 0.000222;
 		light.shadow.mapSize.width = 1024;
