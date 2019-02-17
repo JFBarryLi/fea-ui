@@ -199,3 +199,7 @@
 	background-color: inherit;
 	border: none;
 }
+
+.form-group {
+	margin-bottom: none;
+}

@@ -215,7 +215,6 @@ class Collapsible extends React.Component {
 		this.setState({ collapse: !this.state.collapse });
 	}
 }
-	
 
 class PropertiesForm extends React.Component {
 	/**	
@@ -251,19 +250,46 @@ class PropertiesForm extends React.Component {
 		let className = 'properties__form';
 		return (
 			<div className={className}>
+				<small className="form-text text-muted">Cross-section properties</small>
 				<form>
 					<div className="form-group">
-						<label htmlFor="moment_of_inertia"><strong><i>I:</i></strong></label>
+						<label htmlFor="moment_of_inertia_y"><strong><i>I<sub>y</sub>:</i></strong></label>
 						<input 
 							type="number" 
-							name="I" 
-							value={store.properties.I}
+							name="Iy" 
+							value={store.properties.Iy}
 							onChange={this.handleInputChange}
 							onClick={this.handleInputClick}
 							className="form-control" 
-							id="moment_of_inertia" 
+							id="moment_of_inertia_y" 
 						/>
-						<small className="form-text text-muted">Moment of Inertia [mm<sup>4</sup>]</small>
+						<small className="form-text text-muted">Moment of Inertia with respect to the y-axis [mm<sup>4</sup>]</small>
+					</div>
+					<div className="form-group">
+						<label htmlFor="moment_of_inertia_z"><strong><i>I<sub>z</sub>:</i></strong></label>
+						<input 
+							type="number" 
+							name="Iz" 
+							value={store.properties.Iz}
+							onChange={this.handleInputChange}
+							onClick={this.handleInputClick}
+							className="form-control" 
+							id="moment_of_inertia_z" 
+						/>
+						<small className="form-text text-muted">Moment of Inertia with respect to the z-axis [mm<sup>4</sup>]</small>
+					</div>
+					<div className="form-group">
+						<label htmlFor="torsional_constant"><strong><i>J:</i></strong></label>
+						<input 
+							type="number" 
+							name="J" 
+							value={store.properties.J}
+							onChange={this.handleInputChange} 
+							onClick={this.handleInputClick}
+							className="form-control" 
+							id="torsional_constant" 
+						/>
+						<small className="form-text text-muted">Torsional Constant [mm<sup>4</sup>]</small>
 					</div>
 					<div className="form-group">
 						<label htmlFor="cross_sectional_area"><strong><i>A:</i></strong></label>
@@ -279,7 +305,7 @@ class PropertiesForm extends React.Component {
 						<small className="form-text text-muted">Cross Sectional Area [mm<sup>2</sup>]</small>
 					</div>
 					<div className="form-group">
-						<label htmlFor="modulus_elasticity"><strong><i>E:</i></strong></label>
+						<label htmlFor="young_modulus"><strong><i>E:</i></strong></label>
 						<input 
 							type="number" 
 							name="E" 
@@ -287,9 +313,22 @@ class PropertiesForm extends React.Component {
 							onChange={this.handleInputChange} 
 							onClick={this.handleInputClick}
 							className="form-control" 
-							id="modulus_elasticity" 
+							id="young_modulus" 
 						/>
 						<small className="form-text text-muted">Modulus of Elasticity [MPa]</small>
+					</div>
+					<div className="form-group">
+						<label htmlFor="shear_modulus"><strong><i>G:</i></strong></label>
+						<input 
+							type="number" 
+							name="G" 
+							value={store.properties.G}
+							onChange={this.handleInputChange} 
+							onClick={this.handleInputClick}
+							className="form-control" 
+							id="shear_modulus" 
+						/>
+						<small className="form-text text-muted">Shear Modulus [MPa]</small>
 					</div>
 					<div className="form-group">
 						<label htmlFor="y_max"><strong><i>y<sub>max</sub>:</i></strong></label>
@@ -342,7 +381,7 @@ class NodeTable extends React.Component {
 		this.previousName = null;
 		this.previousIndex = null;
 		this.columns = [{
-			minWidth: 50,
+			minWidth: 20,
 			Header: 'Node',
 			accessor: 'node',
 			Cell: props => <input type='number' 
@@ -351,7 +390,7 @@ class NodeTable extends React.Component {
 														onChange={this.handleChangeCell} 
 														onClick={this.handleClickCell} />
 		}, {
-			minWidth: 50,
+			minWidth: 30,
 			Header: 'x [mm]',
 			accessor: 'x',
 			Cell: props => <input type='number' 
@@ -360,11 +399,20 @@ class NodeTable extends React.Component {
 														onChange={this.handleChangeCell} 
 														onClick={this.handleClickCell} />
 		}, {
-			minWidth: 50,
+			minWidth: 30,
 			Header: 'y [mm]',
 			accessor: 'y',
 			Cell: props => <input type='number' 
 														name='y' 
+														value={props.value} 
+														onChange={this.handleChangeCell} 
+														onClick={this.handleClickCell} />
+		}, {
+			minWidth: 30,
+			Header: 'z [mm]',
+			accessor: 'z',
+			Cell: props => <input type='number' 
+														name='z' 
 														value={props.value} 
 														onChange={this.handleChangeCell} 
 														onClick={this.handleClickCell} />
@@ -389,7 +437,7 @@ class NodeTable extends React.Component {
 		let newData = store.nodes.data.slice();
 		// Create new row
 		if (store.nodes.data.length-1 == this.rowCallbackIndex.index) {
-			newData.push({node: '', x: '', y: ''});
+			newData.push({node: '', x: '', y: '', z: ''});
 		}
 		
 		switch(name) {
@@ -401,6 +449,9 @@ class NodeTable extends React.Component {
 				break;
 			case 'y':
 				newData[this.rowCallbackIndex.index].y = (isNaN(parseFloat(value)) ? "" : parseFloat(value));
+				break;
+			case 'z':
+				newData[this.rowCallbackIndex.index].z = (isNaN(parseFloat(value)) ? "" : parseFloat(value));
 				break;
 		}
 
@@ -707,7 +758,7 @@ class Support extends Collapsible {
 			<div className={className}>
 				<a className='input__title' onClick={this.toggle}>Support</a>
 				<Collapse isOpen={this.state.collapse}>
-					<small className='form-text text-muted table-text'>Constraint: x=1, y=2, theta=3</small>
+					<small className='form-text text-muted table-text'>Constraint: x=1, y=2, z=3, thetax=3, thetay=4, thetaz=5</small>
 					<SupportTable />
 				</Collapse>
 			</div>
@@ -715,7 +766,7 @@ class Support extends Collapsible {
 	}
 }
 
-class ForceTable extends React.Component {
+class ExternalInputTable extends React.Component {
 	/**	
 		*	react-table component for storing applied force and moment information
 		*
@@ -772,9 +823,9 @@ class ForceTable extends React.Component {
 		const name = target.name;
 		
 		// Updating state.data
-		let newData = store.force.data.slice();
+		let newData = store.externalInput.data.slice();
 		// Create new row
-		if (store.force.data.length-1 == this.rowCallbackIndex.index) {
+		if (store.externalInput.data.length-1 == this.rowCallbackIndex.index) {
 			newData.push({node: '', fm: '', direction: ''});
 		}
 		
@@ -791,7 +842,7 @@ class ForceTable extends React.Component {
 		}
 
 		// Updating store data
-		store.force.data = newData;
+		store.externalInput.data = newData;
 		this.forceUpdate();
 
 	}
@@ -803,7 +854,7 @@ class ForceTable extends React.Component {
 			<ReactTable
 				className='-striped -highlight'
 				defaultPageSize={10}
-				data={store.force.data}
+				data={store.externalInput.data}
 				columns={columns}
 				
 				getTdProps={(rowInfo, index) => {
@@ -824,20 +875,20 @@ class ForceTable extends React.Component {
 	}
 }
 
-class Force extends Collapsible {
+class ExternalInput extends Collapsible {
 	/**	
-		*	Force container
+		*	External Input container
 		*
 	**/
 	
 	render() {
-		let className = 'input force mid-col';
+		let className = 'input external-input mid-col';
 		return (
 			<div className={className}>
-				<a className='input__title' onClick={this.toggle}>Force</a>
+				<a className='input__title' onClick={this.toggle}>External Input</a>
 				<Collapse isOpen={this.state.collapse}>
-					<small className='form-text text-muted table-text'>Direction: x=1, y=2, theta=3</small>
-					<ForceTable />
+					<small className='form-text text-muted table-text'>Direction: x=1, y=2, z=3, thetax=4, thetay=5, thetaz=6</small>
+					<ExternalInputTable />
 				</Collapse>
 			</div>
 		);
@@ -896,7 +947,7 @@ class Layout extends React.Component {
 						<Connectivity />
 						<Support />
 					</div>
-					<Force />
+					<ExternalInput />
 				</div>
 			</div>
 		);
