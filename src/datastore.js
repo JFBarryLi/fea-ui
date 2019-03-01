@@ -129,7 +129,7 @@ function DataStore() {
 		};
 		
 		payload.moment_of_inertia_y = store.properties.Iy;
-		payload.moment_of_inertia_y = store.properties.Iz;
+		payload.moment_of_inertia_z = store.properties.Iz;
 		payload.cross_sectional_area = store.properties.A;
 		payload.y_max = store.properties.yMax;
 		payload.young_modulus = store.properties.E;
@@ -140,7 +140,7 @@ function DataStore() {
 		var nodes = this.nodes.data;
 		for (var ele in nodes) {
 			if (nodes[ele].node !== "") {
-				nodal_coordinates[nodes[ele].node] = [nodes[ele].x, nodes[ele].y]
+				nodal_coordinates[nodes[ele].node] = [nodes[ele].x, nodes[ele].y, nodes[ele].z]
 			}
 		}
 		nodal_coordinates = JSON.stringify(nodal_coordinates);
@@ -181,7 +181,7 @@ function DataStore() {
 		var obj = this.nodes.data;
 		maxNode = Math.max.apply(Math, obj.map(function(o) { return o.node; }));
 		var flen = maxNode * dof;
-		var force_vector = new Array(flen).fill(0);
+		var input_vector = new Array(flen).fill(0);
 		var inputs = this.externalInput.data;
 		for (var input in inputs) {
 			if (inputs[input].node !== "") {
@@ -190,14 +190,14 @@ function DataStore() {
 			}
 		}
 
-		force_vector = '[' + force_vector.toString() + ']';
+		input_vector = '[' + input_vector.toString() + ']';
 		
 		var frame_or_truss = this.type;
 		
 		payload.connectivity_table = connectivity_table;
 		payload.nodal_coordinates = nodal_coordinates;
 		payload.boundary_conditions = boundary_conditions;
-		payload.force_vector = force_vector;
+		payload.force_vector = input_vector;
 		payload.frame_or_truss = frame_or_truss;
 		
 		payload = JSON.stringify(payload);

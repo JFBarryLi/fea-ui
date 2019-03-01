@@ -340,17 +340,17 @@ function presetBridge() {
 		data : [
 			{
 				node: 2,
-				fm: -50000,
+				fm: -500000,
 				direction: 2
 			},
 			{
 				node: 3,
-				fm: -50000,
+				fm: -500000,
 				direction: 2
 			},
 			{
-				node: 7,
-				fm: 50000,
+				node: 15,
+				fm: 500000,
 				direction: 2
 			},
 			{
