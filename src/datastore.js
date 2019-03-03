@@ -207,6 +207,10 @@ function DataStore() {
 	
 	// API call 
 	this.sendRequestData = function() {
+		var ajaxLoader = document.body.getElementsByClassName('ajax-loader')[0];
+		ajaxLoader.style.display = 'block';
+		
+		
 		var Http = new XMLHttpRequest();
 		var baseurl = 'http://127.0.0.1:8000';
 		var posturl = baseurl + '/fea/structure/input/';
@@ -235,6 +239,7 @@ function DataStore() {
 						dStore.history.vectors.push(store.vectorize());
 						dStore.history.index = store.history.index + 1;
 						dStore.history.storeState();
+						ajaxLoader.style.display = 'none';
 					}
 				}
 				

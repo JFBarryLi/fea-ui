@@ -920,6 +920,22 @@ class Analyze extends React.Component {
 	}
 }
 
+class AjaxLoader extends React.Component {
+	/**
+		* Ajax Loading Wheel
+		*
+	**/
+	
+	render() {
+		let className = 'ajax-loader';
+		return (
+			<img className={className} src="img/ajax-loader.gif"></img>
+		);
+	}
+	
+}
+
+
 class Layout extends React.Component {
 	/**	
 		*	Layout component
@@ -944,6 +960,7 @@ class Layout extends React.Component {
 					</div>
 					<ExternalInput />
 				</div>
+				<AjaxLoader />
 			</div>
 		);
 	}
