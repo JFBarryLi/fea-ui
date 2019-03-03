@@ -232,6 +232,9 @@ function DataStore() {
 						dStore.resultData.stringData = this.responseText;
 						dStore.renderResult();
 						updateScene();
+						dStore.history.vectors.push(store.vectorize());
+						dStore.history.index = store.history.index + 1;
+						dStore.history.storeState();
 					}
 				}
 				
@@ -329,6 +332,7 @@ function DataStore() {
 		externalInput: [],
 		vectors: [],
 		init : function() {
+			presetBridge();
 			this.nodes[0] = JSON.parse(JSON.stringify(sThis.nodes));
 			this.properties[0] = JSON.parse(JSON.stringify(sThis.properties));
 			this.connectivity[0] = JSON.parse(JSON.stringify(sThis.connectivity));

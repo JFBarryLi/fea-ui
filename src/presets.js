@@ -361,5 +361,3 @@ function presetBridge() {
 		]
 	};
 }
-
-presetBridge();

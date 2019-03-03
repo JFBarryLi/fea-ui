@@ -38,8 +38,6 @@ class Options extends React.Component {
 			case 'buttUndo':
 				if (store.history.index > 0) {
 					store.history.undoIndex = store.history.undoIndex + 1;
-					// store.history.vectors.push(store.vectorize());
-					// store.history.storeState();
 					plotter.clearScene();
 					store.history.index = store.history.index - 1;
 					plotter.loadNodes(store.history.vectors[store.history.index].nodes);
@@ -907,9 +905,6 @@ class Analyze extends React.Component {
 	}
 	
 	handleClick() {
-		store.history.vectors.push(store.vectorize());
-		store.history.index = store.history.index + 1;
-		store.history.storeState();
 		store.sendRequestData();
 	}
 	
