@@ -59,6 +59,7 @@ function plotter() {
 				if (intersects.length != 0) {
 					// TO DO
 					// intersects[0].object.material.color.set( 0xff0000 );
+					console.log(intersects[0].object.customId);
 					render();
 				}
 
@@ -164,13 +165,14 @@ function plotter() {
 	}
 	
 	// Add a node to plot
-	this.addNodeObject = function( position ) {
+	this.addNodeObject = function(id, position) {
 		var material = new THREE.MeshLambertMaterial( { color: 0x705D56 } );
 		var object = new THREE.Mesh( geometry, material );
 		object.position.copy( position );
 		object.castShadow = true;
 		object.receiveShadow = true;
 		object.name = 'node';
+		object.customId = id;
 		scene.add( object );
 		render();
 		return object;
@@ -179,7 +181,7 @@ function plotter() {
 	// Load a set of nodes
 	this.loadNodes = function( new_positions ) {
 		for ( var i = 0; i < new_positions.length; i ++ ) {
-			this.addNodeObject( new_positions[ i ] );
+			this.addNodeObject(new_positions[i].id, new_positions[i].vector );
 		}
 		if (new_positions.length == 0) {
 			this.clearScene();
@@ -189,7 +191,7 @@ function plotter() {
 	};
 	
 	// Add tube between nodes
-	this.addTubeObject = function( nodei_position, nodej_position ) {
+	this.addTubeObject = function(id, nodei_position, nodej_position) {
 		
 		function straightLine() {
 
@@ -222,6 +224,7 @@ function plotter() {
 		object.castShadow = true;
 		object.receiveShadow = true;
 		object.name = 'tube';
+		object.customId = id;
 		scene.add( object );
 		render();
 		return object;
@@ -229,8 +232,8 @@ function plotter() {
 
 	// Load a set of tubes
 	this.loadTubes = function( tube_elements ) {
-		for ( var i = 0; i < tube_elements.length; i ++ ) {
-			this.addTubeObject( tube_elements[ i ][ 0 ], tube_elements[ i ][ 1 ] );
+		for (var i = 0; i < tube_elements.length; i ++) {
+			this.addTubeObject(tube_elements[i].id, tube_elements[i].vector[0], tube_elements[i].vector[1] );
 		}
 		
 		if (tube_elements.length == 0) {

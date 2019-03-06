@@ -304,7 +304,7 @@ function DataStore() {
 		var nodes = this.nodes.data;
 		for (var key in nodes) {
 			if (nodes[key].node !== '' && nodes[key].node !== null) {
-				nodeVectors.push(new THREE.Vector3(nodes[key].x, nodes[key].y, nodes[key].z));
+				nodeVectors.push({id: nodes[key].node, vector: new THREE.Vector3(nodes[key].x, nodes[key].y, nodes[key].z)});
 			}
 		}
 		
@@ -319,7 +319,7 @@ function DataStore() {
 						var j = nodes[nKey];
 					}
 				}
-				tubeVectors.push( [new THREE.Vector3(i.x,i.y,i.z),new THREE.Vector3(j.x,j.y,j.z)] )
+				tubeVectors.push( {id: tubes[key].Element, vector: [new THREE.Vector3(i.x,i.y,i.z),new THREE.Vector3(j.x,j.y,j.z)]} )
 			}
 		}
 		
