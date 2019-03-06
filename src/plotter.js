@@ -8,10 +8,11 @@ function plotter() {
 
 	// Initialize variables
 	var container;
-	var camera, scene, renderer;
+	var camera, scene, raycaster, renderer;
 	var positions = [];
 	var point = new THREE.Vector3();
 	var geometry = new THREE.SphereBufferGeometry( 20, 20, 20 );
+	var mouse = new THREE.Vector2(), INTERSECTED;
 	
 	init();
 	
@@ -39,6 +40,33 @@ function plotter() {
 		controls.damping = 0.2;
 		controls.enabled = true;
 		controls.addEventListener( 'change', render );
+		
+		// Raycaster
+		raycaster = new THREE.Raycaster();
+		
+		function onMouseClick(event) {
+			var canvasBounds = renderer.context.canvas.getBoundingClientRect();
+			if (event.clientX >= canvasBounds.left && event.clientX <= canvasBounds.right && event.clientY >= canvasBounds.top && event.clientY <= canvasBounds.bottom) {
+				// Normalized mouse coordinates
+				mouse.x = ((event.clientX - canvasBounds.left) / (canvasBounds.right - canvasBounds.left)) * 2 - 1;
+				mouse.y = -((event.clientY - canvasBounds.top) / (canvasBounds.bottom - canvasBounds.top)) * 2 + 1;
+				
+				raycaster.setFromCamera(mouse, camera);
+				
+				// Objects that intersect with the mouse ray
+				var intersects = raycaster.intersectObjects(scene.children);
+				
+				if (intersects.length != 0) {
+					// TO DO
+					// intersects[0].object.material.color.set( 0xff0000 );
+					render();
+				}
+
+			}	
+		}
+		
+		// Mouse move event listener for ray caster
+		document.addEventListener('click', onMouseClick, false);
 		
 		// Keyboard input doesn't work when OrbitControls is enabled
 		document.addEventListener('click', function(e) {
