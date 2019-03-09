@@ -191,7 +191,7 @@ function plotter() {
 	};
 	
 	// Add tube between nodes
-	this.addTubeObject = function(id, nodei_position, nodej_position) {
+	this.addTubeObject = function(id, nodei_position, nodej_position, color) {
 		
 		function straightLine() {
 
@@ -219,7 +219,7 @@ function plotter() {
 		var path = new straightLine();
 		
 		var tubeGeometry = new THREE.TubeGeometry( path, 40, 5, 14, false );
-		var material = new THREE.MeshBasicMaterial( { color: 0x70ABAF } );
+		var material = new THREE.MeshBasicMaterial( { color: color } );
 		var object = new THREE.Mesh( tubeGeometry, material );
 		object.castShadow = true;
 		object.receiveShadow = true;
@@ -233,7 +233,7 @@ function plotter() {
 	// Load a set of tubes
 	this.loadTubes = function( tube_elements ) {
 		for (var i = 0; i < tube_elements.length; i ++) {
-			this.addTubeObject(tube_elements[i].id, tube_elements[i].vector[0], tube_elements[i].vector[1] );
+			this.addTubeObject(tube_elements[i].id, tube_elements[i].vector[0], tube_elements[i].vector[1] , tube_elements[i].color);
 		}
 		
 		if (tube_elements.length == 0) {

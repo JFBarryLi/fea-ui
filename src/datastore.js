@@ -235,7 +235,6 @@ function DataStore() {
 					if (this.readyState == 4 && this.status == 200) {
 						dStore.resultData.stringData = this.responseText;
 						dStore.renderResult();
-						updateScene();
 						dStore.history.vectors.push(store.vectorize());
 						dStore.history.index = store.history.index + 1;
 						dStore.history.storeState();
@@ -308,6 +307,11 @@ function DataStore() {
 			}
 		}
 		
+		// Tube color
+		this.colorize = function() {
+			
+		}
+		
 		// Create the tube vectors
 		var tubes = this.connectivity.data;
 		for (var key in tubes) {
@@ -319,7 +323,7 @@ function DataStore() {
 						var j = nodes[nKey];
 					}
 				}
-				tubeVectors.push( {id: tubes[key].Element, vector: [new THREE.Vector3(i.x,i.y,i.z),new THREE.Vector3(j.x,j.y,j.z)]} )
+				tubeVectors.push( {id: tubes[key].Element, vector: [new THREE.Vector3(i.x,i.y,i.z),new THREE.Vector3(j.x,j.y,j.z)], color: 0x70ABAF} )
 			}
 		}
 		
