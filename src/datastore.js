@@ -95,19 +95,59 @@ function DataStore() {
 	// Render results onto the Three.js canvas
 	this.renderResult = function() {
 		
-		// Parse into {nodei: [x,y,z], ...}
+		plotter.clearScene();
+		
 		var jsonData = JSON.parse(this.resultData.stringData);
-		jsonData = jsonData.nodal_coordinates;
-		jsonData = jsonData.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
-		jsonData = JSON.parse(jsonData);
+		
+		// Parse into {nodei: [x,y,z], ...}
+		nodeData = jsonData.nodal_coordinates;
+		nodeData = nodeData.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
+		nodeData = JSON.parse(nodeData);
+		
 		// newNode format: [{node: 1, x: 1, y:1, z:1},...]
 		var newNodes = [];
-		for (var key in jsonData) {
-			var obj = {node: key, x: jsonData[key][0], y: jsonData[key][1], z: jsonData[key][2]}
+		for (var key in nodeData) {
+			var obj = {node: key, x: nodeData[key][0], y: nodeData[key][1], z: nodeData[key][2]}
 			newNodes.push(obj);
 		}
 		this.nodes.data = newNodes;
-		updateScene();
+		
+		// Stress data
+		var stressData = jsonData.stress;
+		stressData = stressData.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
+		stressData = JSON.parse(stressData);
+		
+		// Map stress to color
+		var uniqueStress = new Set (Object.values(stressData).sort());
+		var n = Object.keys(stressData).length;
+		
+		var uniqueStressArray = Array.from(uniqueStress);
+
+		var lut = new THREE.Lut( "cooltowarm", 512 );
+		
+		if (n == 1) {
+			lut.setMax(uniqueStressArray[0]+1);
+			lut.setMin(uniqueStressArray[0]-1);
+		} else {
+			lut.setMax(Math.max.apply(null,uniqueStressArray));
+			lut.setMin(Math.min.apply(null,uniqueStressArray));
+		}
+		
+		// Color map legend
+		var legend = lut.setLegendOn( { 'layout': 'horizontal', 'position': { 'x': 0, 'y': 0, 'z': 0 } } );
+		var labels = lut.setLegendLabels( { 'title': 'Stress', 'um': 'MPa', 'ticks': 5 } );
+
+		
+		plotter.createLegend(legend, labels);
+
+		var cmap = {};
+		for (var i = 1; i <= n; i++ ) {
+			cmap[i] = lut.getColor(stressData[i]);
+		}
+		
+		var sceneObjects = store.vectorize(cmap);
+		plotter.loadNodes(sceneObjects.nodes);
+		plotter.loadTubes(sceneObjects.tubes);
 		
 	};
 	
@@ -295,7 +335,7 @@ function DataStore() {
 	
 	
 	// Convert nodal coordinates and connectivity to 3D vectors
-	this.vectorize = function() {
+	this.vectorize = function(color = 0x70ABAF) {
 		var nodeVectors = [];
 		var tubeVectors = [];
 		
@@ -305,11 +345,6 @@ function DataStore() {
 			if (nodes[key].node !== '' && nodes[key].node !== null) {
 				nodeVectors.push({id: nodes[key].node, vector: new THREE.Vector3(nodes[key].x, nodes[key].y, nodes[key].z)});
 			}
-		}
-		
-		// Tube color
-		this.colorize = function() {
-			
 		}
 		
 		// Create the tube vectors
@@ -323,7 +358,11 @@ function DataStore() {
 						var j = nodes[nKey];
 					}
 				}
-				tubeVectors.push( {id: tubes[key].Element, vector: [new THREE.Vector3(i.x,i.y,i.z),new THREE.Vector3(j.x,j.y,j.z)], color: 0x70ABAF} )
+				if (color == 0x70ABAF) {
+					tubeVectors.push( {id: tubes[key].Element, vector: [new THREE.Vector3(i.x,i.y,i.z),new THREE.Vector3(j.x,j.y,j.z)], color: color} )
+				} else {
+					tubeVectors.push( {id: tubes[key].Element, vector: [new THREE.Vector3(i.x,i.y,i.z),new THREE.Vector3(j.x,j.y,j.z)], color: color[tubes[key].Element]} )
+				}
 			}
 		}
 		
@@ -364,7 +403,6 @@ function DataStore() {
 			sThis.externalInput = JSON.parse(JSON.stringify(this.externalInput[this.index]));
 		}
 	};
-	
 	
 }
 

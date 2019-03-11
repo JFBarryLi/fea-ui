@@ -8,7 +8,7 @@ function plotter() {
 
 	// Initialize variables
 	var container;
-	var camera, scene, raycaster, renderer;
+	var camera, scene, legendScene, raycaster, renderer, legendRenderer;
 	var positions = [];
 	var point = new THREE.Vector3();
 	var geometry = new THREE.SphereBufferGeometry( 20, 20, 20 );
@@ -18,7 +18,7 @@ function plotter() {
 	
 	// Initialize Three.js
 	function init() {
-		var container = document.getElementsByClassName("plotter-container")[0];
+		container = document.getElementsByClassName("plotter-container")[0];
 		var options = document.getElementsByClassName("options")[0];
 	
 		baseGrid();
@@ -34,7 +34,28 @@ function plotter() {
 		
 		renderer.shadowMap.enabled = true;
 		container.insertBefore(renderer.domElement, options);
+		
+		// Legend
+		legendRenderer = new THREE.WebGLRenderer();
+		legendRenderer.setPixelRatio( window.devicePixelRatio );
+		
+		if (document.body.clientWidth <= 1200) {
+			legendRenderer.setSize( document.body.clientWidth, 75 );
+		} else {
+			legendRenderer.setSize( 1200, 75 );
+		}
+		container.insertBefore(legendRenderer.domElement, options);
+		
+		// Legend Scene
+		legendScene = new THREE.Scene();
+		legendScene.background = new THREE.Color( 0xffffff );
 
+		// Legend Camera
+		legendCamera = new THREE.PerspectiveCamera( 60, document.body.clientWidth / 75 );
+		legendCamera.position.set( 0, 0, 1 );
+		legendRenderer.render( legendScene, legendCamera );
+		
+		
 		// Controls
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 		controls.damping = 0.2;
@@ -60,6 +81,7 @@ function plotter() {
 					// TO DO
 					// intersects[0].object.material.color.set( 0xff0000 );
 					console.log(intersects[0].object.customId);
+					
 					render();
 				}
 
@@ -243,6 +265,12 @@ function plotter() {
 		render();
 	};
 	
+	// Method that allow adding to the scene
+	this.addToScene = function(object) {
+			scene.add( object );
+			render();
+	}
+	
 	// Clear scene
 	this.clearScene = function() {
 		for ( var i = 0; i < scene.children.length; i ++ ) {
@@ -251,7 +279,13 @@ function plotter() {
 				i --;
 			}
 		}
-
+		
+		for ( var i = 0; i < legendScene.children.length; i ++ ) {
+			legendScene.remove(legendScene.children[i]);
+			i --;
+		}
+		
+		legendRenderer.render( legendScene, legendCamera );
 		render();
 	}
 	
@@ -267,16 +301,50 @@ function plotter() {
 		// Prevent resize when scrolling on mobile
 		if (owidth !== newWidth) {
 			if (document.body.clientWidth <= 1200) {
+				// Main canvas
 				camera.aspect = document.body.clientWidth / (window.innerHeight-300);
 				camera.updateProjectionMatrix();
 				renderer.setSize( document.body.clientWidth, (window.innerHeight-300) );
 				render();
+				
+				// Legend canvas
+				legendCamera.aspect = document.body.clientWidth / 75;
+				legendCamera.updateProjectionMatrix();
+				legendRenderer.setSize( document.body.clientWidth, 75 );
+				legendRenderer.render( legendScene, legendCamera );
+				
 			} else {
+				// Main canvas
 				camera.aspect = 1200 / (window.innerHeight-300);
 				camera.updateProjectionMatrix();
 				renderer.setSize( 1200, (window.innerHeight-300) );
 				render();
+				
+				// Legend Canvas
+				legendCamera.aspect = 1200 / 75;
+				legendCamera.updateProjectionMatrix();
+				legendRenderer.setSize( 1200, 75 );
+				legendRenderer.render( legendScene, legendCamera );
 			}
 		}
 	}
+	
+	this.createLegend = function(legend, labels) {
+		
+		for ( var i = 0; i < legendScene.children.length; i ++ ) {
+			legendScene.remove(legendScene.children[i]);
+			i --;
+		}
+
+		// Adding legend to the scene
+		legendScene.add( legend );
+		legendScene.add( labels[ 'title' ] );
+
+		for ( var i = 0; i < Object.keys( labels[ 'ticks' ] ).length; i ++ ) {
+			legendScene.add( labels[ 'ticks' ][ i ] );
+			legendScene.add( labels[ 'lines' ][ i ] );
+		}
+		legendRenderer.render( legendScene, legendCamera );
+	}
+	
 }
