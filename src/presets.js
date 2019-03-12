@@ -354,6 +354,26 @@ function presetBridge() {
 				direction: 2
 			},
 			{
+				node: 3,
+				fm: -60000,
+				direction: 3
+			},
+			{
+				node: 5,
+				fm: -60000,
+				direction: 3
+			},
+			{
+				node: 2,
+				fm: 50000,
+				direction: 3
+			},
+			{
+				node: 10,
+				fm: -50000,
+				direction: 3
+			},
+			{
 				node: '',
 				fm: '',
 				direction: ''
