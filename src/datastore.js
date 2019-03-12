@@ -90,6 +90,17 @@ function DataStore() {
 		this.connectivity = object.connectivity;
 		this.support = object.support;
 		this.externalInput = object.externalInput;
+		
+		this.stress = object.stress;
+		this.cmap = object.cmap;
+		
+		var lut = new THREE.Lut( "cooltowarm", 512 );
+		if (Object.keys(object.lut) != 0) {
+			lut.setMax(object.lut.lut.maxV);
+			lut.setMin(object.lut.lut.minV);
+		}
+		this.lut = lut;
+		
 	};
 	
 	// Export the current structure
@@ -100,10 +111,22 @@ function DataStore() {
 			nodes: this.nodes,
 			connectivity: this.connectivity,
 			support: this.support,
-			externalInput: this.externalInput
+			externalInput: this.externalInput,
+			stress: this.stress,
+			cmap: this.cmap,
+			lut: this.lut
 		});
 
-		return strData;
+		var element = document.createElement('a');
+		element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURI(strData));
+		element.setAttribute('download', 'structure.json');
+
+		element.style.display = 'none';
+		document.body.appendChild(element);
+
+		element.click();
+
+		document.body.removeChild(element);
 	};
 	
 	// Return from api call to analyze the structure
@@ -443,7 +466,7 @@ function DataStore() {
 				lut.setMax(this.lut[this.index].lut.maxV);
 				lut.setMin(this.lut[this.index].lut.minV);
 			}
-				sThis.lut = lut;
+			sThis.lut = lut;
 		}
 	};
 	

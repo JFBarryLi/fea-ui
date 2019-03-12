@@ -75,7 +75,7 @@ class Options extends React.Component {
 				}
 				break;
 			case 'buttExport':
-				prompt('JSON', store.exportData());
+				store.exportData();
 				break;
 			case 'buttResults':
 				if (Object.keys(store.resultData).length !== 0) {
