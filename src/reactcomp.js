@@ -44,6 +44,7 @@ class Options extends React.Component {
 					plotter.loadTubes(store.history.vectors[store.history.index].tubes);
 					store.history.loadState();
 					updateInputs();
+					updateScene();
 				} else {
 					alert('Nothing to undo');
 				}
@@ -57,6 +58,7 @@ class Options extends React.Component {
 					plotter.loadTubes(store.history.vectors[store.history.index].tubes);
 					store.history.loadState();
 					updateInputs();
+					updateScene();
 				} else {
 					alert('Nothing to redo');
 				}
@@ -985,7 +987,18 @@ function updateScene() {
 **/
 	
 	plotter.clearScene();
-	var sceneObjects = store.vectorize();
+	if (Object.keys(store.cmap).length != 0) {
+		// Color Map
+		store.colorMap(store.stress.obj);
+		// Color map legend
+		var legend = store.lut.setLegendOn( { 'layout': 'horizontal', 'position': { 'x': 0, 'y': 0, 'z': 0 } } );
+		var labels = store.lut.setLegendLabels( { 'title': 'Stress', 'um': 'MPa', 'ticks': 5 } );
+		plotter.createLegend(legend, labels);
+		var sceneObjects = store.vectorize(store.cmap);
+	} else {
+		var sceneObjects = store.vectorize();
+	}
+	
 	plotter.loadNodes(sceneObjects.nodes);
 	plotter.loadTubes(sceneObjects.tubes);
 }

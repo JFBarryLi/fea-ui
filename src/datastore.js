@@ -63,6 +63,25 @@ function DataStore() {
 		]
 	};
 	
+	// Stress
+	this.stress = {
+		data : [
+			{
+				Element: '',
+				stress: ''
+			}
+		],
+		obj : {}
+	};
+	
+	// Color map
+	this.cmap = {
+	};
+	
+	// Lookup table
+	this.lut = {
+	};
+	
 	// Load a structure into the app
 	this.importData = function(json) {
 		object = JSON.parse(json);
@@ -94,62 +113,30 @@ function DataStore() {
 	
 	// Render results onto the Three.js canvas
 	this.renderResult = function() {
-		
-		plotter.clearScene();
-		
-		var jsonData = JSON.parse(this.resultData.stringData);
-		
-		// Parse into {nodei: [x,y,z], ...}
-		nodeData = jsonData.nodal_coordinates;
-		nodeData = nodeData.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
-		nodeData = JSON.parse(nodeData);
-		
-		// newNode format: [{node: 1, x: 1, y:1, z:1},...]
-		var newNodes = [];
-		for (var key in nodeData) {
-			var obj = {node: key, x: nodeData[key][0], y: nodeData[key][1], z: nodeData[key][2]}
-			newNodes.push(obj);
-		}
-		this.nodes.data = newNodes;
-		
-		// Stress data
-		var stressData = jsonData.stress;
-		stressData = stressData.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
-		stressData = JSON.parse(stressData);
-		
+		updateScene();
+	};
+	
+	this.colorMap = function(stressDataObj) {
 		// Map stress to color
-		var uniqueStress = new Set (Object.values(stressData).sort());
-		var n = Object.keys(stressData).length;
+		var uniqueStress = new Set (Object.values(stressDataObj).sort());
+		var n = Object.keys(stressDataObj).length;
 		
 		var uniqueStressArray = Array.from(uniqueStress);
 
-		var lut = new THREE.Lut( "cooltowarm", 512 );
+		this.lut = new THREE.Lut( "cooltowarm", 512 );
 		
 		if (n == 1) {
-			lut.setMax(uniqueStressArray[0]+1);
-			lut.setMin(uniqueStressArray[0]-1);
+			this.lut.setMax(uniqueStressArray[0]+1);
+			this.lut.setMin(uniqueStressArray[0]-1);
 		} else {
-			lut.setMax(Math.max.apply(null,uniqueStressArray));
-			lut.setMin(Math.min.apply(null,uniqueStressArray));
+			this.lut.setMax(Math.max.apply(null,uniqueStressArray));
+			this.lut.setMin(Math.min.apply(null,uniqueStressArray));
 		}
 		
-		// Color map legend
-		var legend = lut.setLegendOn( { 'layout': 'horizontal', 'position': { 'x': 0, 'y': 0, 'z': 0 } } );
-		var labels = lut.setLegendLabels( { 'title': 'Stress', 'um': 'MPa', 'ticks': 5 } );
-
-		
-		plotter.createLegend(legend, labels);
-
-		var cmap = {};
 		for (var i = 1; i <= n; i++ ) {
-			cmap[i] = lut.getColor(stressData[i]);
+			this.cmap[i] = this.lut.getColor(stressDataObj[i]);
 		}
-		
-		var sceneObjects = store.vectorize(cmap);
-		plotter.loadNodes(sceneObjects.nodes);
-		plotter.loadTubes(sceneObjects.tubes);
-		
-	};
+	}
 	
 	// Construct the payload to be sent
 	this.requestPayload = function() {
@@ -274,8 +261,39 @@ function DataStore() {
 				getHttp.onreadystatechange = function() {
 					if (this.readyState == 4 && this.status == 200) {
 						dStore.resultData.stringData = this.responseText;
+						
+						var jsonData = JSON.parse(dStore.resultData.stringData);
+						
+						// Parse into {nodei: [x,y,z], ...}
+						nodeData = jsonData.nodal_coordinates;
+						nodeData = nodeData.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
+						nodeData = JSON.parse(nodeData);
+						
+						// newNode format: [{node: 1, x: 1, y:1, z:1},...]
+						var newNodes = [];
+						for (var key in nodeData) {
+							var obj = {node: key, x: nodeData[key][0], y: nodeData[key][1], z: nodeData[key][2]}
+							newNodes.push(obj);
+						}
+						dStore.nodes.data = newNodes;
+						
+						// Stress data
+						var stressData = jsonData.stress;
+						stressData = stressData.replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ');
+						stressData = JSON.parse(stressData);
+						
+						var newStress = [];
+						for (var key in stressData) {
+							var obj = {Element: key, stress: stressData[key]}
+							newStress.push(obj);
+						}
+						dStore.stress.data = newStress;
+						dStore.stress.obj = stressData;
+						dStore.colorMap(dStore.stress.obj);
+						
+						
 						dStore.renderResult();
-						dStore.history.vectors.push(store.vectorize());
+						dStore.history.vectors.push(store.vectorize(this.cmap));
 						dStore.history.index = store.history.index + 1;
 						dStore.history.storeState();
 						ajaxLoader.style.display = 'none';
@@ -378,6 +396,9 @@ function DataStore() {
 		connectivity: [],
 		support: [],
 		externalInput: [],
+		stress: [],
+		cmap: [],
+		lut: [],
 		vectors: [],
 		init : function() {
 			presetBridge();
@@ -386,6 +407,9 @@ function DataStore() {
 			this.connectivity[0] = JSON.parse(JSON.stringify(sThis.connectivity));
 			this.support[0] = JSON.parse(JSON.stringify(sThis.support));
 			this.externalInput[0] = JSON.parse(JSON.stringify(sThis.externalInput));
+			this.stress[0] = JSON.parse(JSON.stringify(sThis.stress));
+			this.cmap[0] = JSON.parse(JSON.stringify(sThis.cmap));
+			this.lut[0] = JSON.parse(JSON.stringify(sThis.lut));
 			this.vectors[0] = sThis.vectorize();
 		},
 		storeState : function() {
@@ -394,6 +418,16 @@ function DataStore() {
 			this.connectivity.push(JSON.parse(JSON.stringify(sThis.connectivity)));
 			this.support.push(JSON.parse(JSON.stringify(sThis.support)));
 			this.externalInput.push(JSON.parse(JSON.stringify(sThis.externalInput)));
+			this.stress.push(JSON.parse(JSON.stringify(sThis.stress)));
+			this.cmap.push(JSON.parse(JSON.stringify(sThis.cmap)));
+			
+			// Lookup table
+			var lut = new THREE.Lut( "cooltowarm", 512 );
+			if (sThis.lut != undefined) {
+				lut.setMax(sThis.lut.maxV);
+				lut.setMin(sThis.lut.minV);
+			}
+			this.lut.push(lut);
 		},
 		loadState : function() {
 			sThis.nodes = JSON.parse(JSON.stringify(this.nodes[this.index]));
@@ -401,6 +435,15 @@ function DataStore() {
 			sThis.connectivity = JSON.parse(JSON.stringify(this.connectivity[this.index]));
 			sThis.support = JSON.parse(JSON.stringify(this.support[this.index]));
 			sThis.externalInput = JSON.parse(JSON.stringify(this.externalInput[this.index]));
+			sThis.stress = JSON.parse(JSON.stringify(this.stress[this.index]));
+			sThis.cmap = JSON.parse(JSON.stringify(this.cmap[this.index]));
+			
+			var lut = new THREE.Lut( "cooltowarm", 512 );
+			if (Object.keys(this.lut[this.index]) != 0) {
+				lut.setMax(this.lut[this.index].lut.maxV);
+				lut.setMin(this.lut[this.index].lut.minV);
+			}
+				sThis.lut = lut;
 		}
 	};
 	
