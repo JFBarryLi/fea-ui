@@ -320,6 +320,9 @@ function DataStore() {
 						dStore.history.index = store.history.index + 1;
 						dStore.history.storeState();
 						ajaxLoader.style.display = 'none';
+						if (dStore.type == 'frame') {
+							alert('Frame Analysis WIP; Stress incorrect');
+						}
 					}
 				}
 				
