@@ -39,11 +39,13 @@ function plotter() {
 		legendRenderer = new THREE.WebGLRenderer();
 		legendRenderer.setPixelRatio( window.devicePixelRatio );
 		
+		
 		if (document.body.clientWidth <= 1200) {
 			legendRenderer.setSize( document.body.clientWidth, 75 );
 		} else {
 			legendRenderer.setSize( 1200, 75 );
 		}
+		
 		container.insertBefore(legendRenderer.domElement, options);
 		
 		// Legend Scene
@@ -55,6 +57,8 @@ function plotter() {
 		legendCamera.position.set( 0, 0, 1 );
 		legendRenderer.render( legendScene, legendCamera );
 		
+		legendCamera.aspect = 1200 / 75;
+		legendCamera.updateProjectionMatrix();
 		
 		// Controls
 		controls = new THREE.OrbitControls( camera, renderer.domElement );

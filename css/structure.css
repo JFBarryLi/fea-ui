@@ -214,3 +214,13 @@
 	margin-top: -50px;
 	display: none;
 }
+
+@media (min-width: 1200px) {	
+	.ajax-loader {
+		left: 600px;
+		margin-left: -50px;
+		top: 50%;
+		margin-top: -50px;
+		display: none;
+	}
+}
