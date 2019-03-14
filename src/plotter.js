@@ -39,13 +39,6 @@ function plotter() {
 		legendRenderer = new THREE.WebGLRenderer();
 		legendRenderer.setPixelRatio( window.devicePixelRatio );
 		
-		
-		if (document.body.clientWidth <= 1200) {
-			legendRenderer.setSize( document.body.clientWidth, 75 );
-		} else {
-			legendRenderer.setSize( 1200, 75 );
-		}
-		
 		container.insertBefore(legendRenderer.domElement, options);
 		
 		// Legend Scene
@@ -55,10 +48,17 @@ function plotter() {
 		// Legend Camera
 		legendCamera = new THREE.PerspectiveCamera( 60, document.body.clientWidth / 75 );
 		legendCamera.position.set( 0, 0, 1 );
-		legendRenderer.render( legendScene, legendCamera );
 		
-		legendCamera.aspect = 1200 / 75;
+		if (document.body.clientWidth <= 1200) {
+			legendRenderer.setSize( document.body.clientWidth, 75 );
+			legendCamera.aspect = document.body.clientWidth / 75;
+		} else {
+			legendRenderer.setSize( 1200, 75 );
+			legendCamera.aspect = 1200 / 75;
+		}
+		
 		legendCamera.updateProjectionMatrix();
+		legendRenderer.render( legendScene, legendCamera );
 		
 		// Controls
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
