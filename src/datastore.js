@@ -263,7 +263,7 @@ function DataStore() {
 		var Http = new XMLHttpRequest();
 		var baseurl = 'http://127.0.0.1:8000';
 		// prod
-		var baseurl = 'http://ec2-18-216-231-0.us-east-2.compute.amazonaws.com:8000'
+		// var baseurl = 'https://cors-anywhere.herokuapp.com/http://ec2-18-216-231-0.us-east-2.compute.amazonaws.com:8000'
 		var posturl = baseurl + '/fea/structure/input/';
 		Http.open("POST", posturl);
 		Http.setRequestHeader('Accept', 'application/json');
