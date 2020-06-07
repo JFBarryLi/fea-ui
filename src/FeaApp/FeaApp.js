@@ -1,10 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NavBar } from 'components';
+import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { NavBar, ThreeCanvas, Interact } from 'components';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#005082',
+    },
+    secondary: {
+      main: '#ffa41b',
+    },
+  },
+  overrides: {
+    MuiButton: {
+      root: {
+        margin: "1em",
+      }
+    }
+  }
+});
 
 const FeaApp = () => (
   <div>
-    <NavBar />
+    <ThemeProvider theme={theme}>
+      <NavBar />
+      <ThreeCanvas />
+      <Interact />
+    </ThemeProvider>
   </div>
 );
 
