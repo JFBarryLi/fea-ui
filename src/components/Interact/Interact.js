@@ -1,16 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button } from '@material-ui/core';
+import Params from 'components/Params';
 
-const ButtonsGroup = styled.div`
+const InteractGroup = styled.div`
   text-align: center;
 `;
 
 const Interact = () => (
-  <ButtonsGroup>
+  <InteractGroup>
     <Button variant='contained' color='primary'>Try</Button>
-    <Button variant='outlined' color='secondary'>Params</Button>
-  </ButtonsGroup>
+    <Params />
+  </InteractGroup>
 );
 
 export default Interact;

@@ -15,10 +15,10 @@ const theme = createMuiTheme({
   overrides: {
     MuiButton: {
       root: {
-        margin: "1em",
+        margin: "0.5em",
       }
     }
-  }
+  },
 });
 
 const FeaApp = () => (
