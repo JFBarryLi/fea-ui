@@ -3,9 +3,7 @@ import { FeaApp } from 'FeaApp';
 
 function App() {
   return (
-    <div>
-      <FeaApp />
-    </div>
+    <FeaApp />
   );
 }
 
