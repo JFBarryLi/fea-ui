@@ -1,7 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
-import { NavBar, ThreeCore, Interact } from 'components';
+import { TrussPage } from 'components';
 
 const theme = createMuiTheme({
   palette: {
@@ -21,19 +20,10 @@ const theme = createMuiTheme({
   },
 });
 
-const FeaContainer = styled.div`
-  display: block;
-  width: 100%;
-  height: 100%;
-`;
-
 const FeaApp = () => (
-  <FeaContainer>
-    <ThemeProvider theme={theme}>
-      <NavBar />
-      <ThreeCore />
-    </ThemeProvider>
-  </FeaContainer>
+  <ThemeProvider theme={theme}>
+    <TrussPage />
+  </ThemeProvider>
 );
 
 export default FeaApp;
