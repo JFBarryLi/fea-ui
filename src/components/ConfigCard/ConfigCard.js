@@ -10,8 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import TrussConfigAccordion from 'components/TrussConfigAccordion';
-
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: '60%',
@@ -34,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TrussConfigCard = () => {
+const ConfigCard = (props) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -66,7 +64,7 @@ const TrussConfigCard = () => {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <TrussConfigAccordion />
+        {props.children}
         </CardContent>
       </Collapse>
       <CardActions disableSpacing>
@@ -76,4 +74,4 @@ const TrussConfigCard = () => {
   );
 }
 
-export default TrussConfigCard;
+export default ConfigCard;

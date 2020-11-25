@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TrussConfigAccordion = () => {
+const StrucConfigAccordion = () => {
   const classes = useStyles();
 
   return (
@@ -95,4 +95,4 @@ const TrussConfigAccordion = () => {
   );
 }
 
-export default TrussConfigAccordion;
+export default StrucConfigAccordion;
