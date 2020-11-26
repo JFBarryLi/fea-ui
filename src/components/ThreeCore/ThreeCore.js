@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Canvas } from 'react-three-fiber';
 import Light from './Light';
+import CameraControls from './CameraControls';
 
 const CoreContainer = styled.div`
   display: block;
@@ -21,6 +22,7 @@ const ThreeCore = () => (
   <CoreContainer>
     <Canvas>
       <Light />
+      <CameraControls />
       <Sphere />
     </Canvas>
   </CoreContainer>

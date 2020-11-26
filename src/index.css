@@ -28,4 +28,6 @@ code {
 
 canvas {
   background-color: #f6f6f6;
+  outline: none;
+  border: none;
 }
