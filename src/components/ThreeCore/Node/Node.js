@@ -11,6 +11,8 @@ const Node = (props) => {
       onPointerOver={(event) => setHover(true)}
       onPointerOut={(event) => setHover(false)}
       position={props.position}
+      name={props.name}
+      index={props.index}
     >
       <sphereBufferGeometry attach='geometry' />
       <meshLambertMaterial

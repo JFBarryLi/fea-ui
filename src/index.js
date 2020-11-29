@@ -1,7 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import store from './store';
 import './index.css';
 import App from './AppRoot/';
 import * as serviceWorker from './serviceWorker';
@@ -12,9 +10,7 @@ import 'fontsource-roboto/700.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

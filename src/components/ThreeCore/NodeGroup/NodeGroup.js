@@ -5,7 +5,6 @@ import { selectNodes } from 'slices/trussSlice';
 
 const NodeGroup = (props) => {
   const nodalCoords = useSelector(selectNodes);
-  console.log(useSelector(selectNodes));
   const nodes = [];
 
   for (const n in nodalCoords) {
@@ -14,7 +13,14 @@ const NodeGroup = (props) => {
       nodalCoords[n].y,
       nodalCoords[n].z
     ];
-    nodes.push(<Node position={position} />);
+    nodes.push(
+      <Node
+        position={position}
+        name={n}
+        index={nodalCoords[n].index}
+        key={n}
+      />
+    );
   }
 
   return (

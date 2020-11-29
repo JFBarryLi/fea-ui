@@ -1,4 +1,5 @@
 import React from 'react';
+import { ReactReduxContext, Provider } from 'react-redux';
 import styled from 'styled-components';
 import { Canvas } from 'react-three-fiber';
 import Light from './Light';
@@ -13,13 +14,20 @@ const CoreContainer = styled.div`
 `;
 
 const ThreeCore = (props) => (
-  <CoreContainer>
-    <Canvas>
-      <Light />
-      <CameraControls />
-      {props.children}
-    </Canvas>
-  </CoreContainer>
+  // https://github.com/pmndrs/react-three-fiber/issues/43
+  <ReactReduxContext.Consumer>
+    {({ store }) => (
+      <CoreContainer>
+        <Canvas>
+          <Provider store={store}>
+            <Light />
+            <CameraControls />
+            {props.children}
+          </Provider>
+        </Canvas>
+      </CoreContainer>
+    )}
+  </ReactReduxContext.Consumer>
 );
 
 export default ThreeCore;
