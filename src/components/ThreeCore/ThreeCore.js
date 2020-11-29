@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Canvas } from 'react-three-fiber';
 import Light from './Light';
+import Node from './Node';
 import CameraControls from './CameraControls';
 
 const CoreContainer = styled.div`
@@ -11,19 +12,12 @@ const CoreContainer = styled.div`
   margin: auto;
 `;
 
-const Sphere = () => (
-  <mesh>
-    <sphereBufferGeometry attach='geometry' />
-    <meshStandardMaterial attach='material' color='hotpink' />
-  </mesh>
-);
-
-const ThreeCore = () => (
+const ThreeCore = (props) => (
   <CoreContainer>
     <Canvas>
       <Light />
       <CameraControls />
-      <Sphere />
+      {props.children}
     </Canvas>
   </CoreContainer>
 );

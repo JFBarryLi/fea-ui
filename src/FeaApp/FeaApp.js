@@ -1,8 +1,6 @@
 import React from 'react';
-import { Provider } from 'react-redux'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import { TrussPage } from 'pages';
-import store from './store';
 
 const theme = createMuiTheme({
   palette: {
@@ -23,11 +21,9 @@ const theme = createMuiTheme({
 });
 
 const FeaApp = () => (
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <TrussPage />
-    </ThemeProvider>
-  </Provider>
+  <ThemeProvider theme={theme}>
+    <TrussPage />
+  </ThemeProvider>
 );
 
 export default FeaApp;

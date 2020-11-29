@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import NavBar from 'components/NavBar';
 import ThreeCore from 'components/ThreeCore';
+import NodeGroup from 'components/ThreeCore/NodeGroup';
 import StrucConfigCard from 'components/StrucConfigCard';
 
 const TrussPageContainer = styled.div`
@@ -13,7 +14,9 @@ const TrussPageContainer = styled.div`
 const TrussPage = () => (
   <TrussPageContainer>
     <NavBar />
-    <ThreeCore />
+    <ThreeCore>
+      <NodeGroup />
+    </ThreeCore>
     <StrucConfigCard />
   </TrussPageContainer>
 );

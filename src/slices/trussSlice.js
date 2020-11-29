@@ -21,4 +21,6 @@ const trussSlice = createSlice({
 
 export const { increment, decrement, incrementByAmount } = trussSlice.actions;
 
+export const selectNodes = state => state.truss.nodalCoords;
+
 export default trussSlice.reducer;
