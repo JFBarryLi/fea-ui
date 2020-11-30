@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react'
+import { useState } from 'react';
 
 const Node = (props) => {
   const [hovered, setHover] = useState(false);
@@ -14,7 +14,10 @@ const Node = (props) => {
       name={props.name}
       index={props.index}
     >
-      <sphereBufferGeometry attach='geometry' />
+      <sphereBufferGeometry
+        attach='geometry'
+        args={[20, 20, 20]}
+      />
       <meshLambertMaterial
         attach='material'
         color={hovered ? '#005082' : '#ffffff'}
