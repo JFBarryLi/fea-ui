@@ -6,8 +6,8 @@ const Tube = (props) => {
   const [hovered, setHover] = useState(false);
   const [active, setActive] = useState(false);
 
-  const nodeI = {'x':0, 'y':0, 'z':0};
-  const nodeJ = {'x':100, 'y': 0, 'z': 0};
+  const nodeI = props.nodeI;
+  const nodeJ = props.nodeJ;
 
   const path = useMemo(() => {
     function StraightLine(scale) {
@@ -39,7 +39,6 @@ const Tube = (props) => {
       onClick={(event) => setActive(!active)}
       onPointerOver={(event) => setHover(true)}
       onPointerOut={(event) => setHover(false)}
-      position={props.position}
       name={props.name}
       index={props.index}
     >
