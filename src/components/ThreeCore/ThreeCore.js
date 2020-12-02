@@ -3,7 +3,6 @@ import { ReactReduxContext, Provider } from 'react-redux';
 import styled from 'styled-components';
 import { Canvas } from 'react-three-fiber';
 import Light from './Light';
-import Node from './Node';
 import CameraControls from './CameraControls';
 
 const CoreContainer = styled.div`
