@@ -6,11 +6,11 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ConfigTable from 'components/ConfigTable';
+import StrucGeometryTable from 'components/StrucGeometryTable';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 350,
+    maxWidth: 400,
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -37,7 +37,7 @@ const StrucConfigAccordion = () => {
         >
           <Typography className={classes.heading}>Geometry</Typography>
         </AccordionSummary>
-        <ConfigTable />
+        <StrucGeometryTable />
       </Accordion>
       <Accordion>
         <AccordionSummary

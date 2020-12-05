@@ -7,19 +7,13 @@ const trussSlice = createSlice({
   name: 'truss',
   initialState,
   reducers: {
-    increment: state => {
-      state.value += 1
-    },
-    decrement: state => {
-      state.value -= 1
-    },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload
+    updateNodes: (state, action) => {
+      state.truss.nodalCoords = action.payload
     }
   }
 });
 
-export const { increment, decrement, incrementByAmount } = trussSlice.actions;
+export const { updateNodes } = trussSlice.actions;
 
 export const selectNodes = state => state.truss.nodalCoords;
 export const selectElements = state => state.truss.connectivity;
