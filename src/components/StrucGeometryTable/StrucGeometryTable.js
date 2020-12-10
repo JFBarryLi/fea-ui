@@ -1,39 +1,45 @@
 import React from 'react';
 import ConfigTable from 'components/ConfigTable';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectNodes, updateNodes } from 'slices/trussSlice';
+import {
+  selectNodes,
+  nodeAdded,
+  nodeDeleted,
+  nodeUpdated
+} from 'slices/nodes';
 
 const StrucGeometryTable = () => {
   const nodalCoords = useSelector(selectNodes);
   const data = [];
   for (const n in nodalCoords) {
-    let position = nodalCoords[n];
-    position['name'] = n;
-    data.push(position);
+    data.push({
+      'id': nodalCoords[n].id,
+      'x': nodalCoords[n].x,
+      'y': nodalCoords[n].y,
+      'z': nodalCoords[n].z
+    });
   }
 
   const dispatch = useDispatch();
 
-  const setData = (tdata) => {
-    const formattedData = [];
-    for (const d in tdata) {
-      let node = {};
-      node[tdata[d].name] = {
-        'x': tdata[d].x,
-        'y': tdata[d].y,
-        'z': tdata[d].z
-      }
-      formattedData.push(node);
-    }
-    dispatch(updateNodes(formattedData));
+  const addData = (row) => {
+    dispatch(nodeAdded(row));
+  }
+
+  const deleteData = (row) => {
+    dispatch(nodeDeleted(row));
+  }
+
+  const updateData = (rowNewAndOld) => {
+    dispatch(nodeUpdated(rowNewAndOld));
   }
 
   const columns = [
     {
       title: 'Name',
-      field: 'name',
+      field: 'id',
       sorting: false,
-      validate: rowData => rowData.name !== ''
+      validate: rowData => rowData.id !== ''
     },
     {
       title: 'X',
@@ -65,7 +71,9 @@ const StrucGeometryTable = () => {
     <ConfigTable
       columns={columns}
       data={data}
-      setData={setData}
+      addData={addData}
+      deleteData={deleteData}
+      updateData={updateData}
     />
   );
 }

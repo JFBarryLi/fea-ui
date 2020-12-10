@@ -56,11 +56,9 @@ const ConfigTable = (props) => {
   };
 
   const handleDeleteRows = (event, rowData) => {
-    let _data = [...props.data];
     rowData.forEach(rd => {
-      _data = _data.filter(t => t.tableData.id !== rd.tableData.id);
+      props.deleteData(rd);
     });
-    props.setData(_data);
   };
 
   const actions = [
@@ -75,10 +73,10 @@ const ConfigTable = (props) => {
     onRowAdd: newData =>
       new Promise((resolve, reject) => {
         setTimeout(() => {
-          if (!newData.name) {
+          if (!newData.id) {
             reject();
           } else {
-            props.setData([...props.data, newData]);
+            props.addData(newData);
 
             resolve();
           }
@@ -87,10 +85,7 @@ const ConfigTable = (props) => {
     onRowUpdate: (newData, oldData) =>
       new Promise((resolve, reject) => {
         setTimeout(() => {
-          const dataUpdate = [...props.data];
-          const index = oldData.tableData.id;
-          dataUpdate[index] = newData;
-          props.setData([...dataUpdate]);
+          props.updateData({'new': newData, 'old': oldData});
 
           resolve();
         }, 0)
@@ -98,15 +93,12 @@ const ConfigTable = (props) => {
     onRowDelete: oldData =>
       new Promise((resolve, reject) => {
         setTimeout(() => {
-          const dataDelete = [...props.data];
-          const index = oldData.tableData.id;
-          dataDelete.splice(index, 1);
-          props.setData([...dataDelete]);
+          props.deleteData(oldData);
 
           resolve()
         }, 0)
       }),
-      };
+    };
 
   return (
     <MaterialTable

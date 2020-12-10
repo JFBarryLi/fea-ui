@@ -1,348 +1,348 @@
 const TrussExample = {
-    "matProp": {
-        "ele1": {
+    "matProp": [{
+            "id": "ele1",
             "E": 10000,
             "A": 19.625
-        },
-        "ele2": {
+        }, {
+            "id": "ele2",
             "E": 10000,
             "A": 19.625
-        },
-        "ele3": {
+        }, {
+            "id": "ele3",
             "E": 10000,
             "A": 19.625
-        },
-        "ele4": {
+        }, {
+            "id": "ele4",
             "E": 10000,
             "A": 19.625
-        },
-        "ele5": {
+        }, {
+            "id": "ele5",
             "E": 10000,
             "A": 19.625
-        },
-        "ele6": {
+        }, {
+            "id": "ele6",
             "E": 10000,
             "A": 19.625
-        },
-        "ele7": {
+        }, {
+            "id": "ele7",
             "E": 10000,
             "A": 19.625
-        },
-        "ele8": {
+        }, {
+            "id": "ele8",
             "E": 10000,
             "A": 19.625
-        },
-        "ele9": {
+        }, {
+            "id": "ele9",
             "E": 10000,
             "A": 19.625
-        },
-        "ele10": {
+        }, {
+            "id": "ele10",
             "E": 10000,
             "A": 19.625
-        },
-        "ele11": {
+        }, {
+            "id": "ele11",
             "E": 10000,
             "A": 19.625
-        },
-        "ele12": {
+        }, {
+            "id": "ele12",
             "E": 10000,
             "A": 19.625
-        },
-        "ele13": {
+        }, {
+            "id": "ele13",
             "E": 10000,
             "A": 19.625
-        },
-        "ele14": {
+        }, {
+            "id": "ele14",
             "E": 10000,
             "A": 19.625
-        },
-        "ele15": {
+        }, {
+            "id": "ele15",
             "E": 10000,
             "A": 19.625
-        },
-        "ele16": {
+        }, {
+            "id": "ele16",
             "E": 10000,
             "A": 19.625
-        },
-        "ele17": {
+        }, {
+            "id": "ele17",
             "E": 10000,
             "A": 19.625
-        },
-        "ele18": {
+        }, {
+            "id": "ele18",
             "E": 10000,
             "A": 19.625
-        },
-        "ele19": {
+        }, {
+            "id": "ele19",
             "E": 10000,
             "A": 19.625
-        },
-        "ele20": {
+        }, {
+            "id": "ele20",
             "E": 10000,
             "A": 19.625
-        },
-        "ele21": {
+        }, {
+            "id": "ele21",
             "E": 10000,
             "A": 19.625
-        },
-        "ele22": {
+        }, {
+            "id": "ele22",
             "E": 10000,
             "A": 19.625
-        },
-        "ele23": {
+        }, {
+            "id": "ele23",
             "E": 10000,
             "A": 19.625
-        },
-        "ele24": {
+        }, {
+            "id": "ele24",
             "E": 10000,
             "A": 19.625
-        },
-        "ele25": {
+        }, {
+            "id": "ele25",
             "E": 10000,
             "A": 19.625
-        },
-        "ele26": {
+        }, {
+            "id": "ele26",
             "E": 10000,
             "A": 19.625
-        },
-        "ele27": {
+        }, {
+            "id": "ele27",
             "E": 10000,
             "A": 19.625
-        },
-        "ele28": {
+        }, {
+            "id": "ele28",
             "E": 10000,
             "A": 19.625
-        },
-        "ele29": {
+        }, {
+            "id": "ele29",
             "E": 10000,
             "A": 19.625
-        },
-        "ele30": {
+        }, {
+            "id": "ele30",
             "E": 10000,
             "A": 19.625
-        },
-        "ele31": {
+        }, {
+            "id": "ele31",
             "E": 10000,
             "A": 19.625
-        },
-        "ele32": {
+        }, {
+            "id": "ele32",
             "E": 10000,
             "A": 19.625
         }
-    },
-    "nodalCoords": {
-        "node1": {
+    ],
+    "nodalCoords": [{
+            "id": "node1",
             "x": -200,
             "y": 0,
             "z": 0
-        },
-        "node2": {
+        }, {
+            "id": "node2",
             "x": -100,
             "y": 100,
             "z": 0
-        },
-        "node3": {
+        }, {
+            "id": "node3",
             "x": 0,
             "y": 100,
             "z": 0
-        },
-        "node4": {
+        }, {
+            "id": "node4",
             "x": 100,
             "y": 100,
             "z": 0
-        },
-        "node5": {
+        }, {
+            "id": "node5",
             "x": 200,
             "y": 0,
             "z": 0
-        },
-        "node6": {
+        }, {
+            "id": "node6",
             "x": 100,
             "y": 0,
             "z": 0
-        },
-        "node7": {
+        }, {
+            "id": "node7",
             "x": 0,
             "y": 0,
             "z": 0
-        },
-        "node8": {
+        }, {
+            "id": "node8",
             "x": -100,
             "y": 0,
             "z": 0
-        },
-        "node9": {
+        }, {
+            "id": "node9",
             "x": -200,
             "y": 0,
             "z": -100
-        },
-        "node10": {
+        }, {
+            "id": "node10",
             "x": -100,
             "y": 100,
             "z": -100
-        },
-        "node11": {
+        }, {
+            "id": "node11",
             "x": 0,
             "y": 100,
             "z": -100
-        },
-        "node12": {
+        }, {
+            "id": "node12",
             "x": 100,
             "y": 100,
             "z": -100
-        },
-        "node13": {
+        }, {
+            "id": "node13",
             "x": 200,
             "y": 0,
             "z": -100
-        },
-        "node14": {
+        }, {
+            "id": "node14",
             "x": 100,
             "y": 0,
             "z": -100
-        },
-        "node15": {
+        }, {
+            "id": "node15",
             "x": 0,
             "y": 0,
             "z": -100
-        },
-        "node16": {
+        }, {
+            "id": "node16",
             "x": -100,
             "y": 0,
             "z": -100
         }
-    },
-    "connectivity": {
-        "ele1": {
+    ],
+    "connectivity": [{
+            "ele": "ele1",
             "i": "node1",
             "j": "node2"
-        },
-        "ele2": {
+        }, {
+            "ele": "ele2",
             "i": "node2",
             "j": "node3"
-        },
-        "ele3": {
+        }, {
+            "ele": "ele3",
             "i": "node3",
             "j": "node4"
-        },
-        "ele4": {
+        }, {
+            "ele": "ele4",
             "i": "node4",
             "j": "node5"
-        },
-        "ele5": {
+        }, {
+            "ele": "ele5",
             "i": "node5",
             "j": "node6"
-        },
-        "ele6": {
+        }, {
+            "ele": "ele6",
             "i": "node6",
             "j": "node7"
-        },
-        "ele7": {
+        }, {
+            "ele": "ele7",
             "i": "node7",
             "j": "node8"
-        },
-        "ele8": {
+        }, {
+            "ele": "ele8",
             "i": "node8",
             "j": "node1"
-        },
-        "ele9": {
+        }, {
+            "ele": "ele9",
             "i": "node8",
             "j": "node3"
-        },
-        "ele10": {
+        }, {
+            "ele": "ele10",
             "i": "node2",
             "j": "node7"
-        },
-        "ele11": {
+        }, {
+            "ele": "ele11",
             "i": "node3",
             "j": "node6"
-        },
-        "ele12": {
+        }, {
+            "ele": "ele12",
             "i": "node7",
             "j": "node4"
-        },
-        "ele13": {
+        }, {
+            "ele": "ele13",
             "i": "node1",
             "j": "node9"
-        },
-        "ele14": {
+        }, {
+            "ele": "ele14",
             "i": "node2",
             "j": "node10"
-        },
-        "ele15": {
+        }, {
+            "ele": "ele15",
             "i": "node3",
             "j": "node11"
-        },
-        "ele16": {
+        }, {
+            "ele": "ele16",
             "i": "node4",
             "j": "node12"
-        },
-        "ele17": {
+        }, {
+            "ele": "ele17",
             "i": "node5",
             "j": "node13"
-        },
-        "ele18": {
+        }, {
+            "ele": "ele18",
             "i": "node6",
             "j": "node14"
-        },
-        "ele19": {
+        }, {
+            "ele": "ele19",
             "i": "node7",
             "j": "node15"
-        },
-        "ele20": {
+        }, {
+            "ele": "ele20",
             "i": "node8",
             "j": "node16"
-        },
-        "ele21": {
+        }, {
+            "ele": "ele21",
             "i": "node9",
             "j": "node10"
-        },
-        "ele22": {
+        }, {
+            "ele": "ele22",
             "i": "node10",
             "j": "node11"
-        },
-        "ele23": {
+        }, {
+            "ele": "ele23",
             "i": "node11",
             "j": "node12"
-        },
-        "ele24": {
+        }, {
+            "ele": "ele24",
             "i": "node12",
             "j": "node13"
-        },
-        "ele25": {
+        }, {
+            "ele": "ele25",
             "i": "node13",
             "j": "node14"
-        },
-        "ele26": {
+        }, {
+            "ele": "ele26",
             "i": "node14",
             "j": "node15"
-        },
-        "ele27": {
+        }, {
+            "ele": "ele27",
             "i": "node15",
             "j": "node16"
-        },
-        "ele28": {
+        }, {
+            "ele": "ele28",
             "i": "node16",
             "j": "node9"
-        },
-        "ele29": {
+        }, {
+            "ele": "ele29",
             "i": "node16",
             "j": "node11"
-        },
-        "ele30": {
+        }, {
+            "ele": "ele30",
             "i": "node10",
             "j": "node15"
-        },
-        "ele31": {
+        }, {
+            "ele": "ele31",
             "i": "node11",
             "j": "node14"
-        },
-        "ele32": {
+        }, {
+            "ele": "ele32",
             "i": "node15",
             "j": "node12"
         }
-    },
-    "forceVector": {
-        "node2": {
+    ],
+    "forceVector": [{
+            "node": "node2",
             "forces": {
                 "u1": {
                     "value": 0
@@ -354,8 +354,8 @@ const TrussExample = {
                     "value": 50000
                 }
             }
-        },
-        "node3": {
+        }, {
+            "node": "node3",
             "forces": {
                 "u1": {
                     "value": 0
@@ -367,8 +367,8 @@ const TrussExample = {
                     "value": -60000
                 }
             }
-        },
-        "node15": {
+        }, {
+            "node": "node15",
             "forces": {
                 "u1": {
                     "value": 0
@@ -380,8 +380,8 @@ const TrussExample = {
                     "value": 0
                 }
             }
-        },
-        "node5": {
+        }, {
+            "node": "node5",
             "forces": {
                 "u1": {
                     "value": 0
@@ -393,8 +393,8 @@ const TrussExample = {
                     "value": -60000
                 }
             }
-        },
-        "node10": {
+        }, {
+            "node": "node10",
             "forces": {
                 "u1": {
                     "value": 0
@@ -407,24 +407,22 @@ const TrussExample = {
                 }
             }
         }
-    },
-    "boundaryConditions": {
-        "node1": {
+    ],
+    "boundaryConditions": [{
+            "node": "node1",
             "bc": {
                 "u1": {
                     "value": 0
                 },
                 "u2": {
-                    "index": 1,
                     "value": 0
                 },
                 "u3": {
-                    "index": 2,
                     "value": 0
                 }
             }
-        },
-        "node5": {
+        }, {
+            "node": "node5",
             "bc": {
                 "u1": {
                     "value": 0
@@ -433,8 +431,8 @@ const TrussExample = {
                     "value": 0
                 }
             }
-        },
-        "node9": {
+        }, {
+            "node": "node9",
             "bc": {
                 "u1": {
                     "value": 0
@@ -443,8 +441,8 @@ const TrussExample = {
                     "value": 0
                 }
             }
-        },
-        "node13": {
+        }, {
+            "node": "node13",
             "bc": {
                 "u1": {
                     "value": 0
@@ -454,9 +452,8 @@ const TrussExample = {
                 }
             }
         }
-    },
-    "stresses": {}
-}
-;
+    ],
+    "stresses": []
+};
 
 export default TrussExample;
