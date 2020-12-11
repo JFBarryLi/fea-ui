@@ -73,13 +73,9 @@ const ConfigTable = (props) => {
     onRowAdd: newData =>
       new Promise((resolve, reject) => {
         setTimeout(() => {
-          if (!newData.id) {
-            reject();
-          } else {
-            props.addData(newData);
+          props.addData(newData);
 
-            resolve();
-          }
+          resolve();
         }, 0)
       }),
     onRowUpdate: (newData, oldData) =>

@@ -2,75 +2,75 @@ import React from 'react';
 import ConfigTable from 'components/ConfigTable';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  selectNodes,
-  nodeAdded,
-  nodeDeleted,
-  nodeUpdated
-} from 'slices/nodes';
+  selectLoads,
+  loadAdded,
+  loadDeleted,
+  loadUpdated
+} from 'slices/loads';
 
-const StrucNodalTable = () => {
-  const nodalCoords = useSelector(selectNodes);
+const StrucLoadTable = () => {
+  const loads = useSelector(selectLoads);
   const data = [];
-  for (const n in nodalCoords) {
+  for (const l in loads) {
     data.push({
-      'id': nodalCoords[n].id,
-      'x': nodalCoords[n].x,
-      'y': nodalCoords[n].y,
-      'z': nodalCoords[n].z
+      'node': loads[l].node,
+      'u1': loads[l].u1,
+      'u2': loads[l].u2,
+      'u3': loads[l].u3
     });
   }
 
   const dispatch = useDispatch();
 
   const addData = (row) => {
-    dispatch(nodeAdded(row));
+    dispatch(loadAdded(row));
   }
 
   const deleteData = (row) => {
-    dispatch(nodeDeleted(row));
+    dispatch(loadDeleted(row));
   }
 
   const updateData = (rowNewAndOld) => {
-    dispatch(nodeUpdated(rowNewAndOld));
+    dispatch(loadUpdated(rowNewAndOld));
   }
 
   const columns = [
     {
       title: 'Node',
-      field: 'id',
+      field: 'node',
       sorting: false,
       initialEditValue: 'node',
       validate: rowData => rowData.id !== ''
     },
     {
-      title: 'X',
-      field: 'x',
+      title: 'Fx',
+      field: 'u1',
       type: 'numeric',
       sorting: false,
       initialEditValue: 0,
-      validate: rowData => !isNaN(rowData.x)
+      validate: rowData => !isNaN(rowData.u1)
     },
     {
-      title: 'Y',
-      field: 'y',
+      title: 'Fy',
+      field: 'u2',
       type: 'numeric',
       sorting: false,
       initialEditValue: 0,
-      validate: rowData => !isNaN(rowData.y)
+      validate: rowData => !isNaN(rowData.u2)
     },
     {
-      title: 'Z',
-      field: 'z',
+      title: 'Fz',
+      field: 'u3',
       type: 'numeric',
       sorting: false,
       initialEditValue: 0,
-      validate: rowData => !isNaN(rowData.z)
+      validate: rowData => !isNaN(rowData.u3)
     },
   ];
 
   return (
     <ConfigTable
-      title={'Nodal'}
+      title={'Load'}
       columns={columns}
       data={data}
       addData={addData}
@@ -80,4 +80,4 @@ const StrucNodalTable = () => {
   );
 }
 
-export default StrucNodalTable;
+export default StrucLoadTable;

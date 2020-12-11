@@ -9,6 +9,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import StrucNodalTable from '../StrucNodalTable';
 import StrucConnectivityTable from '../StrucConnectivityTable';
 import StrucMaterialTable from '../StrucMaterialTable';
+import StrucLoadTable from '../StrucLoadTable';
+import StrucBoundaryTable from '../StrucBoundaryTable';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,12 +64,7 @@ const StrucConfigAccordion = () => {
         >
           <Typography className={classes.heading}>Load</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros,
-            vitae egestas augue. Duis vel est augue.
-          </Typography>
-        </AccordionDetails>
+        <StrucLoadTable />
       </Accordion>
       <Accordion>
         <AccordionSummary
@@ -78,12 +75,7 @@ const StrucConfigAccordion = () => {
         >
           <Typography className={classes.heading}>Boundary Condition</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Nunc vitae orci ultricies, auctor nunc in, volutpat nisl. Integer sit amet egestas eros,
-            vitae egestas augue. Duis vel est augue.
-          </Typography>
-        </AccordionDetails>
+        <StrucBoundaryTable />
       </Accordion>
     </div>
   );

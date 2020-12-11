@@ -13,7 +13,7 @@ const StrucMaterialTable = () => {
   const data = [];
   for (const m in material) {
     data.push({
-      'id': material[m].id,
+      'ele': material[m].ele,
       'E': material[m].E,
       'A': material[m].A
     });
@@ -35,10 +35,11 @@ const StrucMaterialTable = () => {
 
   const columns = [
     {
-      title: 'Name',
-      field: 'id',
+      title: 'Element',
+      field: 'ele',
       sorting: false,
-      validate: rowData => rowData.id !== ''
+      initialEditValue: 'ele',
+      validate: rowData => rowData.ele !== ''
     },
     {
       title: 'Modulus',

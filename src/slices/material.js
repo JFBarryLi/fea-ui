@@ -8,22 +8,25 @@ const material = createSlice({
   initialState,
   reducers: {
     materialAdded: (state, action) => {
-      const newData = {
-        'id': action.payload.id,
-        'E': action.payload.E,
-        'A': action.payload.A
-      };
-      state.push(newData);
+      const index = state.findIndex(material => material.ele === action.payload.ele);
+      if (index === -1) {
+        const newData = {
+          'ele': action.payload.ele,
+          'E': action.payload.E,
+          'A': action.payload.A
+        };
+        state.push(newData);
+      }
     },
     materialDeleted: (state, action) => {
-      const index = state.findIndex(material => material.id === action.payload.id);
+      const index = state.findIndex(material => material.ele === action.payload.ele);
       if (index !== -1) state.splice(index, 1);
     },
     materialUpdated: (state, action) => {
-      let updateMaterial = state.find(material => material.id === action.payload.old.id);
-      const index = state.findIndex(material => material.id === action.payload.new.id);
-      if (index === -1 || action.payload.old.id === action.payload.new.id) {
-        updateMaterial.id = action.payload.new.id;
+      let updateMaterial = state.find(material => material.ele === action.payload.old.ele);
+      const index = state.findIndex(material => material.ele === action.payload.new.ele);
+      if (index === -1 || action.payload.old.ele === action.payload.new.ele) {
+        updateMaterial.ele = action.payload.new.ele;
         updateMaterial.E = action.payload.new.E;
         updateMaterial.A = action.payload.new.A;
       }

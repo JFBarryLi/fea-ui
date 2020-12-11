@@ -35,22 +35,23 @@ const StrucConnectivityTable = () => {
 
   const columns = [
     {
-      title: 'Name',
+      title: 'Element',
       field: 'id',
       sorting: false,
+      initialEditValue: 'ele',
       validate: rowData => rowData.id !== ''
     },
     {
       title: 'Node i',
       field: 'i',
       sorting: false,
-      validate: rowData => rowData.id !== ''
+      validate: rowData => rowData.i !== ''
     },
     {
       title: 'Node j',
       field: 'j',
       sorting: false,
-      validate: rowData => rowData.id !== ''
+      validate: rowData => rowData.j !== ''
     },
   ];
 

@@ -2,75 +2,72 @@ import React from 'react';
 import ConfigTable from 'components/ConfigTable';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  selectNodes,
-  nodeAdded,
-  nodeDeleted,
-  nodeUpdated
-} from 'slices/nodes';
+  selectBoundaries,
+  boundaryAdded,
+  boundaryDeleted,
+  boundaryUpdated
+} from 'slices/boundaries';
 
-const StrucNodalTable = () => {
-  const nodalCoords = useSelector(selectNodes);
+const StrucBoundaryTable = () => {
+  const boundarys = useSelector(selectBoundaries);
   const data = [];
-  for (const n in nodalCoords) {
+  for (const b in boundarys) {
     data.push({
-      'id': nodalCoords[n].id,
-      'x': nodalCoords[n].x,
-      'y': nodalCoords[n].y,
-      'z': nodalCoords[n].z
+      'node': boundarys[b].node,
+      'u1': boundarys[b].u1,
+      'u2': boundarys[b].u2,
+      'u3': boundarys[b].u3
     });
   }
 
   const dispatch = useDispatch();
 
   const addData = (row) => {
-    dispatch(nodeAdded(row));
+    dispatch(boundaryAdded(row));
   }
 
   const deleteData = (row) => {
-    dispatch(nodeDeleted(row));
+    dispatch(boundaryDeleted(row));
   }
 
   const updateData = (rowNewAndOld) => {
-    dispatch(nodeUpdated(rowNewAndOld));
+    dispatch(boundaryUpdated(rowNewAndOld));
   }
 
   const columns = [
     {
       title: 'Node',
-      field: 'id',
+      field: 'node',
       sorting: false,
       initialEditValue: 'node',
       validate: rowData => rowData.id !== ''
     },
     {
-      title: 'X',
-      field: 'x',
+      title: 'Dx',
+      field: 'u1',
       type: 'numeric',
       sorting: false,
-      initialEditValue: 0,
-      validate: rowData => !isNaN(rowData.x)
+      initialEditValue: 0
     },
     {
-      title: 'Y',
-      field: 'y',
+      title: 'Dy',
+      field: 'u2',
       type: 'numeric',
       sorting: false,
-      initialEditValue: 0,
-      validate: rowData => !isNaN(rowData.y)
+      initialEditValue: 0
     },
     {
-      title: 'Z',
-      field: 'z',
+      title: 'Dz',
+      field: 'u3',
       type: 'numeric',
       sorting: false,
-      initialEditValue: 0,
-      validate: rowData => !isNaN(rowData.z)
+      initialEditValue: 0
     },
   ];
 
   return (
     <ConfigTable
-      title={'Nodal'}
+      title={'Boundary'}
       columns={columns}
       data={data}
       addData={addData}
@@ -80,4 +77,4 @@ const StrucNodalTable = () => {
   );
 }
 
-export default StrucNodalTable;
+export default StrucBoundaryTable;
