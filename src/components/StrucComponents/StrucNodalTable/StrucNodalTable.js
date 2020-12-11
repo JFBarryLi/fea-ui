@@ -8,7 +8,7 @@ import {
   nodeUpdated
 } from 'slices/nodes';
 
-const StrucGeometryTable = () => {
+const StrucNodalTable = () => {
   const nodalCoords = useSelector(selectNodes);
   const data = [];
   for (const n in nodalCoords) {
@@ -69,6 +69,7 @@ const StrucGeometryTable = () => {
 
   return (
     <ConfigTable
+      title={'Nodal'}
       columns={columns}
       data={data}
       addData={addData}
@@ -78,4 +79,4 @@ const StrucGeometryTable = () => {
   );
 }
 
-export default StrucGeometryTable;
+export default StrucNodalTable;

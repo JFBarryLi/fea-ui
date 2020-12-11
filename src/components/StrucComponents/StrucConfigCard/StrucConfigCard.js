@@ -1,6 +1,6 @@
 import React from 'react';
 import ConfigCard from 'components/ConfigCard';
-import StrucConfigAccordion from 'components/StrucConfigAccordion';
+import StrucConfigAccordion from '../StrucConfigAccordion';
 
 const StrucConfigCard = () => {
   return (

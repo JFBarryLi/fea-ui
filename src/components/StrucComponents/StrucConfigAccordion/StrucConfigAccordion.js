@@ -6,7 +6,8 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import StrucGeometryTable from 'components/StrucGeometryTable';
+import StrucNodalTable from '../StrucNodalTable';
+import StrucConnectivityTable from '../StrucConnectivityTable';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,8 @@ const StrucConfigAccordion = () => {
         >
           <Typography className={classes.heading}>Geometry</Typography>
         </AccordionSummary>
-        <StrucGeometryTable />
+        <StrucNodalTable />
+        <StrucConnectivityTable />
       </Accordion>
       <Accordion>
         <AccordionSummary

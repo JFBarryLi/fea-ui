@@ -8,7 +8,13 @@ const nodes = createSlice({
   initialState,
   reducers: {
     nodeAdded: (state, action) => {
-      state.push(action.payload);
+      const newData = {
+        'id': action.payload.id,
+        'x': action.payload.x,
+        'y': action.payload.y,
+        'z': action.payload.z
+      };
+      state.push(newData);
     },
     nodeDeleted: (state, action) => {
       const index = state.findIndex(node => node.id === action.payload.id);

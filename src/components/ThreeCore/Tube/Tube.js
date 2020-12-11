@@ -32,7 +32,7 @@ const Tube = (props) => {
     }
 
     return new StraightLine()
-  }, [])
+  }, [nodeI, nodeJ])
 
   return (
     <mesh

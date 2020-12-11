@@ -41,7 +41,7 @@ const ConfigTable = (props) => {
   const options = {
     search: false,
     draggable: false,
-    showTitle: false,
+    showTitle: true,
     pageSizeOptions: [],
     selection: true,
     rowStyle: (rowData, index) => ({
@@ -90,18 +90,19 @@ const ConfigTable = (props) => {
           resolve();
         }, 0)
       }),
-    onRowDelete: oldData =>
-      new Promise((resolve, reject) => {
-        setTimeout(() => {
-          props.deleteData(oldData);
+    // onRowDelete: oldData =>
+      // new Promise((resolve, reject) => {
+        // setTimeout(() => {
+          // props.deleteData(oldData);
 
-          resolve()
-        }, 0)
-      }),
+          // resolve()
+        // }, 0)
+      // }),
     };
 
   return (
     <MaterialTable
+      title={props.title}
       icons={tableIcons}
       localization={localization}
       options={options}
