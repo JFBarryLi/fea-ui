@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import StrucNodalTable from '../StrucNodalTable';
 import StrucConnectivityTable from '../StrucConnectivityTable';
+import StrucMaterialTable from '../StrucMaterialTable';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,12 +51,7 @@ const StrucConfigAccordion = () => {
         >
           <Typography className={classes.heading}>Material</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <Typography>
-            Donec placerat, lectus sed mattis semper, neque lectus feugiat lectus, varius pulvinar
-            diam eros in elit. Pellentesque convallis laoreet laoreet.
-          </Typography>
-        </AccordionDetails>
+        <StrucMaterialTable />
       </Accordion>
       <Accordion>
         <AccordionSummary
