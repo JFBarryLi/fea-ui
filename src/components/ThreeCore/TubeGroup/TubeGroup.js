@@ -12,12 +12,16 @@ const TubeGroup = (props) => {
   for (const ele in elements) {
     const nodeI = nodalCoords.find(node => node.id === elements[ele].i);
     const nodeJ = nodalCoords.find(node => node.id === elements[ele].j);
+    let key = ele;
+    for (let i in nodeI) {
+      key += nodeI[i].toString() + nodeJ[i].toString();
+    }
     tubes.push(
       <Tube
         nodeI={nodeI}
         nodeJ={nodeJ}
         name={elements[ele].id}
-        key={ele}
+        key={key}
       />
     );
   }
