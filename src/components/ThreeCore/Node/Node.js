@@ -20,7 +20,7 @@ const Node = (props) => {
       />
       <meshLambertMaterial
         attach='material'
-        color={hovered ? '#005082' : '#ffffff'}
+        color={hovered ? '#005082': '#000839'}
       />
     </mesh>
   );
