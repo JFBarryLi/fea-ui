@@ -13,6 +13,12 @@ const theme = createMuiTheme({
       main: '#ffa41b',
     },
   },
+  typography: {
+    h6: {
+      fontSize: '0.9375rem',
+      fontWeight: 500,
+    }
+  },
   overrides: {
     MuiButton: {
       root: {

@@ -1,8 +1,7 @@
 import React from 'react';
-import styled from 'styled-components';
-import { makeStyles } from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import MuiAccordion from '@material-ui/core/Accordion';
+import Divider from '@material-ui/core/Divider';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -14,18 +13,26 @@ import StrucBoundaryTable from '../StrucBoundaryTable';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 400,
+    // maxWidth: 200,
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
+    fontWeight: 500,
     flexBasis: '33.33%',
     flexShrink: 0,
   },
-  secondaryHeading: {
-    fontSize: theme.typography.pxToRem(15),
-    color: theme.palette.text.secondary,
-  },
 }));
+
+const Accordion = withStyles({
+  root: {
+    width: 200,
+    '&$expanded': {
+      width: '100%',
+      maxWidth: 400,
+    },
+  },
+  expanded: {},
+})(MuiAccordion);
 
 const StrucConfigAccordion = () => {
   const classes = useStyles();
@@ -41,6 +48,7 @@ const StrucConfigAccordion = () => {
         >
           <Typography className={classes.heading}>Geometry</Typography>
         </AccordionSummary>
+        <Divider />
         <StrucNodalTable />
         <StrucConnectivityTable />
       </Accordion>
@@ -53,6 +61,7 @@ const StrucConfigAccordion = () => {
         >
           <Typography className={classes.heading}>Material</Typography>
         </AccordionSummary>
+        <Divider />
         <StrucMaterialTable />
       </Accordion>
       <Accordion>
@@ -64,6 +73,7 @@ const StrucConfigAccordion = () => {
         >
           <Typography className={classes.heading}>Load</Typography>
         </AccordionSummary>
+        <Divider />
         <StrucLoadTable />
       </Accordion>
       <Accordion>
@@ -75,6 +85,7 @@ const StrucConfigAccordion = () => {
         >
           <Typography className={classes.heading}>Boundary Condition</Typography>
         </AccordionSummary>
+        <Divider />
         <StrucBoundaryTable />
       </Accordion>
     </div>

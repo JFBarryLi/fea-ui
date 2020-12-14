@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Divider from '@material-ui/core/Divider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 50,
     overflow: 'auto',
+  },
+  simulate: {
+    boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)'
   },
   expand: {
     transform: 'rotate(0deg)',
@@ -67,8 +71,9 @@ const ConfigCard = (props) => {
         {props.children}
         </CardContent>
       </Collapse>
+      <Divider />
       <CardActions disableSpacing>
-        <Button size="medium">SIMULATE</Button>
+        <Button className={classes.simulate} size="medium">SIMULATE</Button>
       </CardActions>
     </Card>
   );
