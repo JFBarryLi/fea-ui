@@ -45,29 +45,26 @@ const StrucBoundaryTable = () => {
     {
       title: 'Dx',
       field: 'u1',
-      type: 'numeric',
+      type: 'boolean',
       sorting: false,
-      initialEditValue: 0
     },
     {
       title: 'Dy',
       field: 'u2',
-      type: 'numeric',
+      type: 'boolean',
       sorting: false,
-      initialEditValue: 0
     },
     {
       title: 'Dz',
       field: 'u3',
-      type: 'numeric',
+      type: 'boolean',
       sorting: false,
-      initialEditValue: 0
     },
   ];
 
   return (
     <ConfigTable
-      title={'Boundary'}
+      title={'Restrict'}
       columns={columns}
       data={data}
       addData={addData}

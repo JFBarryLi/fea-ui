@@ -8,6 +8,7 @@ import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
+import Remove from '@material-ui/icons/Remove';
 import MaterialTable from 'material-table';
 
 const iconStyle = {
@@ -25,6 +26,7 @@ const tableIcons = {
   LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
   NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
   PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+  ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
 };
 
 const ConfigTable = (props) => {

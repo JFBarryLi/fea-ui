@@ -370,24 +370,24 @@ const TrussExample = {
     ],
     "boundaryConditions": [{
             "node": "node1",
-            "u1": 0,
-            "u2": 0,
-            "u3": 0
+            "u1": true,
+            "u2": true,
+            "u3": true
         }, {
             "node": "node5",
-            "u1": 0,
-            "u2": 0,
-            "u3": 0
+            "u1": true,
+            "u2": true,
+            "u3": true
         }, {
             "node": "node9",
-            "u1": 0,
-            "u2": 0,
-            "u3": 0
+            "u1": true,
+            "u2": true,
+            "u3": true
         }, {
             "node": "node13",
-            "u1": 0,
-            "u2": 0,
-            "u3": 0
+            "u1": true,
+            "u2": true,
+            "u3": true
         }
     ],
     "stresses": []
