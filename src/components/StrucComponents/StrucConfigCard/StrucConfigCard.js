@@ -1,12 +1,14 @@
 import React from 'react';
 import ConfigCard from 'components/ConfigCard';
 import StrucConfigAccordion from '../StrucConfigAccordion';
+import StrucSimulate from '../StrucSimulate';
 
 const StrucConfigCard = () => {
   return (
-    <ConfigCard>
-      <StrucConfigAccordion />
-    </ConfigCard>
+    <ConfigCard
+      accordion={<StrucConfigAccordion />}
+      button={<StrucSimulate />}
+    />
   );
 }
 

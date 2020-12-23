@@ -21,9 +21,6 @@ const useStyles = makeStyles((theme) => ({
     top: 50,
     overflow: 'auto',
   },
-  simulate: {
-    boxShadow: '0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12)'
-  },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
@@ -68,12 +65,12 @@ const ConfigCard = (props) => {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-        {props.children}
+        {props.accordion}
         </CardContent>
       </Collapse>
       <Divider />
       <CardActions disableSpacing>
-        <Button className={classes.simulate} size="medium">SIMULATE</Button>
+        {props.button}
       </CardActions>
     </Card>
   );
