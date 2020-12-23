@@ -33,10 +33,25 @@ const nodes = createSlice({
         updateNode.z = action.payload.new.z;
       }
     },
+    nodesUpdated: (state, action) => {
+      state.forEach(node => {
+        const found = action.payload.find( n => n.id === node.id );
+        if (found) {
+          node.x = found.x;
+          node.y = found.y;
+          node.z = found.z;
+        }
+      });
+    }
   }
 });
 
-export const { nodeAdded, nodeDeleted, nodeUpdated } = nodes.actions;
+export const {
+  nodeAdded,
+  nodeDeleted,
+  nodeUpdated,
+  nodesUpdated
+} = nodes.actions;
 
 export const selectNodes = state => state.nodes;
 

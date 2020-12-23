@@ -1,10 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit'
 import { selectStruc, fetchStruc } from 'slices/struc';
+import { nodesUpdated } from 'slices/nodes';
 
 const useStyles = makeStyles((theme) => ({
   simulate: {
@@ -16,7 +17,17 @@ const StrucSimulate = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const currentStruc = useSelector(selectStruc);
-  const handleClick = () => dispatch(fetchStruc(currentStruc));
+  const handleClick = () => {
+    dispatch(fetchStruc(currentStruc))
+      .then(unwrapResult)
+      .then(originalPromiseResult => {
+        const nodes = originalPromiseResult.nodalCoords;
+        dispatch(nodesUpdated(nodes));
+      })
+      .catch(rejectedValueOrSerializedError => {
+        console.log(rejectedValueOrSerializedError);
+      });
+  }
 
   return (
     <Button

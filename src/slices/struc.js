@@ -3,16 +3,18 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getTrussResult } from 'api/feaAPI';
 
 const initialState = {
-  loading: 'idle',
-  nodalCoords: [],
-  stresses: []
+  loading: 'idle'
 };
 
 export const fetchStruc = createAsyncThunk(
   'struc/fetchStrucStatus',
-  async (body, thunkAPI) => {
-    const response = await getTrussResult(body);
-    return response;
+  async (body, { rejectWithValue }) => {
+    try {
+      const response = await getTrussResult(body);
+      return response;
+    } catch (err) {
+      return rejectWithValue(err.response);
+    }
   }
 )
 
@@ -23,8 +25,6 @@ const struc = createSlice({
   },
   extraReducers: {
     [fetchStruc.fufilled]: (state, action) => {
-      state.nodalCoords = action.payload.data.nodalCoords;
-      state.stresses = action.payload.data.stresses;
     }
   }
 });
