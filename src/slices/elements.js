@@ -22,6 +22,12 @@ const elements = createSlice({
       const index = state.findIndex(element => element.id === action.payload.id);
       if (index !== -1) state.splice(index, 1);
     },
+    elementsDeleted: (state, action) => {
+      action.payload.forEach(row => {
+        const index = state.findIndex(element => element.id === row.id);
+        if (index !== -1) state.splice(index, 1);
+      });
+    },
     elementUpdated: (state, action) => {
       let updateelement = state.find(element => element.id === action.payload.old.id);
       const index = state.findIndex(element => element.id === action.payload.new.id);
@@ -34,7 +40,12 @@ const elements = createSlice({
   }
 });
 
-export const { elementAdded, elementDeleted, elementUpdated } = elements.actions;
+export const {
+  elementAdded,
+  elementDeleted,
+  elementsDeleted,
+  elementUpdated
+} = elements.actions;
 
 export const selectElements = state => state.elements;
 

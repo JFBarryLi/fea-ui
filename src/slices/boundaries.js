@@ -23,6 +23,12 @@ const boundaries = createSlice({
       const index = state.findIndex(boundary => boundary.node === action.payload.node);
       if (index !== -1) state.splice(index, 1);
     },
+    boundariesDeleted: (state, action) => {
+      action.payload.forEach(row => {
+        const index = state.findIndex(boundary => boundary.node === row.node);
+        if (index !== -1) state.splice(index, 1);
+      });
+    },
     boundaryUpdated: (state, action) => {
       let updateBoundary = state.find(boundary => boundary.node === action.payload.old.node);
       const index = state.findIndex(boundary => boundary.node === action.payload.new.node);
@@ -36,7 +42,12 @@ const boundaries = createSlice({
   }
 });
 
-export const { boundaryAdded, boundaryDeleted, boundaryUpdated } = boundaries.actions;
+export const {
+  boundaryAdded,
+  boundaryDeleted,
+  boundariesDeleted,
+  boundaryUpdated
+} = boundaries.actions;
 
 export const selectBoundaries = state => state.boundaries;
 

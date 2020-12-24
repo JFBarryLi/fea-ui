@@ -5,6 +5,7 @@ import {
   selectBoundaries,
   boundaryAdded,
   boundaryDeleted,
+  boundariesDeleted,
   boundaryUpdated
 } from 'slices/boundaries';
 
@@ -22,15 +23,19 @@ const StrucBoundaryTable = () => {
 
   const dispatch = useDispatch();
 
-  const addData = (row) => {
+  const addRow = (row) => {
     dispatch(boundaryAdded(row));
   }
 
-  const deleteData = (row) => {
+  const deleteRow = (row) => {
     dispatch(boundaryDeleted(row));
   }
 
-  const updateData = (rowNewAndOld) => {
+  const deleteRows = (rows) => {
+    dispatch(boundariesDeleted(rows));
+  }
+
+  const updateRow = (rowNewAndOld) => {
     dispatch(boundaryUpdated(rowNewAndOld));
   }
 
@@ -67,9 +72,10 @@ const StrucBoundaryTable = () => {
       title={'Restrict'}
       columns={columns}
       data={data}
-      addData={addData}
-      deleteData={deleteData}
-      updateData={updateData}
+      addRow={addRow}
+      deleteRow={deleteRow}
+      deleteRows={deleteRows}
+      updateRow={updateRow}
     />
   );
 }

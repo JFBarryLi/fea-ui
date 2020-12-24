@@ -5,6 +5,7 @@ import {
   selectMaterial,
   materialAdded,
   materialDeleted,
+  materialsDeleted,
   materialUpdated
 } from 'slices/material';
 
@@ -21,15 +22,19 @@ const StrucMaterialTable = () => {
 
   const dispatch = useDispatch();
 
-  const addData = (row) => {
+  const addRow = (row) => {
     dispatch(materialAdded(row));
   }
 
-  const deleteData = (row) => {
+  const deleteRow = (row) => {
     dispatch(materialDeleted(row));
   }
 
-  const updateData = (rowNewAndOld) => {
+  const deleteRows = (rows) => {
+    dispatch(materialsDeleted(rows));
+  }
+
+  const updateRow = (rowNewAndOld) => {
     dispatch(materialUpdated(rowNewAndOld));
   }
 
@@ -64,9 +69,10 @@ const StrucMaterialTable = () => {
       title={'Material'}
       columns={columns}
       data={data}
-      addData={addData}
-      deleteData={deleteData}
-      updateData={updateData}
+      addRow={addRow}
+      deleteRow={deleteRow}
+      deleteRows={deleteRows}
+      updateRow={updateRow}
     />
   );
 }

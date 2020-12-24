@@ -5,6 +5,7 @@ import {
   selectElements,
   elementAdded,
   elementDeleted,
+  elementsDeleted,
   elementUpdated
 } from 'slices/elements';
 
@@ -21,15 +22,19 @@ const StrucConnectivityTable = () => {
 
   const dispatch = useDispatch();
 
-  const addData = (row) => {
+  const addRow = (row) => {
     dispatch(elementAdded(row));
   }
 
-  const deleteData = (row) => {
+  const deleteRow = (row) => {
     dispatch(elementDeleted(row));
   }
 
-  const updateData = (rowNewAndOld) => {
+  const deleteRows = (rows) => {
+    dispatch(elementsDeleted(rows));
+  }
+
+  const updateRow = (rowNewAndOld) => {
     dispatch(elementUpdated(rowNewAndOld));
   }
 
@@ -60,9 +65,10 @@ const StrucConnectivityTable = () => {
       title={'Connectivity'}
       columns={columns}
       data={data}
-      addData={addData}
-      deleteData={deleteData}
-      updateData={updateData}
+      addRow={addRow}
+      deleteRow={deleteRow}
+      deleteRows={deleteRows}
+      updateRow={updateRow}
     />
   );
 }

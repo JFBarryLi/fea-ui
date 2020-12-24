@@ -22,6 +22,12 @@ const material = createSlice({
       const index = state.findIndex(material => material.ele === action.payload.ele);
       if (index !== -1) state.splice(index, 1);
     },
+    materialsDeleted: (state, action) => {
+      action.payload.forEach(row => {
+        const index = state.findIndex(material => material.ele === row.ele);
+        if (index !== -1) state.splice(index, 1);
+      });
+    },
     materialUpdated: (state, action) => {
       let updateMaterial = state.find(material => material.ele === action.payload.old.ele);
       const index = state.findIndex(material => material.ele === action.payload.new.ele);
@@ -34,7 +40,12 @@ const material = createSlice({
   }
 });
 
-export const { materialAdded, materialDeleted, materialUpdated } = material.actions;
+export const {
+  materialAdded,
+  materialDeleted,
+  materialsDeleted,
+  materialUpdated
+} = material.actions;
 
 export const selectMaterial = state => state.material;
 

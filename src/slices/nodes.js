@@ -23,6 +23,12 @@ const nodes = createSlice({
       const index = state.findIndex(node => node.id === action.payload.id);
       if (index !== -1) state.splice(index, 1);
     },
+    nodesDeleted: (state, action) => {
+      action.payload.forEach(row => {
+        const index = state.findIndex(node => node.id === row.id);
+        if (index !== -1) state.splice(index, 1);
+      });
+    },
     nodeUpdated: (state, action) => {
       let updateNode = state.find(node => node.id === action.payload.old.id);
       const index = state.findIndex(node => node.id === action.payload.new.id);
@@ -49,6 +55,7 @@ const nodes = createSlice({
 export const {
   nodeAdded,
   nodeDeleted,
+  nodesDeleted,
   nodeUpdated,
   nodesUpdated
 } = nodes.actions;

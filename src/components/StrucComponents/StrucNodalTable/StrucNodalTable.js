@@ -5,6 +5,7 @@ import {
   selectNodes,
   nodeAdded,
   nodeDeleted,
+  nodesDeleted,
   nodeUpdated
 } from 'slices/nodes';
 
@@ -22,15 +23,19 @@ const StrucNodalTable = () => {
 
   const dispatch = useDispatch();
 
-  const addData = (row) => {
+  const addRow = (row) => {
     dispatch(nodeAdded(row));
   }
 
-  const deleteData = (row) => {
+  const deleteRow = (row) => {
     dispatch(nodeDeleted(row));
   }
 
-  const updateData = (rowNewAndOld) => {
+  const deleteRows = (rows) => {
+    dispatch(nodesDeleted(rows));
+  }
+
+  const updateRow = (rowNewAndOld) => {
     dispatch(nodeUpdated(rowNewAndOld));
   }
 
@@ -73,9 +78,10 @@ const StrucNodalTable = () => {
       title={'Nodal'}
       columns={columns}
       data={data}
-      addData={addData}
-      deleteData={deleteData}
-      updateData={updateData}
+      addRow={addRow}
+      deleteRow={deleteRow}
+      deleteRows={deleteRows}
+      updateRow={updateRow}
     />
   );
 }

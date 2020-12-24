@@ -58,9 +58,7 @@ const ConfigTable = (props) => {
   };
 
   const handleDeleteRows = (event, rowData) => {
-    rowData.forEach(rd => {
-      props.deleteData(rd);
-    });
+    props.deleteRows(rowData);
   };
 
   const actions = [
@@ -75,7 +73,7 @@ const ConfigTable = (props) => {
     onRowAdd: newData =>
       new Promise((resolve, reject) => {
         setTimeout(() => {
-          props.addData(newData);
+          props.addRow(newData);
 
           resolve();
         }, 0)
@@ -83,7 +81,7 @@ const ConfigTable = (props) => {
     onRowUpdate: (newData, oldData) =>
       new Promise((resolve, reject) => {
         setTimeout(() => {
-          props.updateData({'new': newData, 'old': oldData});
+          props.updateRow({'new': newData, 'old': oldData});
 
           resolve();
         }, 0)
@@ -91,7 +89,7 @@ const ConfigTable = (props) => {
     // onRowDelete: oldData =>
       // new Promise((resolve, reject) => {
         // setTimeout(() => {
-          // props.deleteData(oldData);
+          // props.deleteRow(oldData);
 
           // resolve()
         // }, 0)

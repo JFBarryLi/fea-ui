@@ -5,6 +5,7 @@ import {
   selectLoads,
   loadAdded,
   loadDeleted,
+  loadsDeleted,
   loadUpdated
 } from 'slices/loads';
 
@@ -22,15 +23,19 @@ const StrucLoadTable = () => {
 
   const dispatch = useDispatch();
 
-  const addData = (row) => {
+  const addRow = (row) => {
     dispatch(loadAdded(row));
   }
 
-  const deleteData = (row) => {
+  const deleteRow = (row) => {
     dispatch(loadDeleted(row));
   }
 
-  const updateData = (rowNewAndOld) => {
+  const deleteRows = (rows) => {
+    dispatch(loadsDeleted(rows));
+  }
+
+  const updateRow = (rowNewAndOld) => {
     dispatch(loadUpdated(rowNewAndOld));
   }
 
@@ -73,9 +78,10 @@ const StrucLoadTable = () => {
       title={'Load'}
       columns={columns}
       data={data}
-      addData={addData}
-      deleteData={deleteData}
-      updateData={updateData}
+      addRow={addRow}
+      deleteRow={deleteRow}
+      deleteRows={deleteRows}
+      updateRow={updateRow}
     />
   );
 }
