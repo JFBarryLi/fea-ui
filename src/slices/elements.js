@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import TrussExample from 'pages/TrussPage/TrussExample';
+import {
+  createItemAdded,
+  createItemDeleted,
+  createItemsDeleted,
+  createItemUpdated
+} from 'reducers/crudReducers';
 
 const initialState = TrussExample.connectivity;
 
@@ -7,36 +13,17 @@ const elements = createSlice({
   name: 'elements',
   initialState,
   reducers: {
-    elementAdded: (state, action) => {
-      const index = state.findIndex(element => element.id === action.payload.id);
-      if (index === -1 && action.payload.i !== undefined && action.payload.j !== undefined) {
-        const newData = {
-          'id': action.payload.id,
-          'i': action.payload.i,
-          'j': action.payload.j
-        };
-        state.push(newData);
+    elementAdded: createItemAdded(
+      'id',
+      {
+        'id': 'id',
+        'i': 'j',
+        'j': 'j'
       }
-    },
-    elementDeleted: (state, action) => {
-      const index = state.findIndex(element => element.id === action.payload.id);
-      if (index !== -1) state.splice(index, 1);
-    },
-    elementsDeleted: (state, action) => {
-      action.payload.forEach(row => {
-        const index = state.findIndex(element => element.id === row.id);
-        if (index !== -1) state.splice(index, 1);
-      });
-    },
-    elementUpdated: (state, action) => {
-      let updateelement = state.find(element => element.id === action.payload.old.id);
-      const index = state.findIndex(element => element.id === action.payload.new.id);
-      if (index === -1 || action.payload.old.id === action.payload.new.id) {
-        updateelement.id = action.payload.new.id;
-        updateelement.i = action.payload.new.i;
-        updateelement.j = action.payload.new.j;
-      }
-    },
+    ),
+    elementDeleted: createItemDeleted('id'),
+    elementsDeleted: createItemsDeleted('id'),
+    elementUpdated: createItemUpdated('id'),
   }
 });
 

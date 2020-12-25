@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import TrussExample from 'pages/TrussPage/TrussExample';
+import {
+  createItemAdded,
+  createItemDeleted,
+  createItemsDeleted,
+  createItemUpdated
+} from 'reducers/crudReducers';
 
 const initialState = TrussExample.boundaryConditions;
 
@@ -7,38 +13,18 @@ const boundaries = createSlice({
   name: 'boundaries',
   initialState,
   reducers: {
-    boundaryAdded: (state, action) => {
-      const index = state.findIndex(boundary => boundary.node === action.payload.node);
-      if (index === -1) {
-        const newData = {
-          'node': action.payload.node,
-          'u1': action.payload.u1,
-          'u2': action.payload.u2,
-          'u3': action.payload.u3
-        };
-        state.push(newData);
+    boundaryAdded: createItemAdded(
+      'node',
+      {
+        'node': 'node',
+        'u1': 'u1',
+        'u2': 'u2',
+        'u3': 'u3'
       }
-    },
-    boundaryDeleted: (state, action) => {
-      const index = state.findIndex(boundary => boundary.node === action.payload.node);
-      if (index !== -1) state.splice(index, 1);
-    },
-    boundariesDeleted: (state, action) => {
-      action.payload.forEach(row => {
-        const index = state.findIndex(boundary => boundary.node === row.node);
-        if (index !== -1) state.splice(index, 1);
-      });
-    },
-    boundaryUpdated: (state, action) => {
-      let updateBoundary = state.find(boundary => boundary.node === action.payload.old.node);
-      const index = state.findIndex(boundary => boundary.node === action.payload.new.node);
-      if (index === -1 || action.payload.old.node === action.payload.new.node) {
-        updateBoundary.node = action.payload.new.node;
-        updateBoundary.u1 = action.payload.new.u1;
-        updateBoundary.u2 = action.payload.new.u2;
-        updateBoundary.u3 = action.payload.new.u3;
-      }
-    },
+    ),
+    boundaryDeleted: createItemDeleted('node'),
+    boundariesDeleted: createItemsDeleted('node'),
+    boundaryUpdated: createItemUpdated('node')
   }
 });
 
