@@ -30,6 +30,26 @@ export const createItemsDeleted = (id) => {
   }
 }
 
+export const createCascadeItemDeleted = (id, keys) => {
+  return (state, action) => {
+    keys.forEach(key => {
+      state = state.filter(obj => obj[key] !== action.payload[id]);
+    });
+    return state;
+  }
+}
+
+export const createCascadeItemsDeleted = (id, keys) => {
+  return (state, action) => {
+    action.payload.forEach(row => {
+      keys.forEach(key => {
+        state = state.filter(obj => obj[key] !== row[id]);
+      });
+    });
+    return state;
+  }
+}
+
 export const createItemUpdated = (id) => {
   return (state, action) => {
     let update = state.find(obj => obj[id] === action.payload.old[id]);

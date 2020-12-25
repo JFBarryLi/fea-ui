@@ -4,8 +4,11 @@ import {
   createItemAdded,
   createItemDeleted,
   createItemsDeleted,
-  createItemUpdated
+  createCascadeItemDeleted,
+  createCascadeItemsDeleted,
+  createItemUpdated,
 } from 'reducers/crudReducers';
+import { nodeDeleted, nodesDeleted } from 'slices/nodes';
 
 const initialState = TrussExample.forceVector;
 
@@ -25,7 +28,11 @@ const loads = createSlice({
     loadDeleted: createItemDeleted('node'),
     loadsDeleted: createItemsDeleted('node'),
     loadUpdated: createItemUpdated('node'),
-  }
+  },
+  extraReducers: {
+    [nodeDeleted]: createCascadeItemDeleted('id', ['node']),
+    [nodesDeleted]: createCascadeItemsDeleted('id', ['node']),
+  },
 });
 
 export const {

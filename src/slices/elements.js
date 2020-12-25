@@ -4,8 +4,11 @@ import {
   createItemAdded,
   createItemDeleted,
   createItemsDeleted,
-  createItemUpdated
+  createCascadeItemDeleted,
+  createCascadeItemsDeleted,
+  createItemUpdated,
 } from 'reducers/crudReducers';
+import { nodeDeleted, nodesDeleted } from 'slices/nodes';
 
 const initialState = TrussExample.connectivity;
 
@@ -24,7 +27,11 @@ const elements = createSlice({
     elementDeleted: createItemDeleted('id'),
     elementsDeleted: createItemsDeleted('id'),
     elementUpdated: createItemUpdated('id'),
-  }
+  },
+  extraReducers: {
+    [nodeDeleted]: createCascadeItemDeleted('id', ['i', 'j']),
+    [nodesDeleted]: createCascadeItemsDeleted('id', ['i', 'j']),
+  },
 });
 
 export const {

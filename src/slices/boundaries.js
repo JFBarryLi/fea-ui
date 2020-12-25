@@ -4,8 +4,11 @@ import {
   createItemAdded,
   createItemDeleted,
   createItemsDeleted,
-  createItemUpdated
+  createCascadeItemDeleted,
+  createCascadeItemsDeleted,
+  createItemUpdated,
 } from 'reducers/crudReducers';
+import { nodeDeleted, nodesDeleted } from 'slices/nodes';
 
 const initialState = TrussExample.boundaryConditions;
 
@@ -24,8 +27,12 @@ const boundaries = createSlice({
     ),
     boundaryDeleted: createItemDeleted('node'),
     boundariesDeleted: createItemsDeleted('node'),
-    boundaryUpdated: createItemUpdated('node')
-  }
+    boundaryUpdated: createItemUpdated('node'),
+  },
+  extraReducers: {
+    [nodeDeleted]: createCascadeItemDeleted('id', ['node']),
+    [nodesDeleted]: createCascadeItemsDeleted('id', ['node']),
+  },
 });
 
 export const {

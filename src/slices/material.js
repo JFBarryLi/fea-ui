@@ -4,8 +4,11 @@ import {
   createItemAdded,
   createItemDeleted,
   createItemsDeleted,
-  createItemUpdated
+  createCascadeItemDeleted,
+  createCascadeItemsDeleted,
+  createItemUpdated,
 } from 'reducers/crudReducers';
+import { elementDeleted, elementsDeleted } from 'slices/elements';
 
 const initialState = TrussExample.matProp;
 
@@ -23,8 +26,12 @@ const material = createSlice({
     ),
     materialDeleted: createItemDeleted('ele'),
     materialsDeleted: createItemsDeleted('ele'),
-    materialUpdated: createItemUpdated('ele')
-  }
+    materialUpdated: createItemUpdated('ele'),
+  },
+  extraReducers: {
+    [elementDeleted]: createCascadeItemDeleted('id', ['ele']),
+    [elementsDeleted]: createCascadeItemsDeleted('id', ['ele']),
+  },
 });
 
 export const {

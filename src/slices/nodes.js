@@ -5,7 +5,7 @@ import {
   createItemDeleted,
   createItemsDeleted,
   createItemUpdated,
-  createItemsUpdated
+  createItemsUpdated,
 } from 'reducers/crudReducers';
 
 const initialState = TrussExample.nodalCoords;
