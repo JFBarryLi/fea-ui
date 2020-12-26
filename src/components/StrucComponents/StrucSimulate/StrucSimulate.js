@@ -5,7 +5,7 @@ import { useSnackbar } from 'notistack';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit'
-import { selectStruc, selectStrucError, fetchStruc } from 'slices/struc';
+import { selectStruc, fetchStruc } from 'slices/struc';
 import { nodesUpdated } from 'slices/nodes';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +18,6 @@ const StrucSimulate = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const currentStruc = useSelector(selectStruc);
-  const strucError = useSelector(selectStrucError);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -35,7 +34,7 @@ const StrucSimulate = () => {
         });
       })
       .catch(rejectedValueOrSerializedError => {
-        const message = strucError.errorMessage + ' - ' + strucError.detail;
+        const message = typeof(rejectedValueOrSerializedError) === 'string' ? rejectedValueOrSerializedError : rejectedValueOrSerializedError.errorMessage + ' - ' + rejectedValueOrSerializedError.detail;
         enqueueSnackbar(message, {
           variant: 'error',
           preventDuplicate: true,
