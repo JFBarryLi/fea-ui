@@ -26,7 +26,9 @@ export async function client(endpoint, { body, ...customConfig } = {}) {
     }
     throw new Error(response.statusText);
   } catch (err) {
-    return Promise.reject(err.message ? err.message : data);
+    const errResponse = data ? Object.assign(data, {'errorMessage': err.message}) : err.message;
+    console.log(errResponse);
+    return Promise.reject(errResponse);
   }
 }
 

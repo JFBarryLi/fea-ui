@@ -3,7 +3,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getTrussResult } from 'api/feaAPI';
 
 const initialState = {
-  loading: 'idle'
+  loading: 'idle',
+  error: {},
 };
 
 export const fetchStruc = createAsyncThunk(
@@ -13,7 +14,7 @@ export const fetchStruc = createAsyncThunk(
       const response = await getTrussResult(body);
       return response;
     } catch (err) {
-      return rejectWithValue(err.response);
+      return rejectWithValue(err);
     }
   }
 )
@@ -24,8 +25,16 @@ const struc = createSlice({
   reducers: {
   },
   extraReducers: {
-    [fetchStruc.fufilled]: (state, action) => {
-    }
+    [fetchStruc.fulfilled]: (state, action) => {
+      state.loading = 'succeeded';
+    },
+    [fetchStruc.rejected]: (state, action) => {
+      state.loading = 'failed';
+      state.error = action.payload;
+    },
+    [fetchStruc.pending]: (state, action) => {
+      state.loading = 'loading';
+    },
   }
 });
 
@@ -36,5 +45,7 @@ export const selectStruc = state => ({
   'forceVector': state.loads,
   'boundaryConditions': state.boundaries,
 });
+
+export const selectStrucError = state => state.struc.error;
 
 export default struc.reducer;

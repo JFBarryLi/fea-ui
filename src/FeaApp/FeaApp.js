@@ -2,6 +2,10 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+
+import { SnackbarProvider } from 'notistack';
 import { TrussPage } from 'pages';
 
 const theme = createMuiTheme({
@@ -28,10 +32,28 @@ const theme = createMuiTheme({
   },
 });
 
+const notistackRef = React.createRef();
+const onClickDismiss = key => () => {
+    notistackRef.current.closeSnackbar(key);
+}
+
 const FeaApp = () => (
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-      <TrussPage />
+      <SnackbarProvider
+        maxSnack={3}
+        ref={notistackRef}
+        action={(key) => (
+            <IconButton
+              aria-label='dismiss'
+              onClick={onClickDismiss(key)}
+            >
+              <CloseIcon />
+            </IconButton>
+        )}
+      >
+        <TrussPage />
+      </SnackbarProvider>
     </ThemeProvider>
   </Provider>
 );

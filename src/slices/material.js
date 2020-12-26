@@ -9,6 +9,7 @@ import {
   createItemUpdated,
 } from 'reducers/crudReducers';
 import { elementDeleted, elementsDeleted } from 'slices/elements';
+import { nodeDeleted, nodesDeleted } from 'slices/nodes';
 
 const initialState = TrussExample.matProp;
 
