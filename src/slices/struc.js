@@ -48,4 +48,6 @@ export const selectStruc = state => ({
 
 export const selectStrucError = state => state.struc.error;
 
+export const selectStrucLoading = state => state.struc.loading;
+
 export default struc.reducer;
