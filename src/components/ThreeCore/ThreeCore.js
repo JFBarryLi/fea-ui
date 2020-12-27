@@ -17,7 +17,7 @@ const ThreeCore = (props) => (
   <ReactReduxContext.Consumer>
     {({ store }) => (
       <CoreContainer>
-        <Canvas camera={{ position: [500, 300, 500] }}>
+        <Canvas camera={{ position: [500, 300, 500], far: 10000 }}>
           <Provider store={store}>
             <Light />
             <CameraControls />
