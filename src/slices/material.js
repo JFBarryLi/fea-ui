@@ -32,6 +32,20 @@ const material = createSlice({
   extraReducers: {
     [elementDeleted]: createCascadeItemDeleted('id', ['ele']),
     [elementsDeleted]: createCascadeItemsDeleted('id', ['ele']),
+    [nodeDeleted]: (state, action) => {
+      action.payload.eles.forEach( ele => {
+        state = state.filter(obj => obj.ele !== ele.id);
+      });
+      return state;
+    },
+    [nodesDeleted]: (state, action) => {
+      action.payload.forEach(row => {
+        row.eles.forEach(ele => {
+          state = state.filter(obj => obj.ele !== ele.id);
+        });
+      });
+      return state;
+    },
   },
 });
 

@@ -8,9 +8,11 @@ import {
   nodesDeleted,
   nodeUpdated
 } from 'slices/nodes';
+import { selectElements } from 'slices/elements';
 
 const StrucNodalTable = () => {
   const nodalCoords = useSelector(selectNodes);
+  const elements = useSelector(selectElements);
   const data = [];
   for (const n in nodalCoords) {
     data.push({
@@ -27,11 +29,25 @@ const StrucNodalTable = () => {
     dispatch(nodeAdded(row));
   }
 
+  const associateElements = (rows) => {
+    const associatedEles = rows;
+    if (associatedEles.length === undefined) {
+      associatedEles['eles'] = elements.filter(e => e['i'] === rows['id'] || e['j'] === rows['id']);
+      return associatedEles;
+    }
+    associatedEles.forEach(row => {
+      row['eles'] = elements.filter(e => e['i'] === row['id'] || e['j'] === row['id']);
+    });
+    return associatedEles;
+  }
+
   const deleteRow = (row) => {
+    row = associateElements(row);
     dispatch(nodeDeleted(row));
   }
 
   const deleteRows = (rows) => {
+    rows = associateElements(rows);
     dispatch(nodesDeleted(rows));
   }
 
