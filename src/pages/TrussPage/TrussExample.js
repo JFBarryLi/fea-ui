@@ -344,7 +344,12 @@ const TrussExample = {
     "forceVector": [{
             "node": "node2",
             "u1": 0,
-            "u2": -50000,
+            "u2": -25000,
+            "u3": 0
+        }, {
+            "node": "node10",
+            "u1": 0,
+            "u2": -25000,
             "u3": 0
         }
     ],

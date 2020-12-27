@@ -5,9 +5,14 @@ const Node = (props) => {
   const [hovered, setHover] = useState(false);
   const [active, setActive] = useState(false);
 
+  const handleOnClick = (event) => {
+    setActive(!active);
+    console.log(props.name);
+  }
+
   return (
     <mesh
-      onClick={(event) => setActive(!active)}
+      onClick={handleOnClick}
       onPointerOver={(event) => setHover(true)}
       onPointerOut={(event) => setHover(false)}
       position={props.position}

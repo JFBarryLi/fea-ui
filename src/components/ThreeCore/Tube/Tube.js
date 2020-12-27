@@ -6,6 +6,11 @@ const Tube = (props) => {
   const [hovered, setHover] = useState(false);
   const [active, setActive] = useState(false);
 
+  const handleOnClick = (event) => {
+    setActive(!active);
+    console.log(props.name);
+  }
+
   const nodeI = props.nodeI;
   const nodeJ = props.nodeJ;
 
@@ -36,7 +41,7 @@ const Tube = (props) => {
 
   return (
     <mesh
-      onClick={(event) => setActive(!active)}
+      onClick={handleOnClick}
       onPointerOver={(event) => setHover(true)}
       onPointerOut={(event) => setHover(false)}
       name={props.name}
