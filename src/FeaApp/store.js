@@ -6,6 +6,7 @@ import material from 'slices/material';
 import loads from 'slices/loads';
 import boundaries from 'slices/boundaries';
 import struc from 'slices/struc';
+import stress from 'slices/stress';
 
 const rootReducer = combineReducers({
   nodes,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   loads,
   boundaries,
   struc,
+  stress,
 });
 
 export default configureStore({

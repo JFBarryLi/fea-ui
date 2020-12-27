@@ -14,6 +14,24 @@ export const createItemAdded = (id, dataStruc) => {
   }
 }
 
+export const createItemsAdded = (id, dataStruc) => {
+  return (state, action) => {
+    action.payload.forEach(row => {
+      const index = state.findIndex(obj => obj[id] === row[id]);
+      if (index === -1) {
+        const newData = {};
+        for (const [key, value] of Object.entries(dataStruc)) {
+          if (row[value] === undefined) {
+            return;
+          }
+          newData[key] = row[value];
+        }
+        state.push(newData);
+      }
+    });
+  }
+}
+
 export const createItemDeleted = (id) => {
   return (state, action) => {
     const index = state.findIndex(obj => obj[id] === action.payload[id]);

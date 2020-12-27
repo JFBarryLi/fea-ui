@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit'
 import { selectStruc, selectStrucLoading, fetchStruc } from 'slices/struc';
 import { nodesUpdated } from 'slices/nodes';
+import { stressesAdded, stressesUpdated, selectStress } from 'slices/stress';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +36,7 @@ const StrucSimulate = () => {
   const dispatch = useDispatch();
   const currentStruc = useSelector(selectStruc);
   const strucLoading = useSelector(selectStrucLoading) === 'loading';
+  const stress = useSelector(selectStress);
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
@@ -43,7 +45,13 @@ const StrucSimulate = () => {
       .then(unwrapResult)
       .then(originalPromiseResult => {
         const nodes = originalPromiseResult.nodalCoords;
+        const stresses = originalPromiseResult.stresses;
         dispatch(nodesUpdated(nodes));
+        if (stress.length === 0) {
+          dispatch(stressesAdded(stresses));
+        } else {
+          dispatch(stressesUpdated(stresses));
+        }
         const message = 'Success';
         enqueueSnackbar(message, {
           variant: 'success',
