@@ -69,4 +69,9 @@ export const {
 
 export const selectStress = state => state.stress;
 
+export const selectMinMaxStress = state => ({
+  'min': state.stress.reduce((min, o) => o.vm < min ? o.vm : min, 0),
+  'max': state.stress.reduce((max, o) => o.vm > max ? o.vm : max, 0),
+})
+
 export default stress.reducer;

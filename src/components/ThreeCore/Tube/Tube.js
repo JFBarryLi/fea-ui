@@ -53,7 +53,7 @@ const Tube = (props) => {
       />
       <meshBasicMaterial
         attach='material'
-        color={hovered ? '#005082' : '#FFA41B'}
+        color={hovered ? '#5a5a5a' : props.color}
       />
     </mesh>
   );

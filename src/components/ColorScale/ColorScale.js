@@ -6,13 +6,14 @@ import * as fc from 'd3fc';
 const ColorScale = (props) => {
   const barRef = useRef(null);
 
-  const colorScaleLegend = (data) => {
+  const colorScale = d3
+    .scaleSequential(d3.interpolateViridis)
+    .domain([props.data.min, props.data.max]);
+
+  const colorScaleLegend = () => {
     const container = d3.select(barRef.current);
     container.select('svg').remove();
-    const colourScale = d3
-    	.scaleSequential(d3.interpolateViridis)
-    	.domain([data.min, data.max]);
-    const domain = colourScale.domain();
+    const domain = colorScale.domain();
 
     const width = 75;
     const height = 250;
@@ -41,12 +42,13 @@ const ColorScale = (props) => {
       .baseValue((_, i) => (i > 0 ? expandedDomain[i - 1] : 0))
       .mainValue(d => d)
       .decorate(selection => {
-        selection.selectAll('path').style('fill', d => colourScale(d));
+        selection.selectAll('path').style('fill', d => colorScale(d));
       });
 
     const axisLabel = fc
       .axisRight(yScale)
       .tickValues([...domain, (domain[1] + domain[0]) / 2])
+      .tickFormat(d3.format('.2s'))
       .tickSizeOuter(0);
 
     const legendSvg = container.append('svg')
@@ -68,7 +70,7 @@ const ColorScale = (props) => {
   }
 
   useEffect(() => {
-    colorScaleLegend(props.data);
+    colorScaleLegend();
   }, [props.data.min, props.data.max]);
 
   return (

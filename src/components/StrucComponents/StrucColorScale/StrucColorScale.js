@@ -3,11 +3,11 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import ColorScale from 'components/ColorScale';
 
-import { selectStress } from 'slices/stress';
+import { selectMinMaxStress } from 'slices/stress';
 
 const ScaleContainer = styled.div`
   position: absolute;
-  z-index: 1000;
+  z-index: 100;
   margin: 1em;
   right: 0;
   top: 25%;
@@ -15,10 +15,8 @@ const ScaleContainer = styled.div`
 `;
 
 const StrucColorScale = () => {
-  const stresses = useSelector(selectStress);
-  const anyStress = stresses.length > 0;
-  const min = stresses.reduce((min, o) => o.vm < min ? o.vm : min, 0);
-  const max = stresses.reduce((max, o) => o.vm > max ? o.vm : max, 0);
+  const { min, max } = useSelector(selectMinMaxStress);
+  const anyStress = min !== max;
   const data = {'min': min, 'max': max}
 
   return (
