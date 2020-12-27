@@ -72,27 +72,18 @@ const ConfigTable = (props) => {
   const editable = {
     onRowAdd: newData =>
       new Promise((resolve, reject) => {
-        setTimeout(() => {
-          props.addRow(newData);
-
-          resolve();
-        }, 0)
+        props.addRow(newData);
+        resolve();
       }),
     onRowUpdate: (newData, oldData) =>
       new Promise((resolve, reject) => {
-        setTimeout(() => {
-          props.updateRow({'new': newData, 'old': oldData});
-
-          resolve();
-        }, 0)
+        props.updateRow({'new': newData, 'old': oldData});
+        resolve();
       }),
     // onRowDelete: oldData =>
       // new Promise((resolve, reject) => {
-        // setTimeout(() => {
-          // props.deleteRow(oldData);
-
-          // resolve()
-        // }, 0)
+        // props.deleteRow(oldData);
+        // resolve()
       // }),
     };
 
