@@ -19,8 +19,8 @@ const ColorScale = (props) => {
     const height = 250;
 
     const paddedDomain = fc.extentLinear()
-  		.pad([0.1, 0.1])
-  		.padUnit('percent')(domain);
+      .pad([0.1, 0.1])
+      .padUnit('percent')(domain);
 		const [min, max] = paddedDomain;
 		const expandedDomain = d3.range(min, max, (max - min) / height);
 
