@@ -5,7 +5,7 @@ import nodes, {
   nodeUpdated,
   nodesUpdated,
   selectNodes,
-} from '../nodes'
+} from '../nodes';
 
 describe('selectNodes', () => {
   it('should select nodes', () => {
