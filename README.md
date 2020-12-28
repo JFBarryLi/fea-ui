@@ -9,10 +9,13 @@ export FEA_API_DOMAIN=
 ```
 
 ## Color Palette
-`#005082` - Primary
-`#FFA41B` - Secondary
-`#000839` - Primary Dark
-`#00A8CC` - Primary Light
+![#005082](http://via.placeholder.com/15/005082/000000?text=+) `#005082` - Primary
+
+![#FFA41B](http://via.placeholder.com/15/ffa41b/000000?text=+) `#FFA41B` - Secondary
+
+![#000839](http://via.placeholder.com/15/000839/000000?text=+) `#000839` - Primary Dark
+
+![#00A8CC](http://via.placeholder.com/15/00A8CC/000000?text=+) `#00A8CC` - Primary Light
 
 ## Stack
 ### Framework
@@ -20,15 +23,19 @@ export FEA_API_DOMAIN=
 
 ### State Management
 <img width='30px' src='https://react-redux.js.org/img/redux.svg'> React Redux
+
 <img width='30px' src='https://redux-toolkit.js.org/img/redux.svg'> Redux Toolkit
 
 ### Design
 <img width='30px' src='https://material-ui.com/static/logo_raw.svg'> Material-UI
+
 <img width='30px' src='https://styled-components.com/icon.png'> styled-component
 
 ### Graphics
 <img width='30px' src='https://threejs.org/favicon.ico'> Three.js
+
 <img width='30px' src='https://inspiring-wiles-b4ffe0.netlify.app/public/rtf-favicon.png'> React Three Fiber
+
 <img width='30px' src='https://d3js.org/favicon.png'> D3.js
 
 ### Notification
