@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from 'assets/logos/logo.svg';
+import logo from 'assets/logos/full_logo.svg';
 import styled from 'styled-components';
 
 const Bar = styled.div`
@@ -13,7 +13,7 @@ const Logo = styled.img`
   left: 24px;
   top: 5px;
   position: absolute;
-  width: 100px;
+  width: 90px;
   cursor: pointer;
 `;
 
