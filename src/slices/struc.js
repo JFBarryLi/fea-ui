@@ -44,6 +44,7 @@ export const selectStruc = state => ({
   'connectivity': state.elements,
   'forceVector': state.loads,
   'boundaryConditions': state.boundaries,
+  'stresses': state.stress,
 });
 
 export const selectStrucError = state => state.struc.error;
