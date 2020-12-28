@@ -1,16 +1,15 @@
 import React, { useRef, useEffect } from 'react';
-import styled from 'styled-components';
 import * as d3 from 'd3';
 import * as fc from 'd3fc';
 
 const ColorScale = (props) => {
   const barRef = useRef(null);
 
-  const colorScale = d3
-    .scaleSequential(d3.interpolateViridis)
-    .domain([props.data.min, props.data.max]);
-
   const colorScaleLegend = () => {
+    const colorScale = d3
+      .scaleSequential(d3.interpolateViridis)
+      .domain([props.data.min, props.data.max]);
+
     const container = d3.select(barRef.current);
     container.select('svg').remove();
     const domain = colorScale.domain();
@@ -21,18 +20,18 @@ const ColorScale = (props) => {
     const paddedDomain = fc.extentLinear()
       .pad([0.1, 0.1])
       .padUnit('percent')(domain);
-		const [min, max] = paddedDomain;
-		const expandedDomain = d3.range(min, max, (max - min) / height);
+    const [min, max] = paddedDomain;
+    const expandedDomain = d3.range(min, max, (max - min) / height);
 
     const xScale = d3
-    	.scaleBand()
-    	.domain([0, 1])
-    	.range([0, width]);
+      .scaleBand()
+      .domain([0, 1])
+      .range([0, width]);
 
     const yScale = d3
-    	.scaleLinear()
-    	.domain(paddedDomain)
-    	.range([height, 0]);
+      .scaleLinear()
+      .domain(paddedDomain)
+      .range([height, 0]);
 
     const svgBar = fc
       .autoBandwidth(fc.seriesSvgBar())
@@ -52,17 +51,17 @@ const ColorScale = (props) => {
       .tickSizeOuter(0);
 
     const legendSvg = container.append('svg')
-    	.attr('height', height)
-    	.attr('width', width);
+      .attr('height', height)
+      .attr('width', width);
 
     const legendBar = legendSvg
-    	.append('g')
-    	.datum(expandedDomain)
-    	.call(svgBar);
+      .append('g')
+      .datum(expandedDomain)
+      .call(svgBar);
 
     const barWidth = Math.abs(legendBar.node().getBoundingClientRect().width/2);
     legendSvg.append('g')
-    	.attr('transform', `translate(${barWidth})`)
+      .attr('transform', `translate(${barWidth})`)
       .datum(expandedDomain)
       .call(axisLabel)
       .select('.domain')

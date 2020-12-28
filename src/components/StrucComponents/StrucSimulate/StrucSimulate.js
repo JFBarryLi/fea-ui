@@ -38,7 +38,7 @@ const StrucSimulate = () => {
   const strucLoading = useSelector(selectStrucLoading) === 'loading';
   const stress = useSelector(selectStress);
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClick = () => {
     dispatch(fetchStruc(currentStruc))
