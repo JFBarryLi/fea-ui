@@ -20,7 +20,7 @@ const elements = createSlice({
       'id',
       {
         'id': 'id',
-        'i': 'j',
+        'i': 'i',
         'j': 'j'
       }
     ),
