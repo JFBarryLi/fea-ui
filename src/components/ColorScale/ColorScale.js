@@ -68,9 +68,7 @@ const ColorScale = (props) => {
       .attr('visibility', 'hidden');
   }
 
-  useEffect(() => {
-    colorScaleLegend();
-  }, [props.data.min, props.data.max]);
+  useEffect(colorScaleLegend, [props.data.min, props.data.max]);
 
   return (
     <div ref={barRef} />
