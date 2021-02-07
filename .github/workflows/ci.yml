@@ -3,8 +3,6 @@ name: CI
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
 
 jobs:
   build:
@@ -62,4 +60,4 @@ jobs:
       - name: Deploy to S3
         run: aws s3 sync . s3://fea.barryli.ca --delete --sse --no-progress
       - name: Invalidate Cache
-        run: aws create-invalidation --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} --paths "/*"
+        run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} --paths "/*"
