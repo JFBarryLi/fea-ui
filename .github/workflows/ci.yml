@@ -38,12 +38,21 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - name: Archive production build
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: build/
+        retention-days: 30
 
-  publish-aws:
+  deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
