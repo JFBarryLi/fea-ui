@@ -60,6 +60,6 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
       - name: Deploy to S3
-        run: aws s3 sync build s3://fea.barryli.ca --delete --sse --no-progress
+        run: aws s3 sync . s3://fea.barryli.ca --delete --sse --no-progress
       - name: Invalidate Cache
         run: aws create-invalidation --distribution-id ${{ secrets.CF_DISTRIBUTION_ID }} --paths "/*"
