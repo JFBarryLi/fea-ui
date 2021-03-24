@@ -6,6 +6,8 @@ on:
 
 jobs:
   build:
+    env:
+      FEA_API_DOMAIN: https://${{ secrets.FEA_API_DOMAIN }}
 
     runs-on: ubuntu-latest
 
