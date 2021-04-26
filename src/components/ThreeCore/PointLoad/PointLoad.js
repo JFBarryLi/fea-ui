@@ -10,16 +10,12 @@ const PointLoad = (props) => {
     setActive(!active);
   }
 
-  const handleOnClick = (event) => {
-    setHovered(!hovered);
-  }
-
   const dir = new Vector3(props.dir.u1, props.dir.u2, props.dir.u3);
   dir.normalize();
 
   const origin = new Vector3(props.origin.x, props.origin.y, props.origin.z);
   const length = 50;
-  const hex = '#000839';
+  const hex = hovered ? '#00A8CC':'#000839';
 
   return (
     <mesh
