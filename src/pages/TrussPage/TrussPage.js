@@ -4,6 +4,7 @@ import NavBar from 'components/NavBar';
 import ThreeCore from 'components/ThreeCore';
 import NodeGroup from 'components/ThreeCore/NodeGroup';
 import TubeGroup from 'components/ThreeCore/TubeGroup';
+import PointLoadGroup from 'components/ThreeCore/PointLoadGroup';
 import { StrucConfigCard, StrucColorScale } from 'components/StrucComponents';
 
 const TrussPageContainer = styled.div`
@@ -18,6 +19,7 @@ const TrussPage = () => (
     <ThreeCore>
       <NodeGroup />
       <TubeGroup />
+      <PointLoadGroup />
     </ThreeCore>
     <StrucConfigCard />
     <StrucColorScale />
