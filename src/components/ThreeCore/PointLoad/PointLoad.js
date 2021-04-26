@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState } from 'react';
-import { Vector3 } from 'three';
 
 const PointLoad = (props) => {
   const [hovered, setHover] = useState(false);
@@ -10,12 +9,14 @@ const PointLoad = (props) => {
     setActive(!active);
   }
 
-  const dir = new Vector3(props.dir.u1, props.dir.u2, props.dir.u3);
+  const dir = props.dir;
   dir.normalize();
-
-  const origin = new Vector3(props.origin.x, props.origin.y, props.origin.z);
-  const length = 50;
+  const origin = props.origin;
   const hex = hovered ? '#00A8CC':'#000839';
+
+  const minLength = 30;
+  const maxLength = 70;
+  const length = props.relativeMag * (maxLength - minLength) + minLength;
 
   return (
     <mesh
