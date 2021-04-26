@@ -10,6 +10,10 @@ const PointLoad = (props) => {
     setActive(!active);
   }
 
+  const handleOnClick = (event) => {
+    setHovered(!hovered);
+  }
+
   const dir = new Vector3(props.dir.u1, props.dir.u2, props.dir.u3);
   dir.normalize();
 
