@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import NavBar from 'components/NavBar';
+import ObjectCard from 'components/ObjectCard';
 import ThreeCore from 'components/ThreeCore';
 import NodeGroup from 'components/ThreeCore/NodeGroup';
 import TubeGroup from 'components/ThreeCore/TubeGroup';
@@ -23,6 +24,7 @@ const TrussPage = () => (
     </ThreeCore>
     <StrucConfigCard />
     <StrucColorScale />
+    <ObjectCard />
   </TrussPageContainer>
 );
 
