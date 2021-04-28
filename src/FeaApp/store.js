@@ -7,6 +7,7 @@ import loads from 'slices/loads';
 import boundaries from 'slices/boundaries';
 import struc from 'slices/struc';
 import stress from 'slices/stress';
+import hoveredObject from 'slices/hoveredObject';
 
 const rootReducer = combineReducers({
   nodes,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   boundaries,
   struc,
   stress,
+  hoveredObject,
 });
 
 export default configureStore({

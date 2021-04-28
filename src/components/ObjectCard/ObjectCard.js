@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectHoveredObject } from 'slices/hoveredObject';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -32,13 +34,19 @@ const useStyles = makeStyles((theme) => ({
 const ObjectCard = (props) => {
   const classes = useStyles();
 
+  const hoveredObject = useSelector(selectHoveredObject);
+  console.log(hoveredObject);
   return (
     <Card className={classes.root}>
       <CardContent className={classes.contentLeft}>
-        node1
+        <Typography>
+          {hoveredObject.name}
+        </Typography>
       </CardContent>
       <CardContent className={classes.contentRight}>
-        x: 1 y: 2 z: 3
+        <Typography>
+          {hoveredObject.content}
+        </Typography>
       </CardContent>
     </Card>
   );
