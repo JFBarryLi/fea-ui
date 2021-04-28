@@ -35,7 +35,7 @@ const ObjectCard = (props) => {
   const classes = useStyles();
 
   const hoveredObject = useSelector(selectHoveredObject);
-  console.log(hoveredObject);
+
   return (
     <Card className={classes.root}>
       <CardContent className={classes.contentLeft}>

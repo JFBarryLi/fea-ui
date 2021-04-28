@@ -1,20 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { name: 'test', content: 'test' };
+const initialState = { name: '', content: '' };
 
 const hoveredObject = createSlice({
   name: 'hoveredObject',
   initialState,
   reducers: {
-    hoveredUpdated(state, action) {
-      state.name = action.name;
-      state.content = action.content;
+    hoveredObjectUpdated(state, action) {
+      state.name = action.payload.name;
+      state.content = action.payload.content;
     },
   },
 });
 
 export const {
-  hoveredUpdated
+  hoveredObjectUpdated
 } = hoveredObject.actions;
 
 export const selectHoveredObject = state => state.hoveredObject;
