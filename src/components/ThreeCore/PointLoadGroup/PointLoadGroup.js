@@ -31,6 +31,7 @@ const PointLoadGroup = (props) => {
       <PointLoad
         origin={origin}
         dir={load}
+        load={loads[l]}
         relativeMag={relativeMag}
         name={loads[l].node}
         key={loads[l].node}
