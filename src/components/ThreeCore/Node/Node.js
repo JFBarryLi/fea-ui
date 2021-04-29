@@ -16,7 +16,7 @@ const Node = (props) => {
 
   const handleOnHover = (event) => {
     setHover(true);
-    const obj = {name: props.name, content: props.position.toString()};
+    const obj = {name: props.name, content: props.position[0] + ', ' + props.position[1] + ', ' + props.position[2]};
     dispatch(hoveredObjectUpdated(obj));
   };
 

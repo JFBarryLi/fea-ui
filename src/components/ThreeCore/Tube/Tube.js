@@ -27,7 +27,6 @@ const Tube = (props) => {
   const path = useMemo(() => {
     function StraightLine(scale) {
       Curve.call(this);
-
       this.scale = scale === undefined ? 1 : scale;
     }
 
