@@ -1,18 +1,28 @@
 import React, { useMemo } from 'react';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Curve, Vector3 } from 'three';
+import { hoveredObjectUpdated } from 'slices/hoveredObject';
 
 const Tube = (props) => {
   const [hovered, setHover] = useState(false);
   const [active, setActive] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const nodeI = props.nodeI;
+  const nodeJ = props.nodeJ;
 
   const handleOnClick = (event) => {
     setActive(!active);
     console.log(props.name);
   }
 
-  const nodeI = props.nodeI;
-  const nodeJ = props.nodeJ;
+  const handleOnHover = (event) => {
+    setHover(true);
+    const obj = {name: props.name, content: 'i: ' + nodeI.id + ' j: ' + nodeJ.id};
+    dispatch(hoveredObjectUpdated(obj));
+  }
 
   const path = useMemo(() => {
     function StraightLine(scale) {
@@ -42,7 +52,7 @@ const Tube = (props) => {
   return (
     <mesh
       onClick={handleOnClick}
-      onPointerOver={(event) => setHover(true)}
+      onPointerOver={handleOnHover}
       onPointerOut={(event) => setHover(false)}
       name={props.name}
       index={props.index}
